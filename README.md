@@ -275,3 +275,126 @@ deactivate DjangoBackend
 ### Standards & Conventions
 
 <!--Here you can document your coding standards and conventions. This includes decisions about naming, style guides, etc.-->
+
+#### 1. Introduction
+
+This document outlines the coding standards and best practices for T27. Its goal is to ensure that our codebase is consistent, readable, and maintainable by all team members and future contributors. Adherence to these guidelines is crucial for effective collaboration and the long-term success of the project.
+
+#### 2. Coding Style Guidelines
+
+##### Indentation
+
+- Use `tabs`, not white spaces, with a standard indent size of 4 spaces.
+
+- Each nested block should be properly indented and spaced.
+
+##### Line Length
+
+- Aim for a maximum line length of 80 characters where possible for better readability across various environments.
+
+##### Whitespace
+
+- Use blank lines sparingly to separate logical blocks of code.
+
+##### Braces
+
+- Use the `one true brace style` variant of the K&R style for braces except for python. Consider the example below from [indentation style wikipedia](https://en.wikipedia.org/wiki/Indentation_style).
+```
+while (x == y) {
+    foo();
+    bar();
+}
+```
+
+#### 3. Naming Conventions
+
+##### Variables
+
+- Use `camelCase` or `lower camel case` for variable names and be descriptive.
+
+##### Functions/Methods
+
+- Use `camelCase` or `lower camel case` for functions/methods and start with a verb to indicate action.
+
+##### Classes/Interfaces
+
+- Use `PascalCase` or `upper camel case` for classes and interfaces.
+
+##### Constants
+
+- Use `UPPER_SNAKE_CASE` for constants.
+
+##### Global Variables
+
+- Avoid using global variables in all contexts.
+
+#### 4. File Organization
+
+##### Directory Structure
+
+- Organize the project into logical directories, with separate folders for source code, tests, documentation, and assets.
+
+##### File Naming
+
+- Name files consistently, using a convention that reflects the file's purpose or the type of content it holds.
+
+##### Module Organization
+
+- Group related functions, classes, and variables together within modules or files.
+
+#### 5. Commenting and Documentation
+
+##### Inline Comments
+
+- Use inline comments sparingly to explain "why" rather than "what" the code does.
+
+##### Block Comments
+
+- Use block comments for more detailed explanations or to mark off sections of code.
+
+##### Documentation Comments
+
+- Use documentation comments to automatically generate API documentation.
+- See [javadoc wikipedia](https://en.wikipedia.org/wiki/Javadoc) for more information.
+
+##### READMEs and Other Docs
+
+- Maintain a comprehensive README file at the root of the project, along with any other necessary documentation (installation guides, usage examples, etc.).
+
+#### 6. Version Control Practices
+
+##### Branching Model
+
+- Follow a standardized branching model (e.g., Git Flow or GitHub Flow) for development, features, releases, and hotfixes.
+
+##### Commit Messages
+
+- Write clear, concise commit messages that explain the changes made and the reason for them.
+
+##### Pull Requests and Code Reviews
+
+- Use pull requests for merging code into the main branch and conduct code reviews to maintain quality.
+
+#### 7. Performance Considerations
+
+##### Efficient Algorithms
+
+- Choose or implement algorithms that are efficient in terms of time and space complexity.
+
+##### Memory Management
+
+- Be mindful of memory allocation and deallocation, especially in languages where manual memory management is necessary.
+
+#### 8. Tooling and Environment
+
+##### IDEs/Editors
+
+- Recommend specific IDEs/editors that are well-suited for the project, along with plugins or extensions that enforce the coding standards.
+
+##### Build Tools
+
+- Specify the build tools and scripts used in the project to ensure consistency in builds.
+
+##### Dependency Management
+
+- Use a dependency management tool to manage libraries and frameworks the project depends on, ensuring that everyone uses the same version.
