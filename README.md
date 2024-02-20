@@ -5,7 +5,7 @@
 <!--The name of your team.-->
 
  ### *Python Airways*
- ***
+***
 
 
 ### Project Abstract
@@ -90,56 +90,33 @@ You can make headings at different levels by writing `# Heading` with the number
 
 #### Technology Stack
 
-Assigned to: Qihan Xu (@qxu229)
-
-##### Summary of planning on Tech Stack
-
 The Technology Stack of a web app contains three parts: **Front-end**, **Back-end** and **Database** (in order from user to server.)
 
 - **Database:** in our project, database will be used to store information of aircrafts and users (including username and hashed password,) Since MySQL is a requirement for this class, we will use **MySQL.**
 
-- **Back-end:** multiple back-end frameworks are available for modern web apps. Since group members are familiar with Python and Java, we will choose from frameworks that are in these two languages.
+- **Back-end:** multiple back-end frameworks are available for modern web apps. We will use **Django** in **Python** for our back-end implementation.
 
-  - **Python:** Easy to use and widely accepted. Ccommon back-end frameworks in Python include Django and Flask. 
+- **Front-end:** modern front-end frameworks includes React and Vue.js. We will use **React** library for our front-end implementation.
 
-    1. **Django:** 
-       - Has a wide range of out-of-the-box features and libraries for common web development tasks
-         - including admin panel, authentication system, and other utilities. 
-       - Has a complete ecosystem, including a large developer community and various third-party packages. 
-       - While this can significantly reduce our work on back-end, it may limit flexibility, since even a small implementation may need complex functions and features, and Python acts poorly on project scaling.
-    2. **Flask:** 
-       - Follows a minimalist approach instead, coming up with only basic libraries and functions
-         - Much flexibility to developers.
-       - Also has a large developer community but not as that of Django. 
-       - This means we may have more back-end implementation work, but have less complexity compared to Django.
+Flowchart of our tech stack:
 
-  - **Java:** well integrated with MySQL (since they both belong to Oracle,) more stable and more efficient. However it may not suitable for modern front-end frameworks because of its time.
+```mermaid
+flowchart RL
+subgraph Front End
+	A(Javascript: React)
+end
+	
+subgraph Back End
+	B(Python: Django)
+end
+	
+subgraph Database
+	C[(MySQL)]
+end
 
-    The most commonly used back-end framework is Spring Boot:
-
-    - Pros: Efficient and excellent stability; An experienced developer community with a long history
-
-    - Cons: Complexity and "a dark history"; It (and other Java ecosystem libraries and tools) also has much steeper learning curve compared to frameworks in Python, of which we should be aware due to our time flexibility and frequent take-turns of our roles. It is also more extensible and scales better than Python.
-
-- **Front-end:** modern front-end frameworks includes React and Vue.js. 
-
-  - Both are based on components and build UI using HTML and JavaScript. 
-  - React: (which we will learn on DevTech) is a front-end development library
-    - More integrated, suitable for large scale web applications 
-  
-    - Has stronger ecosystem and developer community. 
-  
-    - However it has a steep studying curve. 
-  
-  - Vue.js is a progressive front-end framework
-    - Lightweight, easy to learn
-    - Also has a bunch of developer resources and community. 
-    - Though it is easy to extend, it is not flexible.
-  
-  
-  It should be noticed that though Spring Boot can be integrated with these frameworks above, it is originally designed to work with Static HTML, since there was no dynamic HTML when it appeared. However, it is hard to say whether Python or Java will These modern front-end frameworks perform better on.
-
-Sample flowcharts of tech stacks from template: (these are written in mermaid.js , and may not display as human-readable charts without a visual Markdown editor)
+A <-->|"REST API"| B
+B <-->|Django ORM| C
+```
 
 #### System Architecture Diagram
 ![](System_Architecture_Diagram.png)
