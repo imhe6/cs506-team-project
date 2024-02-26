@@ -4,7 +4,8 @@
 
 <!--The name of your team.-->
 
- ### *Python Airways*
+## *Python Airways*
+
 ***
 
 
@@ -90,13 +91,13 @@ You can make headings at different levels by writing `# Heading` with the number
 
 #### Technology Stack
 
-The Technology Stack of a web app contains three parts: **Front-end**, **Back-end** and **Database** (in order from user to server.)
+The Technology Stack of a web app contains three parts: **Front end**, **Back end** and **Database** (in order from user to server.)
 
 - **Database:** in our project, database will be used to store information of aircrafts and users (including username and hashed password,) Since MySQL is a requirement for this class, we will use **MySQL.**
 
-- **Back-end:** multiple back-end frameworks are available for modern web apps. We will use **Django** in **Python** for our back-end implementation.
+- **Back end:** multiple back-end frameworks are available for modern web apps. We will use **Django** in **Python** for our back-end implementation.
 
-- **Front-end:** modern front-end frameworks includes React and Vue.js. We will use **React** library for our front-end implementation.
+- **Front end:** modern front-end frameworks includes React and Vue.js. We will use **React** library for our front-end implementation.
 
 #### System Architecture Diagram
 
@@ -227,6 +228,8 @@ stateDiagram
 
 #### Sequence Diagram
 
+The sequence diagram is inherited from the system tech stack. For front-end and back-end, we follow the normal sequence of REST. For back-end and database, as we mentioned, Django ORM (a standard module of Django perform general SQL querying commands) is utilized to communicate with the database.
+
 ```mermaid
 sequenceDiagram
 
@@ -234,16 +237,16 @@ participant ReactFrontend
 participant DjangoBackend
 participant MySQLDatabase
 
-ReactFrontend ->> DjangoBackend: HTTP Request (e.g., GET /api/data)
+ReactFrontend ->> DjangoBackend: HTTP Request (no HTTPS)
 activate DjangoBackend
 
-DjangoBackend ->> MySQLDatabase: Query (e.g., SELECT * FROM data_table)
+DjangoBackend ->> MySQLDatabase: Query
 activate MySQLDatabase
 
-MySQLDatabase -->> DjangoBackend: Result Set
+MySQLDatabase -->> DjangoBackend: Result
 deactivate MySQLDatabase
 
-DjangoBackend -->> ReactFrontend: JSON Response
+DjangoBackend -->> ReactFrontend: JSON Object
 deactivate DjangoBackend
 ```
 
