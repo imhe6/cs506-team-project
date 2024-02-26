@@ -98,7 +98,7 @@ The Technology Stack of a web app contains three parts: **Front-end**, **Back-en
 
 - **Front-end:** modern front-end frameworks includes React and Vue.js. We will use **React** library for our front-end implementation.
 
-Flowchart of our tech stack:
+#### System Architecture Diagram
 
 ```mermaid
 flowchart RL
@@ -117,10 +117,6 @@ end
 A <-->|"REST API"| B
 B <-->|Django ORM| C
 ```
-
-#### System Architecture Diagram
-![](System_Architecture_Diagram.png)
-
 
 
 #### Database
