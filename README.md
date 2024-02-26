@@ -17,6 +17,14 @@ This document outlines the requirements and specifications for Python Airways. T
 
 ### Customer
 
+### Scrum Masters and Product Owners for All Sprints
+
+| Sprint #    |    Scrum Masters    |    Product Owners |
+| ------ | :-------: | ------: |
+| 0/1 |    @figenblat    | @kgautam3 |
+| 2    | @qxu229 |  @CCHENG93    |
+| 3| @sbyun9 |@nbaumeister|
+
 <!--A brief description of the customer for this software, both in general (the population who might eventually use such a system) and specifically for this document (the customer(s) who informed this document). Every project will have a customer from the CS506 instructional staff. Requirements should not be derived simply from discussion among team members. Ideally your customer should not only talk to you about requirements but also be excited later in the semester to use the system.-->
 
 ### User Requirements
@@ -148,6 +156,13 @@ Images can be included with `![alt_text](image_path)`
 <!--Included below are some sample diagrams, including some example tech stack diagrams.-->
 
 You can make headings at different levels by writing `# Heading` with the number of `#` corresponding to the heading level (e.g. `## h2`).
+
+#### Initial Roles
+| DjangoBackend    |    ReactFrontend    |    Database |
+| ------ | :-------: | ------: |
+| @CCHENG93 |    @sbyun9    | @nbaumeister |
+| @qxu229    | @figenblat |         |
+|@kgautam3||
 
 #### Technology Stack
 
