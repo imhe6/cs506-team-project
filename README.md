@@ -54,70 +54,52 @@ Here is a user requirements sample from [Crookshanks](https://learning-oreilly-c
 ### Use Cases & User Stories (including initial estimates)
 
 User Story #1 (closed): View Aircraft Inventory
-As a logistics manager, I want to view a list of all aircraft in the inventory, So that I can see the entire fleet at a glance.
+    As a logistics manager, I want to view a list of all aircraft in the inventory, So that I can see the entire fleet at a glance.
 
-Acceptance Criteria:
+    Acceptance Criteria: List displays all aircraft with identifiers. 
+    Can be filtered by status and location.
 
-List displays all aircraft with identifiers. 
-Can be filtered by status and location.
-
-
-Initial Estimate: 3 days
+    Initial Estimate: 3 days
 
 User Story #2 (closed): Update Aircraft Status
-As a ground crew member, I want to update the status of an aircraft, So that the system reflects real-time information about aircraft availability or maintenance needs.
+    As a ground crew member, I want to update the status of an aircraft, So that the system reflects real-time information about aircraft availability or maintenance needs.
 
-Acceptance Criteria:
+    Acceptance Criteria: Status options include 'Available', 'In Maintenance', 'In Flight', etc.
+    Only authorized users can update the status.
 
-Status options include 'Available', 'In Maintenance', 'In Flight', etc.
-Only authorized users can update the status.
-
-
-Initial Estimate: 2 days
+    Initial Estimate: 2 days
 
 User Story #3 (closed): Track Aircraft Location
 As a logistics manager, I want to track the current location of each aircraft, So that I can manage the fleet distribution efficiently.
 
-Acceptance Criteria:
+    Acceptance Criteria: Real-time location tracking of aircraft.
+    Locations are shown on an interactive map.
 
-Real-time location tracking of aircraft.
-Locations are shown on an interactive map.
-
-
-Initial Estimate: 4 days
+    Initial Estimate: 4 days
 
 User Story #4 (closed): Aircraft Details Page
 As a fleet supervisor, I want to view detailed information about each aircraft, So that I can manage specific details and maintenance records.
 
-Acceptance Criteria:
+    Acceptance Criteria: Detailed page includes model, age, service records, etc.
+    Access to edit and update aircraft details.
 
-Detailed page includes model, age, service records, etc.
-Access to edit and update aircraft details.
-
-
-Initial Estimate: 3 days
+    Initial Estimate: 3 days
 
 User Story #5 (closed): Add New Aircraft
 As a fleet supervisor, I want to add new aircraft to the inventory, So that the fleet information is always up to date.
 
-Acceptance Criteria:
+    Acceptance Criteria: Form to enter new aircraft information.
+    Validation to ensure all necessary details are entered.
 
-Form to enter new aircraft information.
-Validation to ensure all necessary details are entered.
-
-
-Initial Estimate: 2 days
+    Initial Estimate: 2 days
 
 User Story #6 (closed): Aircraft Availability Report
-As a operations manager, I want to generate reports on aircraft availability, So that I can plan for maintenance and scheduling.
+    As a operations manager, I want to generate reports on aircraft availability, So that I can plan for maintenance and scheduling.
 
-Acceptance Criteria:
+    Acceptance Criteria: Report shows all aircraft and their next available times.
+    Can export reports to PDF or Excel.
 
-Report shows all aircraft and their next available times.
-Can export reports to PDF or Excel.
-
-
-Initial Estimate: 3 days
+    Initial Estimate: 3 days
 
 1. You
    1. Can
