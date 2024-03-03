@@ -51,55 +51,35 @@ Here is a user requirements sample from [Crookshanks](https://learning-oreilly-c
     - In
     - Markdown
 
-### Use Cases & User Stories (including initial estimates)
+### Use Cases & User Stories
 
-User Story #1 (closed): View Aircraft Inventory
-    As a logistics manager, I want to view a list of all aircraft in the inventory, So that I can see the entire fleet at a glance.
+Corporate Manager User Stories for Python Airways:
 
-    Acceptance Criteria: List displays all aircraft with identifiers. 
-    Can be filtered by status and location.
+As a corporate manager, I want to see a count of how many airports are under Python Airways' operation.
+    -This allows a high-level overview of the operational scale.
+As a corporate manager, I want to view an aggregate of aircraft movements (arrivals and departures) across all airports over a specified time span.
+    -To monitor overall traffic flow and operational activity.
+As a corporate manager, I want to initiate the opening of a new airport within the Python Airways network.
+    -For expanding operational reach and capacity.
+As a corporate manager, I want to mark an airport as no longer in operation from a specific date, ensuring it's excluded from future aggregates.
+    -To keep data relevant and accurate after operational changes.
+As a corporate manager, I want to see all Python Airways' airports represented on a map.
+    -For a geographical overview of operations.
 
-    Initial Estimate: 3 days
+Facility (Airport) Manager User Stories for Python Airways:
 
-User Story #2 (closed): Update Aircraft Status
-    As a ground crew member, I want to update the status of an aircraft, So that the system reflects real-time information about aircraft availability or maintenance needs.
+As an airport manager, I want to view the current aircraft inventory at my airport.
+    -Enables real-time monitoring of aircraft presence.
+As an airport manager, I want to view historical and future aircraft inventory at my airport.
+    -To plan for capacity and maintenance scheduling.
+As an airport manager, I want to record an aircraft's arrival or departure, including the specific aircraft details, and have this automatically update our inventory.
+    -For maintaining accurate, real-time inventory records.
+As an airport manager, I want to schedule future aircraft arrivals or departures.
+    -To efficiently manage airport traffic and allocations.
+As an airport manager, I want to see a list of arrivals/departures that included a specific type of aircraft.
+    -For tracking usage and movements of particular aircraft models or types.
 
-    Acceptance Criteria: Status options include 'Available', 'In Maintenance', 'In Flight', etc.
-    Only authorized users can update the status.
 
-    Initial Estimate: 2 days
-
-User Story #3 (closed): Track Aircraft Location
-As a logistics manager, I want to track the current location of each aircraft, So that I can manage the fleet distribution efficiently.
-
-    Acceptance Criteria: Real-time location tracking of aircraft.
-    Locations are shown on an interactive map.
-
-    Initial Estimate: 4 days
-
-User Story #4 (closed): Aircraft Details Page
-As a fleet supervisor, I want to view detailed information about each aircraft, So that I can manage specific details and maintenance records.
-
-    Acceptance Criteria: Detailed page includes model, age, service records, etc.
-    Access to edit and update aircraft details.
-
-    Initial Estimate: 3 days
-
-User Story #5 (closed): Add New Aircraft
-As a fleet supervisor, I want to add new aircraft to the inventory, So that the fleet information is always up to date.
-
-    Acceptance Criteria: Form to enter new aircraft information.
-    Validation to ensure all necessary details are entered.
-
-    Initial Estimate: 2 days
-
-User Story #6 (closed): Aircraft Availability Report
-    As a operations manager, I want to generate reports on aircraft availability, So that I can plan for maintenance and scheduling.
-
-    Acceptance Criteria: Report shows all aircraft and their next available times.
-    Can export reports to PDF or Excel.
-
-    Initial Estimate: 3 days
 
 1. You
    1. Can
