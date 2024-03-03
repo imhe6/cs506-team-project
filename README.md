@@ -56,27 +56,45 @@ Here is a user requirements sample from [Crookshanks](https://learning-oreilly-c
 Corporate Manager User Stories for Python Airways:
 
 As a corporate manager, I want to see a count of how many airports are under Python Airways' operation.
+
     -This allows a high-level overview of the operational scale.
+
 As a corporate manager, I want to view an aggregate of aircraft movements (arrivals and departures) across all airports over a specified time span.
+
     -To monitor overall traffic flow and operational activity.
+
 As a corporate manager, I want to initiate the opening of a new airport within the Python Airways network.
+
     -For expanding operational reach and capacity.
+
 As a corporate manager, I want to mark an airport as no longer in operation from a specific date, ensuring it's excluded from future aggregates.
+
     -To keep data relevant and accurate after operational changes.
+
 As a corporate manager, I want to see all Python Airways' airports represented on a map.
+
     -For a geographical overview of operations.
 
 Facility (Airport) Manager User Stories for Python Airways:
 
 As an airport manager, I want to view the current aircraft inventory at my airport.
+
     -Enables real-time monitoring of aircraft presence.
+
 As an airport manager, I want to view historical and future aircraft inventory at my airport.
+
     -To plan for capacity and maintenance scheduling.
+
 As an airport manager, I want to record an aircraft's arrival or departure, including the specific aircraft details, and have this automatically update our inventory.
+
     -For maintaining accurate, real-time inventory records.
+
 As an airport manager, I want to schedule future aircraft arrivals or departures.
+
     -To efficiently manage airport traffic and allocations.
+
 As an airport manager, I want to see a list of arrivals/departures that included a specific type of aircraft.
+
     -For tracking usage and movements of particular aircraft models or types.
 
 
