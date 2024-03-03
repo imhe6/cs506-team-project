@@ -51,9 +51,9 @@ Here is a user requirements sample from [Crookshanks](https://learning-oreilly-c
     - In
     - Markdown
 
-### Use Cases & User Stories
+## Use Cases & User Stories
 
-## Corporate Manager User Stories for Python Airways:
+### Corporate Manager User Stories for Python Airways:
 
 As a corporate manager, I want to see a count of how many airports are under Python Airways' operation.
 
@@ -75,7 +75,7 @@ As a corporate manager, I want to see all Python Airways' airports represented o
 
     -For a geographical overview of operations.
 
-## Facility (Airport) Manager User Stories for Python Airways:
+### Facility (Airport) Manager User Stories for Python Airways:
 
 As an airport manager, I want to view the current aircraft inventory at my airport.
 
