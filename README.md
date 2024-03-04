@@ -35,11 +35,11 @@ Here is a user requirements sample from [Crookshanks](https://learning-oreilly-c
 
 | ID   | Description                                                  | Priority | Status |
 | ---- | ------------------------------------------------------------ | -------- | ------ |
-| R11  | Users should not have to sign into the system; their current network login should be used for identification. | Med      | Done   |
-| R12  | The user should pick a project first; the tasks available are a derivative of the project. | High     | Open   |
-| R13  | A full-time employee should not be able to submit a time card with less than 40 hours per week recorded. | High     | Open   |
-| R14  | A contractor can submit any number of hours up to 60 without special approval. | Med      | Open   |
-| R15  | A team lead can see his/her team's time cards before they are submitted but cannot approve them until the user submits it. | High     | Open   |
+| R11  | Users should be authenticated through their existing company credentials to ensure secure access. | Med      | Open   |
+| R12  | Users must select an airport first; subsequent options and data displayed are specific to the chosen airport. | High     | Open   |
+| R13  | Airport managers must report all aircraft movements daily, with no exceptions for inactive days. | High     | Open   |
+| R14  | Corporate managers can view and aggregate aircraft movement data without submitting changes. | Med      | Open   |
+| R15  | Airport managers can schedule future aircraft arrivals or departures, but these must be confirmed 24 hours before the scheduled time. | High     | Open   |
 
 <div align="center"><small><i>Excerpt from Crookshanks Table 2-2 showing example user requirements for a timekeeping system</i></small></div>
 
