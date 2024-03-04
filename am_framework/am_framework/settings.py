@@ -75,14 +75,14 @@ WSGI_APPLICATION = "am_framework.wsgi.application"
 
 # @qxu229: NOTE: change the following to project database settings
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'database_name',
-        'USER': 'mysql_username',
-        'PASSWORD': 'mysql_password',
-        'HOST': 'localhost',   # change to database host
-        'PORT': '3306',        # Default MySQL port
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'database_name',
+    #     'USER': 'mysql_username',
+    #     'PASSWORD': 'mysql_password',
+    #     'HOST': 'localhost',   # change to database host
+    #     'PORT': '3306',        # Default MySQL port
+    # }
 }
 
 
