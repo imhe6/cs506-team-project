@@ -107,6 +107,25 @@ As an airport manager, I want to see a list of arrivals/departures that included
 
 Images can be included with `![alt_text](image_path)`
 
+The following UI requirements are designed to ensure that the inventory management system is not only functional but also user-friendly, accommodating the specific needs of corporate and airport managers within Python Airways. By focusing on responsiveness, ease of use, accessibility, and security, the system can provide a seamless experience for all users.
+
+| Requirement ID | Description                                                                                                                                                 |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| UI01           | The interface should be responsive, adapting seamlessly to desktop, tablet, and mobile devices to ensure accessibility across different platforms.          |
+| UI02           | Implement a dashboard view for corporate managers featuring summary statistics, aggregate inventory movements, and map visualizations of airports.          |
+| UI03           | Airport managers should have a clear, intuitive interface for viewing current and historical aircraft inventory, as well as scheduling and recording shipments. |
+| UI04           | Use a consistent, aviation-themed color scheme and typography throughout the application to reinforce branding and improve visual cohesion.                |
+| UI05           | Navigation menus should be clearly labeled and logically organized to facilitate easy access to different sections of the application.                     |
+| UI06           | Forms for entering or updating aircraft information and scheduling shipments should include validation feedback to prevent user errors.                     |
+| UI07           | Implement modals for confirming actions (e.g., adding a new airport, marking an airport as ceased operation) to prevent accidental data changes.            |
+| UI08           | Provide a search function with filtering capabilities to quickly locate specific aircraft, airports, or shipments within the system.                       |
+| UI09           | Include interactive tooltips and help icons throughout the application to offer users guidance and explanations for various features and data fields.      |
+| UI10           | Implement a secure login page with clear input fields for username and password, including the option for password visibility toggle and forgot password link. |
+| UI11           | The UI should provide real-time feedback to users after actions are taken, such as successful data submission or error messages.                          |
+| UI12           | Integrate a comprehensive reporting section where users can generate, view, and export reports based on various criteria (time periods, airports, etc.).    |
+
+
+
 ### Security Requirements
 
 <!--Discuss what security requirements are necessary and why. Are there privacy or confidentiality issues? Is your system vulnerable to denial-of-service attacks?-->
