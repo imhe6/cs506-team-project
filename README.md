@@ -121,7 +121,7 @@ Images can be included with `![alt_text](image_path)`
 | **Back End: Django (Python)** | - Utilize Django’s ORM for database interactions. <br> - Implement RESTful APIs for frontend-backend communication. <br> - Adhere to security practices for authentication and data protection.                                          |
 | **Front End: React** | - Develop a responsive UI with React for enhanced user experience. <br> - Implement dynamic updates using React's state management.                                                                                                       |
 | **External Dependencies** | - Compatibility with WSGI (Web Server Gateway Interface is a specification that describes how a web server communicates with web applications, and how web applications can be chained together to process one request. WSGI is a Python standard.) servers like Gunicorn or uWSGI. <br> - Deployable on cloud platforms (AWS, GCP, Azure) supporting the tech stack.                                                                                                |
-| **System Architecture** | - Seamless communication through REST APIs and Django ORM. <br> - Secure HTTPS communication between frontend and backend.                                                                                                                  |
+| **System Architecture** | - Seamless communication through REST APIs and Django ORM.                                                                                      |
 
 ### Specification
 
