@@ -26,6 +26,13 @@ class movementtable(models.Model):
     aircraftId = models.IntegerField(null = True)
     userId = models.IntegerField(null = True)
 
+class userProfile(models.Model):
+    userId = models.IntegerField(primary_key =True)
+    username = models.CharField(max_length = 45)
+    password = models.CharField(max_length = 45)
+    role = models.CharField(max_length = 45)
+
+
 # @qxu229: the model is not migrated to the database
 # Config the database setting in ../am_framework/settings.py first
 # Then run `python manage.py makemigrations` and `python manage.py migrate` 
