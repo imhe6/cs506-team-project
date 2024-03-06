@@ -6,27 +6,27 @@ class aircrafttable(models.Model):
     aircraftId = models.AutoField(primary_key=True)
     tailNumber = models.CharField(max_length=45, null=True)
     shipNumber = models.IntegerField(null=True)
-    Type = models.CharField(max_length=4, null=True)
-    Status = models.CharField(max_length=45, null=True)
-    Location = models.CharField(max_length=4, null=True)
+    Type = models.CharField(max_length=4, null=True) #TODO RENAME TYPE
+    status = models.CharField(max_length=45, null=True)
+    location = models.CharField(max_length=4, null=True)
 
 class airporttable(models.Model):
     airportId = models.AutoField(primary_key =True)
     airportCode = models.CharField(max_length = 4)
-    lattitude = models.CharField(max_length = 5)
+    lattitude = models.CharField(max_length = 5) #TODO FIX THIS
     longitude = models.CharField(max_length = 5)
     numAircraft = models.IntegerField(null = True)
     userId = models.IntegerField(null = True)
 
 class movementtable(models.Model):
     movementId = models.AutoField(primary_key = True)
-    airportId = models.IntegerField(null = True)
+    airportId = models.IntegerField(null = True) #TODO ADD ARRIVAL AND DEPARTURE
     arrivalDate = models.CharField(max_length = 8)
     departureDate = models.CharField(max_length = 8)
     aircraftId = models.IntegerField(null = True)
     userId = models.IntegerField(null = True)
 
-class userProfile(models.Model):
+class userprofile(models.Model):
     userId = models.IntegerField(primary_key =True)
     username = models.CharField(max_length = 45)
     password = models.CharField(max_length = 45)
