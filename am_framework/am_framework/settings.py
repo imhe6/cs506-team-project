@@ -77,7 +77,7 @@ WSGI_APPLICATION = "am_framework.wsgi.application"
 DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'database_name',
+    #     'NAME': 'aircraftManager',
     #     'USER': 'mysql_username',
     #     'PASSWORD': 'mysql_password',
     #     'HOST': 'localhost',   # change to database host
