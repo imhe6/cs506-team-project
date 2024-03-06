@@ -20,6 +20,11 @@ class airporttable(models.Model):
 
 class movementtable(models.Model):
     movementId = models.AutoField(primary_key = True)
+    airportId = models.IntegerField(null = True)
+    arrivalDate = models.CharField(max_length = 8)
+    departureDate = models.CharField(max_length = 8)
+    aircraftId = models.IntegerField(null = True)
+    userId = models.IntegerField(null = True)
 
 # @qxu229: the model is not migrated to the database
 # Config the database setting in ../am_framework/settings.py first
