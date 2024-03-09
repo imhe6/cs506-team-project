@@ -1,9 +1,49 @@
 from django.shortcuts import render
+from . import models
+from django.http import HttpResponse, HttpResponseNotFound
+from rest_framework.views import APIView
 
-# Sample HTTP Response
+class TestView(APIView):
+    def get(self, request):
+        num = request.query_params.get('num', None)
+        return HttpResponse("Hello World! Request: " + request.method + " " + request.path + ", UA: " + request.META.get('HTTP_USER_AGENT', '') + "num: " + str(num))
 
-from django.http import HttpResponse
+class AircraftTableView(APIView):
+    def get(self, request):
+        pass
+    def post(self, request):
+        pass
+    def put(self, request):
+        pass
+    def delete(self, request):
+        pass
 
-def hello_world(request):
-    print(request)
-    return HttpResponse("Hello World! Request: " + request.method + " " + request.path + ", UA: " + request.META.get('HTTP_USER_AGENT', ''))
+class MovementTableView(APIView):
+    def get(self, request):
+        pass
+    def post(self, request):
+        pass
+    def put(self, request):
+        pass
+    def delete(self, request):
+        pass
+    
+class AirportTableView(APIView):
+    def get(self, request):
+        pass
+    def post(self, request):
+        pass
+    def put(self, request):
+        pass
+    def delete(self, request):
+        pass
+    
+class UserProfileTableView(APIView):
+    def get(self, request):
+        pass
+    def post(self, request):
+        pass
+    def put(self, request):
+        pass
+    def delete(self, request):
+        pass
