@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'rest_framework',
+    'backend',
 ]
 
 MIDDLEWARE = [
@@ -73,16 +75,16 @@ WSGI_APPLICATION = "am_framework.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# @qxu229: NOTE: change the following to project database settings
+# @qxu229: TODO: change the following to project database settings
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'aircraftManager',
-    #     'USER': 'mysql_username',
-    #     'PASSWORD': 'mysql_password',
-    #     'HOST': 'localhost',   # change to database host
-    #     'PORT': '3306',        # Default MySQL port
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'aircraft_manager',
+        'USER': 'root',
+        'PASSWORD': 'xuqh0101',
+        'HOST': 'localhost',   # change to database host
+        'PORT': '3306',        # Default MySQL port
+    }
 }
 
 
