@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from . import models
+from .models import *
+from .serializers import *
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
 '''
@@ -19,13 +21,23 @@ class AircraftTableView(APIView):
         aircraftId = request.query_params.get('aircraftId', None)
         if not aircraftId:
             return HttpResponseBadRequest("Aircraft ID Not Specified")
-        else:
-            # TODO
-            return HttpResponse(f"Aircraft ID is {aircraftId}")
-
+        try:
+            aircraftObject = aircrafttable.objects.get(aircraftId=aircraftId)
+            serializer = AircraftSerializer(aircraftObject)
+            return Response(serializer.data)
+        except aircrafttable.DoesNotExist:
+            return HttpResponseNotFound("Aircraft ID Not Found")
     
     def post(self, request):
-        pass
+        aircraftId = request.query_params.get('aircraftId', None)
+        # check if the aircraftId is already in the database
+        if aircrafttable.objects.filter(aircraftId=aircraftId).exists():
+            return HttpResponse("Aircraft ID Already Exists")
+        else:
+            # create a new aircraft table entry
+            newAircraft = aircrafttable(aircraftId=aircraftId)
+            newAircraft.save()
+            return HttpResponse("Aircraft ID Created")
 
 
     def put(self, request):

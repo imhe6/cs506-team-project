@@ -5,19 +5,19 @@ from .models import *
 class AircraftSerializer(serializers.ModelSerializer):
     class Meta:
         model = aircrafttable
-        fields = ['aircraftId', 'tailNumber', 'shipNumber', 'Type', 'status', 'location']
+        fields = '__all__'
 
 class AirportSerializer(serializers.ModelSerializer):
     class Meta:
         model = airporttable
-        fields = ['airportId', 'airportCode', 'lattitude', 'longitude', 'numAircraft', 'userId']
+        fields = '__all__'
 
 class MovementSerializer(serializers.ModelSerializer):
     class Meta:
         model = movementtable
-        fields = ['movementId', 'airportId', 'arrivalDate', 'departureDate', 'aircraftId', 'userId']
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = userprofile
-        fields = ['userId', 'username', 'password', 'role']
+        fields = '__all__'
