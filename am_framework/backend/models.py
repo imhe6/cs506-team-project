@@ -17,7 +17,6 @@ class aircrafttable(models.Model):
         B787 = "B787"
         B777 = "B777"
     aircraftType = models.CharField(choices= aType, null=True)
-    Type = models.CharField(max_length=4, null=True)
     status = models.CharField(max_length=45, null=True)
     location = models.CharField(max_length=4, null=True)
 
