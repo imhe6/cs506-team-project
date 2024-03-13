@@ -35,13 +35,16 @@ The following user requirements reflect the unique aspects of Python Airways' op
 
 | ID   | Description                                                  | Priority | Status |
 | ---- | ------------------------------------------------------------ | -------- | ------ |
-| R11  | Users should be authenticated through their existing company credentials to ensure secure access. | Med      | Open   |
-| R12  | Users must select an airport first; subsequent options and data displayed are specific to the chosen airport. | High     | Open   |
-| R13  | Airport managers must report all aircraft movements daily, with no exceptions for inactive days. | High     | Open   |
-| R14  | Corporate managers can view and aggregate aircraft movement data without submitting changes. | Med      | Open   |
-| R15  | Airport managers can schedule future aircraft arrivals or departures, but these must be confirmed 24 hours before the scheduled time. | High     | Open   |
+| R11  | When the user first opens the web page, the frontend SHALL prompt the user to login. Upon logging in, the backend SHALL authenticate users by validating their existing company credentials against the company's user database. | Med      | Open   |
+| R12 | Successful authentication should grant access to the application, ensuring secure user access. If authentication fails due to incorrect company credentials entered by the user, the frontend should display an error message and do not grant access to the application. | Med | Open |
+| R13  | After clicking airports on the map, the front SHALL request data from backend and display the corresponding information. The backend SHALL access the database and return the results back to frontend. | High     | Open   |
+| R14 | The system provides a functionality that allows users to select a specific date and time range. Upon selection, the frontend SHALL display a list of all scheduled aircraft arrivals and departures within the chosen timeframe. This list includes details such as flight number, aircraft type, estimated time of arrival or departure and deprature or arrival airports | High |Open |
+| R15 | The system provides an interactive map interface allowing authorized user roles to create a new airport after selecting a location on the map with a mouse click. Upon mouse click, the system SHALL prompt the user to enter required information for adding a new airport, including airport name, airport code, and geographical coordinates. The backend SHALL validate the entered information for completeness and uniqueness against the existing airport database. If validation succeeds, the system SHALL add the new airport to the database and visually indicate the addition on the interactive map. If validation fails, the system SHALL display an error message detailing the reason for failure.| High | Open|
+| R16  | Airport managers must report all aircraft movements daily, with no exceptions for inactive days. | High     | Open   |
+| R17  | Corporate managers can view and aggregate aircraft movement data without submitting changes. | High      | Open   |
+| R18  | Airport managers can schedule future aircraft arrivals or departures, but these must be confirmed 24 hours before the scheduled time. | High     | Open   |
 
-<div align="center"><small><i>Excerpt from Crookshanks Table 2-2 showing example user requirements for a timekeeping system</i></small></div>
+<!-- <div align="center"><small><i>Excerpt from Crookshanks Table 2-2 showing example user requirements for a timekeeping system</i></small></div> -->
 
 
 ## Use Cases & User Stories
