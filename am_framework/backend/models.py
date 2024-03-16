@@ -16,7 +16,7 @@ class aircrafttable(models.Model):
         B767 = "B767"
         B787 = "B787"
         B777 = "B777"
-    aircraftType = models.CharField(choices= aType, null=True)
+    aircraftType = models.CharField(choices= aType,max_length = 4, null=True)
     status = models.CharField(max_length=45, null=True)
     location = models.CharField(max_length=4, null=True)
 
@@ -46,7 +46,7 @@ class userprofile(models.Model):
         admin = "admin"
         corporate = "corporate"
         facility = "facility"
-    role = models.CharField(choices=roleChoice)
+    role = models.CharField(choices=roleChoice,max_length = 9, null = True)
 
 
 # @qxu229: the model is not migrated to the database
