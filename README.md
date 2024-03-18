@@ -448,10 +448,31 @@ while (x == y) {
 
 - Use a dependency management tool to manage libraries and frameworks the project depends on, ensuring that everyone uses the same version.
 
-### 9. Unit Testing
+#### 9. Unit Testing
 
-#### Frontend
+##### Test Structure and Naming Conventions
 
-#### Backend
+- **Test Files:** Test files should reside in a dedicated `tests directory` that mirrors the structure of the project's source code. Each test file name should start with `test_` followed by the name of the module it's testing.
 
-### 10. CI/CD
+- **Test Functions:** Test functions should be named using the pattern `test_<functionality_being_tested>`. This naming convention ensures clarity and ease of understanding regarding what each test does and what it aims to verify.
+
+##### Test Isolation
+- Each unit test should focus on a single aspect of functionality and should run independently of other tests.
+
+##### Assertive and Clear Test Cases
+- Tests should assert conditions directly and clearly, with assertions made about the expected outcome of the test.
+- Aim for simplicity and clarity in test logic to make tests easy to understand and maintain.
+
+##### Documentation and Comments
+
+- Include a brief comment at the beginning of each test function describing what the test aims to verify. Especially, when testing special cases or edge cases.
+
+##### Frontend
+
+- Use `React.js` as the unit testing framework for javascript.
+
+##### Backend
+
+- Use `PyTest` as the unit testing framework for python.
+
+#### 10. CI/CD
