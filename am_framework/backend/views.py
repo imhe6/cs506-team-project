@@ -24,48 +24,48 @@ class AircraftManagerAPIView(APIView):
         super().__init__(**kwargs)
         self.model: models.Model = model
         self.serializer: serializers.ModelSerializer = serializer
-        self.pk_name: str = self.model._meta.pk.name
+        self.pkName: str = self.model._meta.pk.name
 
-    def check_missing_fields(self, jsonDict: dict) -> bool:
+    def checkMissingFields(self, jsonDict: dict) -> bool:
         """
         Check if the dictionary has all the field
         required by the table (except primary key)
         """
-        missing_fields = []
-        model_field_names = [f.name
-                             for f in self.model._meta.get_fields()
-                             if f.name != self.pk_name]
-        for fname in model_field_names:
+        missingFields = []
+        modelFieldNames = [f.name
+                           for f in self.model._meta.get_fields()
+                           if f.name != self.pkName]
+        for fname in modelFieldNames:
             if fname not in jsonDict:
-                missing_fields.append(fname)
-        return missing_fields
+                missingFields.append(fname)
+        return missingFields
 
-    def check_unwanted_fields(self, jsonDict: dict) -> bool:
+    def checkUnwantedFields(self, jsonDict: dict) -> bool:
         """Check if the dictionary has any fields that are not in the table.
         """
-        unwanted_fields = []
-        model_field_names = [f.name for f in self.model._meta.get_fields()]
+        unwantedFields = []
+        modelFieldNames = [f.name for f in self.model._meta.get_fields()]
         for fname in jsonDict:
-            if fname not in model_field_names:
-                unwanted_fields.append(fname)
-        return unwanted_fields
+            if fname not in modelFieldNames:
+                unwantedFields.append(fname)
+        return unwantedFields
 
-    def filter_exist_fields(self, query_dict: dict) -> dict:
+    def filterExistFields(self, query_dict: dict) -> dict:
         """Filter out fields in the table.
         """
         # Initialize a dictionary to store filters
         filters = {}
-        query_items = query_dict.items()
+        queryItems = query_dict.items()
         # Iterate through query parameters and construct filters
-        model_field_names = [f.name for f in self.model._meta.get_fields()]
-        for field_name, field_value in query_items:
+        modelFieldNames = [f.name for f in self.model._meta.get_fields()]
+        for fieldName, fieldValue in queryItems:
             # If the field exists in the model, Add filter to dictionary
-            if field_name in model_field_names:
-                filters[field_name] = field_value
+            if fieldName in modelFieldNames:
+                filters[fieldName] = fieldValue
         return filters
 
     def get(self, request):
-        filters = self.filter_exist_fields(request.query_params)
+        filters = self.filterExistFields(request.query_params)
         print(filters)
         if len(filters) == 0:
             return JsonResponse(
@@ -95,20 +95,20 @@ class AircraftManagerAPIView(APIView):
         body = request.body.decode('utf-8')
         dataDict: dict = json.loads(body)
         # check if all fields are present
-        missing_fields = self.check_missing_fields(dataDict)
-        if missing_fields:
+        missingFields = self.checkMissingFields(dataDict)
+        if missingFields:
             return JsonResponse(
                 data={"success": False,
                       "message": "missing necessary fields in request body",
                       "data": None},
                 status=400)
-        filteredDataDict = self.filter_exist_fields(dataDict)
+        filteredDataDict = self.filterExistFields(dataDict)
         print("Filtered dict from JSON in Request Body: ", filteredDataDict)
         # if primary key is specified in the request body, ignore it
-        if self.pk_name in filteredDataDict:
+        if self.pkName in filteredDataDict:
             print("Found primary key in Dict:",
-                  filteredDataDict[self.pk_name], ", ignoring.")
-            del filteredDataDict[self.pk_name]
+                  filteredDataDict[self.pkName], ", ignoring.")
+            del filteredDataDict[self.pkName]
         # create a new table entry
         newEntry = self.model(**filteredDataDict)
         newEntry.save()
@@ -123,23 +123,16 @@ class AircraftManagerAPIView(APIView):
         # convert request.body to a dictionary
         body = request.body.decode('utf-8')
         dataDict = json.loads(body)
-        # # check if there are any unwanted fields
-        # if self.check_unwanted_fields(dataDict):
-        #     return JsonResponse(
-        #         data={"success": False,
-        #               "message": "unwanted fields in request body",
-        #               "data": None},
-        #         status=400)
-        filteredDataDict = self.filter_exist_fields(dataDict)
+        filteredDataDict = self.filterExistFields(dataDict)
         print("Dict from JSON in Request Body: ", filteredDataDict)
-        pk_value = filteredDataDict[self.pk_name]
-        print("Primary key in Dict: ", pk_value)
+        pkVal = filteredDataDict[self.pkName]
+        print("Primary key in Dict: ", pkVal)
         # check if primary key is already in the database
-        if self.model.objects.filter(pk=pk_value).exists():
+        if self.model.objects.filter(pk=pkVal).exists():
             # update the existing entry
             self.model.objects.filter(
-                pk=pk_value).update(**filteredDataDict)
-            entry = self.model.objects.get(pk=pk_value)
+                pk=pkVal).update(**filteredDataDict)
+            entry = self.model.objects.get(pk=pkVal)
             serializer = self.serializer(entry)
             return JsonResponse(
                 data={"success": True,
@@ -154,7 +147,7 @@ class AircraftManagerAPIView(APIView):
             status=404)
 
     def delete(self, request):
-        id = request.query_params.get(self.pk_name, None)
+        id = request.query_params.get(self.pkName, None)
         if not id:
             # ID not provided in request
             return JsonResponse(
