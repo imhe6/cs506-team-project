@@ -147,6 +147,7 @@ class AircraftManagerAPIView(APIView):
             status=404)
 
     def delete(self, request):
+        # get the ID (primary key) from the request
         id = request.query_params.get(self.pkName, None)
         if not id:
             # ID not provided in request
@@ -156,14 +157,17 @@ class AircraftManagerAPIView(APIView):
                       "data": None},
                 status=400)
         try:
+            # delete the entry with the specified primary key
             targetObject = self.model.objects.get(pk=id)
             targetObject.delete()
         except ObjectDoesNotExist:
+            # primary key not found, return a 404 status code
             return JsonResponse(
                 data={"success": False,
                       "message": "entry not found",
                       "data": None},
                 status=404)
+        # entry deleted successfully
         return JsonResponse(
             data={"success": True,
                   "message": "entry deleted",
