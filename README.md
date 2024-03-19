@@ -195,39 +195,48 @@ B <-->|Django ORM| C
 
 ```mermaid
 ---
-title: Sample Database ERD for an Order System
+title: Database for Aircraft Manager
 ---
 erDiagram
-    Customer ||--o{ Order : "placed by"
-    Order ||--o{ OrderItem : "contains"
-    Product ||--o{ OrderItem : "included in"
+    userprofile ||--o{ aircrafttable : "created by"
+    userprofile ||--o{ airporttable : "created by"
+    userprofile ||--o{ movementtable : "created by"
+    airporttable ||--o{ movementtable : "included in"
+    aircrafttable ||--o{ movementtable : "included in"
+    airporttable ||--o{ aircrafttable : "included in"
 
-    Customer {
-        int customer_id PK
-        string name
-        string email
-        string phone
+    userprofile {
+        int userId PK
+        string username
+        string password
+        enum role
     }
 
-    Order {
-        int order_id PK
-        int customer_id FK
-        string order_date
+    aircrafttable {
+        int aircraftId PK
+        int tailNumber
+        enum aircraftType
         string status
+        string location
     }
 
-    Product {
-        int product_id PK
-        string name
-        string description
-        decimal price
+    airporttable {
+        int airportId PK
+        string airportCode
+        string latitude
+        string longitude
+        int numAircraft
+        int userId FK
     }
 
-    OrderItem {
-        int order_item_id PK
-        int order_id FK
-        int product_id FK
-        int quantity
+    movementtable {
+        int movementId PK
+        int arrivalAirportId FK
+        int originAirportId FK
+        string arrivalDate
+        string departureDate
+        int aircraftId FK
+        int userId FK
     }
 ```
 
