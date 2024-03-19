@@ -27,10 +27,14 @@ class AircraftManagerAPIView(APIView):
         self.pk_name: str = self.model._meta.pk.name
 
     def check_missing_fields(self, jsonDict: dict) -> bool:
-        """Check if the dictionary has all the fields required by the table.
+        """
+        Check if the dictionary has all the field
+        required by the table (except primary key)
         """
         missing_fields = []
-        model_field_names = [f.name for f in self.model._meta.get_fields()]
+        model_field_names = [f.name
+                             for f in self.model._meta.get_fields()
+                             if f.name != self.pk_name]
         for fname in model_field_names:
             if fname not in jsonDict:
                 missing_fields.append(fname)
@@ -46,58 +50,71 @@ class AircraftManagerAPIView(APIView):
                 unwanted_fields.append(fname)
         return unwanted_fields
 
+    def filter_exist_fields(self, query_dict: dict) -> dict:
+        """Filter out fields in the table.
+        """
+        # Initialize a dictionary to store filters
+        filters = {}
+        query_items = query_dict.items()
+        # Iterate through query parameters and construct filters
+        model_field_names = [f.name for f in self.model._meta.get_fields()]
+        for field_name, field_value in query_items:
+            # If the field exists in the model, Add filter to dictionary
+            if field_name in model_field_names:
+                filters[field_name] = field_value
+        return filters
+
     def get(self, request):
-        print(self.pk_name)
-        id = request.query_params.get(self.pk_name, None)
-        if not id:
+        filters = self.filter_exist_fields(request.query_params)
+        print(filters)
+        if len(filters) == 0:
             return JsonResponse(
-                data={"status": False,
-                      "message": "ID invalid or not provided in request",
+                data={"success": False,
+                      "message": "no valid fields provided in request",
                       "data": None},
                 status=400)
-        try:
-            targetObject = self.model.objects.get(pk=id)
-            serializer = self.serializer(targetObject)
-        except ObjectDoesNotExist:
+        # Query the database with the filters
+        targetObjectQueryset = self.model.objects.filter(**filters)
+        if targetObjectQueryset.exists():
+            serializer = self.serializer(targetObjectQueryset, many=True)
             return JsonResponse(
-                data={"status": False,
-                      "message": "entry not found",
-                      "data": None},
-                status=404)
+                data={"success": True,
+                      "message": "found entries with specified conditions",
+                      "data": serializer.data},
+                status=200)
 
+        # Specified entry not found, return a 404 status code
         return JsonResponse(
-            data={"status": True,
-                  "message": "entry found",
-                  "data": serializer.data},
-            status=200)
+            data={"success": False,
+                  "message": "could not find entry with specified conditions",
+                  "data": None},
+            status=404)
 
     def post(self, request):
         # convert request.body to a dictionary
         body = request.body.decode('utf-8')
-        dataDict = json.loads(body)
+        dataDict: dict = json.loads(body)
         # check if all fields are present
         missing_fields = self.check_missing_fields(dataDict)
         if missing_fields:
             return JsonResponse(
-                data={"status": False,
-                      "message": "missing fields in request body",
+                data={"success": False,
+                      "message": "missing necessary fields in request body",
                       "data": None},
                 status=400)
-        print("Dict from JSON in Request Body: ", dataDict)
-        print("Primary key in Dict: ", dataDict[self.pk_name])
-        # check if primary key is already in the database
-        if self.model.objects.filter(pk=dataDict[self.pk_name]).exists():
-            return JsonResponse(
-                {"status": False,
-                 "message": "entry already exists",
-                 "data": None},
-                status=400)
+        filteredDataDict = self.filter_exist_fields(dataDict)
+        print("Filtered dict from JSON in Request Body: ", filteredDataDict)
+        # if primary key is specified in the request body, ignore it
+        if self.pk_name in filteredDataDict:
+            print("Found primary key in Dict:",
+                  filteredDataDict[self.pk_name], ", ignoring.")
+            del filteredDataDict[self.pk_name]
         # create a new table entry
-        newEntry = self.model(**dataDict)
+        newEntry = self.model(**filteredDataDict)
         newEntry.save()
         newEntrySerializer = self.serializer(newEntry)
         return JsonResponse(
-            data={"status": True,
+            data={"success": True,
                   "message": "entry created",
                   "data": newEntrySerializer.data},
             status=201)
@@ -106,30 +123,32 @@ class AircraftManagerAPIView(APIView):
         # convert request.body to a dictionary
         body = request.body.decode('utf-8')
         dataDict = json.loads(body)
-        # check if there are any unwanted fields
-        if self.check_unwanted_fields(dataDict):
-            return JsonResponse(
-                data={"status": False,
-                      "message": "unwanted fields in request body",
-                      "data": None},
-                status=400)
-        print("Dict from JSON in Request Body: ", dataDict)
-        print("Primary key in Dict: ", dataDict[self.pk_name])
+        # # check if there are any unwanted fields
+        # if self.check_unwanted_fields(dataDict):
+        #     return JsonResponse(
+        #         data={"success": False,
+        #               "message": "unwanted fields in request body",
+        #               "data": None},
+        #         status=400)
+        filteredDataDict = self.filter_exist_fields(dataDict)
+        print("Dict from JSON in Request Body: ", filteredDataDict)
+        pk_value = filteredDataDict[self.pk_name]
+        print("Primary key in Dict: ", pk_value)
         # check if primary key is already in the database
-        if self.model.objects.filter(pk=dataDict[self.pk_name]).exists():
+        if self.model.objects.filter(pk=pk_value).exists():
             # update the existing entry
             self.model.objects.filter(
-                pk=dataDict[self.pk_name]).update(**dataDict)
-            entry = self.model.objects.get(pk=dataDict[self.pk_name])
+                pk=pk_value).update(**filteredDataDict)
+            entry = self.model.objects.get(pk=pk_value)
             serializer = self.serializer(entry)
             return JsonResponse(
-                data={"status": True,
+                data={"success": True,
                       "message": "entry updated",
                       "data": serializer.data},
                 status=200)
         # primary key not found
         return JsonResponse(
-            data={"status": False,
+            data={"success": False,
                   "message": "entry not found",
                   "data": None},
             status=404)
@@ -139,7 +158,7 @@ class AircraftManagerAPIView(APIView):
         if not id:
             # ID not provided in request
             return JsonResponse(
-                data={"status": False,
+                data={"success": False,
                       "message": "ID invalid or not provided in request",
                       "data": None},
                 status=400)
@@ -148,12 +167,12 @@ class AircraftManagerAPIView(APIView):
             targetObject.delete()
         except ObjectDoesNotExist:
             return JsonResponse(
-                data={"status": False,
+                data={"success": False,
                       "message": "entry not found",
                       "data": None},
                 status=404)
         return JsonResponse(
-            data={"status": True,
+            data={"success": True,
                   "message": "entry deleted",
                   "data": None},
             status=200)
@@ -163,23 +182,24 @@ class FrontendReadOnlyAPIView(AircraftManagerAPIView):
     """
     Class for tables that are read-only from the frontend.
     """
+
     def post(self, request):
         return JsonResponse(
-            data={"status": False,
+            data={"success": False,
                   "message": "interface read-only",
                   "data": None},
             status=400)
 
     def put(self, request):
         return JsonResponse(
-            data={"status": False,
+            data={"success": False,
                   "message": "interface read-only",
                   "data": None},
             status=400)
 
     def delete(self, request):
         return JsonResponse(
-            data={"status": False,
+            data={"success": False,
                   "message": "interface read-only",
                   "data": None},
             status=400)
@@ -207,10 +227,10 @@ class AirportTableView(AircraftManagerAPIView):
         super().__init__(model=model, serializer=serializer, **kwargs)
 
 
-class MovementTableView(FrontendReadOnlyAPIView):
+class MovementTableView(AircraftManagerAPIView):
     '''
     RESTful API for MovementTable operations.
-    This table is read-only from the frontend.
+    Frontend can only read or insert entries from this table.
     '''
 
     def __init__(self, **kwargs) -> None:

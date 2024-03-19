@@ -38,7 +38,7 @@ class movementtable(models.Model):
     userId = models.IntegerField(null = True)
 
 class userprofile(models.Model):
-    userId = models.IntegerField(primary_key =True)
+    userId = models.AutoField(primary_key =True)
     username = models.CharField(max_length = 45)
     password = models.CharField(max_length = 45)
     #Limit roles to preset conditions
