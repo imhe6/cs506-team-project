@@ -66,13 +66,15 @@ class AircraftManagerAPIView(APIView):
 
     def get(self, request):
         filters = self.filterExistFields(request.query_params)
-        print(filters)
+        # Return all entries in the table if filter not specified
         if len(filters) == 0:
+            all_entries = self.model.objects.all()
+            serializer = self.serializer(all_entries, many=True)
             return JsonResponse(
-                data={"success": False,
-                      "message": "no valid fields provided in request",
-                      "data": None},
-                status=400)
+                data={"success": True,
+                      "message": "all entries returned since no filter specified",
+                      "data": serializer.data},
+                status=200)
         # Query the database with the filters
         targetObjectQueryset = self.model.objects.filter(**filters)
         if targetObjectQueryset.exists():
