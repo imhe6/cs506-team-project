@@ -45,25 +45,44 @@ The following user requirements reflect the unique aspects of Python Airways' op
 <!-- <div align="center"><small><i>Excerpt from Crookshanks Table 2-2 showing example user requirements for a timekeeping system</i></small></div> -->
 
 
-## Use Cases & User Stories
+### User Stories & Acceptance Criteria
 
-### Corporate Manager User Stories for Python Airways:
+#### Corporate Manager User Stories for Python Airways:
 
 - As a corporate manager, I want to create a new airport.
+    - When corporate manager clicks on create button, the application will prompt user to input the following details: Airport Code, Latitude, Longtitude, and Number of Aircraft.
+    - Each input fileds above must have validation rules and any errors should be displayed clearly to the user.
+    - If all inputs are verified, the new airport will be created and showed on the map.
 - As a corporate manager, I want to see an aggregate of the airplane movements that has come in to and gone out from all airports over an arbitrary time span.
+    - Corporate manager must be able to select any arbitrary time span.
+    - Corporate mangers can filter the aggregated data by specific arrival or departure airports and airplane type if desired.
 - As a corporate manager, I want to see my airports represented on a map.
+    - The map should accuratly display all airports based on the longtitude and latitude.
+    - Corporate managers should be able to zoom in and out and navigate (pan) the map to view different areas in detail.
 - As a corporate manager, I want to mark that an airport has ceased operation as of some date. I don't want that facility included in aggregates after that date.
+    - After clicking on an airport on the map, corporate managers can marked it as a ceased airport with a date.
+    - The movement of ceased airports should but be aggregated when getting the aggregated airplane movements if the ceased date is after the slected time span.
 - As a corporate manager, I want to see a count of how many airports I have.
+    - The count of airports should be prominently displayed on the corporate manager's dashboard.
+    - The count must be updated in real-time to reflect any additions, removals, or changes in the status of airports.
 
-### Facility (Airport) Manager User Stories for Python Airways:
+#### Facility (Airport) Manager User Stories for Python Airways:
 
 - As a facility manager, I want to view what airplanes and how many I have in my airports.
+    - After clicking on an airport on the map, the system should provide a detailed list showing the quantity of each airplane model.
+    - The information displayed should be updated in real-time to reflect recent arrivals or departures.
 - As a facility manager, I want to see a list of movement that had the same airplane ID.
+    - Facility managers can view the list of movement by choosing the specific airplane type and filter it with arrival or departure airports if desired.
 - As a facility manager, I want to record a future airplane movement (a shipment whose date and/or time is in the future).
+    - When recording future movement, the system should ask the facility manager to provide following details: Arrival and Departure Airport ID, Arrival and Departure Date and Aircraft ID.
+    - The system must validate the scheduled date and time to ensure they are in the future.
+    - The system must make sure that the departure airport has enough airplanes and display an error message if the airport does not.
 - As a facility manager, I want to record an airplane movement that has arrived at or left the airport and I want this to automatically update my airport.
+    - When recording past movement, the system should ask the facility manager to provide following details: Arrival and Departure Airport ID, Arrival and Departure Date and Aircraft ID.
+    - The system must validate the scheduled date and time to ensure they are in the past.
+    - After recording the movement, the number of aircraft at the airports should reflect the change.
 - As a facility manager, I want to view what I used to have in my airports at some time in the past, and what I will have in my airport at some point in the future.
-
-
+    - Facility manager can select a specific date after clicking on the airport and see the number of airport based on corresponding date.
 
 1. You
    1. Can
