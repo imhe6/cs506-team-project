@@ -49,47 +49,19 @@ The following user requirements reflect the unique aspects of Python Airways' op
 
 ### Corporate Manager User Stories for Python Airways:
 
-As a corporate manager, I want to see a count of how many airports are under Python Airways' operation.
-
-    -This allows a high-level overview of the operational scale.
-
-As a corporate manager, I want to view an aggregate of aircraft movements (arrivals and departures) across all airports over a specified time span.
-
-    -To monitor overall traffic flow and operational activity.
-
-As a corporate manager, I want to initiate the opening of a new airport within the Python Airways network.
-
-    -For expanding operational reach and capacity.
-
-As a corporate manager, I want to mark an airport as no longer in operation from a specific date, ensuring it's excluded from future aggregates.
-
-    -To keep data relevant and accurate after operational changes.
-
-As a corporate manager, I want to see all Python Airways' airports represented on a map.
-
-    -For a geographical overview of operations.
+- As a corporate manager, I want to create a new airport.
+- As a corporate manager, I want to see an aggregate of the airplane movements that has come in to and gone out from all airports over an arbitrary time span.
+- As a corporate manager, I want to see my airports represented on a map.
+- As a corporate manager, I want to mark that an airport has ceased operation as of some date. I don't want that facility included in aggregates after that date.
+- As a corporate manager, I want to see a count of how many airports I have.
 
 ### Facility (Airport) Manager User Stories for Python Airways:
 
-As an airport manager, I want to view the current aircraft inventory at my airport.
-
-    -Enables real-time monitoring of aircraft presence.
-
-As an airport manager, I want to view historical and future aircraft inventory at my airport.
-
-    -To plan for capacity and maintenance scheduling.
-
-As an airport manager, I want to record an aircraft's arrival or departure, including the specific aircraft details, and have this automatically update our inventory.
-
-    -For maintaining accurate, real-time inventory records.
-
-As an airport manager, I want to schedule future aircraft arrivals or departures.
-
-    -To efficiently manage airport traffic and allocations.
-
-As an airport manager, I want to see a list of arrivals/departures that included a specific type of aircraft.
-
-    -For tracking usage and movements of particular aircraft models or types.
+- As a facility manager, I want to view what airplanes and how many I have in my airports.
+- As a facility manager, I want to see a list of movement that had the same airplane ID.
+- As a facility manager, I want to record a future airplane movement (a shipment whose date and/or time is in the future).
+- As a facility manager, I want to record an airplane movement that has arrived at or left the airport and I want this to automatically update my airport.
+- As a facility manager, I want to view what I used to have in my airports at some time in the past, and what I will have in my airport at some point in the future.
 
 
 
