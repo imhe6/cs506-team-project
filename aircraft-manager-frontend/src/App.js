@@ -6,6 +6,9 @@ import Header from './components/Header';
 import MapPage from './pages/MapPage';
 import HomePage from './pages/HomePage'; 
 import DashboardPage from './pages/DashboardPage';
+import Footer from './components/Footer';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import Terms from './components/Terms';
 
 function App() {
   return (
@@ -16,7 +19,10 @@ function App() {
           <Route path="/" element={<HomePage />} /> 
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/map" element={<MapPage />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
         </Routes>
+        <Footer />
       </Box>
     </Router>
   );
