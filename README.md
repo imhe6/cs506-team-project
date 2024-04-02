@@ -473,6 +473,7 @@ while (x == y) {
 
 ##### Backend
 
-- Use `PyTest` as the unit testing framework for python.
+- Use `Django's unit test (Django.test)` which utilizes python standard library `unittest` as the unit testing framework for python.
+- More information could be found [here](https://docs.djangoproject.com/en/5.0/topics/testing/overview/).
 
 #### 10. CI/CD
