@@ -1,11 +1,22 @@
-import React from 'react';
-import { Flex, Box, Heading, Text, Link, Divider } from '@chakra-ui/react';
-import { FaEnvelope, FaPhone, FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import React from "react";
+import { Flex, Box, Heading, Text, Link, Divider } from "@chakra-ui/react";
+import {
+  FaEnvelope,
+  FaPhone,
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+} from "react-icons/fa";
 
 const Footer = () => {
   return (
     <Box bg="gray.900" color="white" py="8">
-      <Flex justify="space-between" align="center" direction={{ base: 'column', md: 'row' }} px="4">
+      <Flex
+        justify="space-between"
+        align="center"
+        direction={{ base: "column", md: "row" }}
+        px="4"
+      >
         <Box>
           <Heading as="h4" size="md" mb="2">
             Contact Us
@@ -15,7 +26,11 @@ const Footer = () => {
           </Text>
           <Flex align="center" mb="2">
             <Box as={FaEnvelope} fontSize="lg" mr="2" />
-            <Link href="mailto:contact@pythonairways.com" color="white" fontWeight="bold">
+            <Link
+              href="mailto:contact@pythonairways.com"
+              color="white"
+              fontWeight="bold"
+            >
               contact@pythonairways.com
             </Link>
           </Flex>
@@ -26,9 +41,12 @@ const Footer = () => {
             </Link>
           </Flex>
         </Box>
-        <Divider display={{ base: 'none', md: 'block' }} orientation="vertical" />
-        <Flex align="center" mt={{ base: '4', md: '0' }}>
-          <Box textAlign={{ base: 'center', md: 'left' }}>
+        <Divider
+          display={{ base: "none", md: "block" }}
+          orientation="vertical"
+        />
+        <Flex align="center" mt={{ base: "4", md: "0" }}>
+          <Box textAlign={{ base: "center", md: "left" }}>
             <Text fontSize="sm" mb="2">
               &copy; 2024 Python Airways. All rights reserved.
             </Text>
