@@ -1,12 +1,13 @@
 import React from 'react';
 import DataTable from '../components/DataTable';
+import { Box, Heading } from '@chakra-ui/react';
 
 function DashboardPage() {
     return (
-        <div>
-            <h1>Dashboard</h1>
-            <DataTable /> {/* DataTable 컴포넌트를 사용 */}
-        </div>
+        <Box>
+            <Heading as="h1" size="xl" textAlign="center" mb="4">Dashboard</Heading>
+            <DataTable />
+        </Box>
     );
 }
 
