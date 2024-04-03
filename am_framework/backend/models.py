@@ -37,8 +37,8 @@ class aircrafttable(models.Model):
 class airporttable(models.Model):
     airportId = models.AutoField(primary_key =True)
     airportCode = models.CharField(max_length = 4)
-    latitude = models.CharField(max_length = 5)
-    longitude = models.CharField(max_length = 5)
+    latitude = models.DecimalField(max_length = 5,decimal_places=3)
+    longitude = models.DecimalField(max_length = 5,decimal_places=3)
     numAircraft = models.IntegerField(null = True)
     userId = models.ForeignKey("UserID", on_delete=models.CASCADE())
 
