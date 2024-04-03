@@ -80,7 +80,7 @@ Hero.defaultProps = {
   title: "Welcome to Python Airways",
   subtitle:
     "Explore the world of aviation with us. Get real-time tracking, efficient fleet management, and more.",
-  image: "https://source.unsplash.com/collection/404339/800x600",
+  image: {planes},
   ctaText: "Get Started",
   ctaLink: "/signup",
 };
