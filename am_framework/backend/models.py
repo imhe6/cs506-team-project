@@ -27,6 +27,7 @@ class aircrafttable(models.Model):
     type = models.CharField(max_length=4, null=True)
     status = models.CharField(max_length=45, null=True)
     location = models.CharField(max_length=4, null=True)
+    userId = models.ForeignKey("UserID", on_delete=models.CASCADE())
 
 #Table in database to store information about airports
 #Contains columns for the primary key (airportId)
