@@ -23,8 +23,7 @@ class aircrafttable(models.Model):
         B767 = "B767"
         B787 = "B787"
         B777 = "B777"
-    aircraftType = models.CharField(choices= aType, null=True)
-    type = models.CharField(max_length=4, null=True)
+    aircraftType = models.CharField(choices= aType,max_length = 4, null=True)
     status = models.CharField(max_length=45, null=True)
     location = models.CharField(max_length=4, null=True)
     userId = models.ForeignKey("UserID", on_delete=models.CASCADE())
@@ -67,7 +66,7 @@ class movementtable(models.Model):
 #the password is self explanitory
 #role is the permission level for the user.
 class userprofile(models.Model):
-    userId = models.IntegerField(primary_key =True)
+    userId = models.AutoField(primary_key =True)
     username = models.CharField(max_length = 45)
     password = models.CharField(max_length = 45)
     #Limit roles to preset conditions
@@ -75,7 +74,7 @@ class userprofile(models.Model):
         admin = "admin"
         corporate = "corporate"
         facility = "facility"
-    role = models.CharField(choices=roleChoice)
+    role = models.CharField(choices=roleChoice,max_length = 9, null = True)
 
 
 # @qxu229: the model is not migrated to the database
