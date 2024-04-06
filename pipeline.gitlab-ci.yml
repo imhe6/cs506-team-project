@@ -1,4 +1,5 @@
 stages:
+  - build
   - lint
   - static
   - test
@@ -34,12 +35,14 @@ test_backend:
   before_script:
     #pip install -r ./requirements.txt
   script:
+    #this should run the integrated django tests
     - cd backend
     - python3 manage.py makemigrations
     - python3 manage.py migrate
     - python3 manage.py test
-    #- coverage run
+
   after_script:
+    #record results
 
 #Unit test for frontend
 test_frontend:
