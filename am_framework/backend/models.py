@@ -26,7 +26,7 @@ class aircrafttable(models.Model):
     aircraftType = models.CharField(choices= aType,max_length = 4, null=True)
     status = models.CharField(max_length=45, null=True)
     location = models.CharField(max_length=4, null=True)
-    userId = models.ForeignKey("UserID", on_delete=models.CASCADE())
+    userId = models.ForeignKey("UserID", on_delete=models.CASCADE)
 
 #Table in database to store information about airports
 #Contains columns for the primary key (airportId)
@@ -40,7 +40,7 @@ class airporttable(models.Model):
     latitude = models.DecimalField(max_length = 5,decimal_places=3)
     longitude = models.DecimalField(max_length = 5,decimal_places=3)
     numAircraft = models.IntegerField(null = True)
-    userId = models.ForeignKey("UserID", on_delete=models.CASCADE())
+    userId = models.ForeignKey("UserID", on_delete=models.CASCADE)
 
 #Movement table to track all movements of aircraft between models
 #This table is where most information and modifications of data will be contained
@@ -57,8 +57,8 @@ class movementtable(models.Model):
     originAirportId = models.IntegerField(null = True)
     arrivalDate = models.DateTimeField(max_length = 8)
     departureDate = models.DateTimeField(max_length = 8)
-    aircraftId = models.ForeignKey("AircraftId", on_delete=models.CASCADE())
-    userId = models.ForeignKey("UserID", on_delete=models.CASCADE())
+    aircraftId = models.ForeignKey("AircraftId", on_delete=models.CASCADE)
+    userId = models.ForeignKey("UserID", on_delete=models.CASCADE)
 
 #The userId controls authorization for the program and stores user info
 #userId is the primary key for the usertable
