@@ -34,6 +34,10 @@ test_backend:
   before_script:
     #pip install -r ./requirements.txt
   script:
+    - cd backend
+    - python3 manage.py makemigrations
+    - python3 manage.py migrate
+    - python3 manage.py test
     #- coverage run
   after_script:
 
