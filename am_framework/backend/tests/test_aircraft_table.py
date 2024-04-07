@@ -1,7 +1,7 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
-from ..models import aircrafttable
+from ..models import aircrafttable, userprofile
 
 
 '''
@@ -15,6 +15,7 @@ class AircraftTableGetTest(TestCase):
     '''
     @classmethod
     def setUpTestData(cls):
+        cls.rootUser = userprofile.objects.create(username='root',password='1234', role='admin')
         cls.aircrafts = []
         cls.aircrafts.append(aircrafttable.objects.create(
             tailNumber='111',aircraftType='A320',status='Departured',location='LAX'))
