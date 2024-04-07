@@ -187,21 +187,21 @@ class FrontendReadOnlyAPIView(AircraftManagerAPIView):
             data={"success": False,
                   "message": "interface read-only",
                   "data": None},
-            status=400)
+            status=405)
 
     def put(self, request):
         return JsonResponse(
             data={"success": False,
                   "message": "interface read-only",
                   "data": None},
-            status=400)
+            status=405)
 
     def delete(self, request):
         return JsonResponse(
             data={"success": False,
                   "message": "interface read-only",
                   "data": None},
-            status=400)
+            status=405)
 
 
 class AircraftTableView(AircraftManagerAPIView):
