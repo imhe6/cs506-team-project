@@ -14,15 +14,15 @@ class aircrafttable(models.Model):
     tailNumber = models.CharField(max_length=45, null=True)
     #Define a Django Enum type for the aircraft
     class aType(models.TextChoices):
-        A320 = "A320"
-        A321 = "A321"
-        A330 = "A330"
-        A350 = "A350"
-        B737 = "B737"
-        B757 = "B757"
-        B767 = "B767"
-        B787 = "B787"
-        B777 = "B777"
+        A320 = "A320", "A320"
+        A321 = "A321", "A321"
+        A330 = "A330", "A330"
+        A350 = "A350", "A350"
+        B737 = "B737", "B737"
+        B757 = "B757", "B757"
+        B767 = "B767", "B767"
+        B787 = "B787", "B787"
+        B777 = "B777", "B777"
     aircraftType = models.CharField(choices= aType,max_length = 4, null=True)
     status = models.CharField(max_length=45, null=True)
     location = models.CharField(max_length=4, null=True)
@@ -71,9 +71,9 @@ class userprofile(models.Model):
     password = models.CharField(max_length = 45)
     #Limit roles to preset conditions
     class roleChoice(models.TextChoices):
-        admin = "admin"
-        corporate = "corporate"
-        facility = "facility"
+        ADMIN = "admin", "Admin"
+        CORPORATE = "corporate", "Corporate"
+        FACILITY = "facility", "Facility"
     role = models.CharField(choices=roleChoice,max_length = 9, null = True)
 
 
