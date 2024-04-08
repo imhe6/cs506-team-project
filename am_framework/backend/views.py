@@ -4,6 +4,7 @@ from .models import *
 from .serializers import *
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import fields
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils import timezone
@@ -19,13 +20,22 @@ class AircraftManagerAPIView(APIView):
     :type pk: models.Model
     :param serializer: Serializer for entries of the table.
     :type serializer: serializers.ModelSerializer
+    :param foreignKeyNames: List of field names that are foreign keys.
+    :type foreignKeyNames: list
     """
 
-    def __init__(self, model: models.Model, serializer, **kwargs) -> None:
+    def __init__(self, model: models.Model, serializer,
+                 foreignKeyNames: list = [], **kwargs) -> None:
         super().__init__(**kwargs)
         self.model: models.Model = model
         self.serializer: serializers.ModelSerializer = serializer
         self.pkName: str = self.model._meta.pk.name
+        self.foreignKeyNames: list = foreignKeyNames
+        # Get all field names (except pk) in the model
+        self.modelFieldNames = []
+        for f in self.model._meta.get_fields():
+            if f.name != self.pkName and isinstance(f, (fields.Field)):
+                self.modelFieldNames.append(f.name)
 
     def checkMissingFields(self, jsonDict: dict) -> bool:
         """
@@ -33,23 +43,11 @@ class AircraftManagerAPIView(APIView):
         required by the table (except primary key)
         """
         missingFields = []
-        modelFieldNames = [f.name
-                           for f in self.model._meta.get_fields()
-                           if f.name != self.pkName]
-        for fname in modelFieldNames:
+        # Check for missing fields in the request body
+        for fname in self.modelFieldNames:
             if fname not in jsonDict:
                 missingFields.append(fname)
         return missingFields
-
-    def checkUnwantedFields(self, jsonDict: dict) -> bool:
-        """Check if the dictionary has any fields that are not in the table.
-        """
-        unwantedFields = []
-        modelFieldNames = [f.name for f in self.model._meta.get_fields()]
-        for fname in jsonDict:
-            if fname not in modelFieldNames:
-                unwantedFields.append(fname)
-        return unwantedFields
 
     def filterExistFields(self, query_dict: dict) -> dict:
         """Filter out fields in the table.
@@ -73,7 +71,8 @@ class AircraftManagerAPIView(APIView):
             serializer = self.serializer(all_entries, many=True)
             return JsonResponse(
                 data={"success": True,
-                      "message": "all entries returned since no filter specified",
+                      "message":
+                          "all entries returned since no filter specified",
                       "data": serializer.data},
                 status=200)
         # Query the database with the filters
@@ -112,6 +111,28 @@ class AircraftManagerAPIView(APIView):
             print("Found primary key in Dict:",
                   filteredDataDict[self.pkName], ", ignoring.")
             del filteredDataDict[self.pkName]
+        # handle foreign key fields
+        notFoundForeignKeys: list = []
+        for fkName in self.foreignKeyNames:
+            if fkName in filteredDataDict:
+                relatedModel = self.model._meta.get_field(fkName).related_model
+                try:
+                    # get the foreign key in the database
+                    filteredDataDict[fkName] = relatedModel.objects.get(
+                        pk=filteredDataDict[fkName])
+                except ObjectDoesNotExist:
+                    notFoundForeignKeys.append({
+                        "key": fkName,
+                        "value": filteredDataDict[fkName],
+                        "model": relatedModel.__name__
+                    })
+        # if there are foreign keys not found, return a 404 status code
+        if notFoundForeignKeys:
+            return JsonResponse(
+                data={"success": False,
+                      "message": "foreign key(s) not found in foreign model(s)",
+                      "data": notFoundForeignKeys},
+                status=404)
         # create a new table entry
         newEntry = self.model(**filteredDataDict)
         newEntry.save()
@@ -129,6 +150,27 @@ class AircraftManagerAPIView(APIView):
         filteredDataDict = self.filterExistFields(dataDict)
         print("Dict from JSON in Request Body: ", filteredDataDict)
         pkVal = filteredDataDict[self.pkName]
+        # handle foreign key fields
+        notFoundForeignKeys: list = []
+        for fkName in self.foreignKeyNames:
+            if fkName in filteredDataDict:
+                relatedModel = self.model._meta.get_field(fkName).related_model
+                try:
+                    # get the foreign key in the database
+                    filteredDataDict[fkName] = relatedModel.objects.get(
+                        pk=filteredDataDict[fkName])
+                except ObjectDoesNotExist:
+                    notFoundForeignKeys.append({
+                        "key": filteredDataDict[fkName],
+                        "model": relatedModel.__name__
+                    })
+        # if there are foreign keys not found, return a 404 status code
+        if notFoundForeignKeys:
+            return JsonResponse(
+                data={"success": False,
+                      "message": "foreign key(s) not found in foreign model(s)",
+                      "data": notFoundForeignKeys},
+                status=404)
         print("Primary key in Dict: ", pkVal)
         # check if primary key is already in the database
         if self.model.objects.filter(pk=pkVal).exists():
@@ -213,7 +255,9 @@ class AircraftTableView(AircraftManagerAPIView):
     def __init__(self, **kwargs) -> None:
         model = aircrafttable
         serializer = AircraftSerializer
-        super().__init__(model=model, serializer=serializer, **kwargs)
+        foreignKeyNames = ["userId"]
+        super().__init__(model=model, serializer=serializer,
+                         foreignKeyNames=foreignKeyNames, **kwargs)
 
 
 class AirportTableView(AircraftManagerAPIView):
@@ -224,7 +268,9 @@ class AirportTableView(AircraftManagerAPIView):
     def __init__(self, **kwargs) -> None:
         model = airporttable
         serializer = AirportSerializer
-        super().__init__(model=model, serializer=serializer, **kwargs)
+        foreignKeyNames = ["userId"]
+        super().__init__(model=model, serializer=serializer,
+                         foreignKeyNames=foreignKeyNames, **kwargs)
 
 
 class MovementTableView(AircraftManagerAPIView):
@@ -236,7 +282,9 @@ class MovementTableView(AircraftManagerAPIView):
     def __init__(self, **kwargs) -> None:
         model = movementtable
         serializer = MovementSerializer
-        super().__init__(model=model, serializer=serializer, **kwargs)
+        foreignKeyNames = ["userId", "aircraftId"]
+        super().__init__(model=model, serializer=serializer,
+                         foreignKeyNames=foreignKeyNames, **kwargs)
 
 
 class UserProfileTableView(FrontendReadOnlyAPIView):
@@ -248,7 +296,9 @@ class UserProfileTableView(FrontendReadOnlyAPIView):
     def __init__(self, **kwargs) -> None:
         model = userprofile
         serializer = UserSerializer
-        super().__init__(model=model, serializer=serializer, **kwargs)
+        foreignKeyNames = []
+        super().__init__(model=model, serializer=serializer,
+                         foreignKeyNames=foreignKeyNames, **kwargs)
 
 class FutureMovementAPIView(APIView):
     """
