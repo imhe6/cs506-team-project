@@ -35,62 +35,54 @@ The following user requirements reflect the unique aspects of Python Airways' op
 
 | ID   | Description                                                  | Priority | Status |
 | ---- | ------------------------------------------------------------ | -------- | ------ |
-| R11  | Users should be authenticated through their existing company credentials to ensure secure access. | Med      | Open   |
-| R12  | Users must select an airport first; subsequent options and data displayed are specific to the chosen airport. | High     | Open   |
-| R13  | Airport managers must report all aircraft movements daily, with no exceptions for inactive days. | High     | Open   |
-| R14  | Corporate managers can view and aggregate aircraft movement data without submitting changes. | Med      | Open   |
-| R15  | Airport managers can schedule future aircraft arrivals or departures, but these must be confirmed 24 hours before the scheduled time. | High     | Open   |
+| R11  | When the user first opens the web page, the frontend SHALL prompt the user to login. Upon logging in, the backend SHALL authenticate users by validating their existing company credentials against the company's user database. | Med      | Open   |
+| R12 | Successful authentication should grant access to the application, ensuring secure user access. If authentication fails due to incorrect company credentials entered by the user, the frontend should display an error message and do not grant access to the application. | Med | Open |
+| R13  | After clicking airports on the map, the front SHALL request data from backend and display the corresponding information. The backend SHALL access the database and return the results back to frontend. | High     | Currently working   |
+| R14 | The system provides a functionality that allows users to select a specific date and time range. Upon selection, the frontend SHALL display a list of all scheduled aircraft arrivals and departures within the chosen timeframe. This list includes details such as flight number, aircraft type, estimated time of arrival or departure and deprature or arrival airports | High |Currently working |
+| R15 | The system provides an interactive map interface allowing authorized user roles to create a new airport after selecting a location on the map with a mouse click. Upon mouse click, the system SHALL prompt the user to enter required information for adding a new airport, including airport name, airport code, and geographical coordinates. The backend SHALL validate the entered information for completeness and uniqueness against the existing airport database. If validation succeeds, the system SHALL add the new airport to the database and visually indicate the addition on the interactive map. If validation fails, the system SHALL display an error message detailing the reason for failure.| High | Currently working|
+| R16  | The system provides an interface to schedule future aircraft arrivals and departures. This interface SHALL allow airport managers to specify the date, time, airline, flight number, and aircraft type for each arrival or departure. Upon submission of a new schedule, the backend SHALL validate the entry for conflicts with existing schedules. If the new schedule passes validation, the system SHALL record it in the movements database. If the validation fails, the system SHALL display an informative error message. | High     | Open   |
 
-<div align="center"><small><i>Excerpt from Crookshanks Table 2-2 showing example user requirements for a timekeeping system</i></small></div>
-
-
-## Use Cases & User Stories
-
-### Corporate Manager User Stories for Python Airways:
-
-As a corporate manager, I want to see a count of how many airports are under Python Airways' operation.
-
-    -This allows a high-level overview of the operational scale.
-
-As a corporate manager, I want to view an aggregate of aircraft movements (arrivals and departures) across all airports over a specified time span.
-
-    -To monitor overall traffic flow and operational activity.
-
-As a corporate manager, I want to initiate the opening of a new airport within the Python Airways network.
-
-    -For expanding operational reach and capacity.
-
-As a corporate manager, I want to mark an airport as no longer in operation from a specific date, ensuring it's excluded from future aggregates.
-
-    -To keep data relevant and accurate after operational changes.
-
-As a corporate manager, I want to see all Python Airways' airports represented on a map.
-
-    -For a geographical overview of operations.
-
-### Facility (Airport) Manager User Stories for Python Airways:
-
-As an airport manager, I want to view the current aircraft inventory at my airport.
-
-    -Enables real-time monitoring of aircraft presence.
-
-As an airport manager, I want to view historical and future aircraft inventory at my airport.
-
-    -To plan for capacity and maintenance scheduling.
-
-As an airport manager, I want to record an aircraft's arrival or departure, including the specific aircraft details, and have this automatically update our inventory.
-
-    -For maintaining accurate, real-time inventory records.
-
-As an airport manager, I want to schedule future aircraft arrivals or departures.
-
-    -To efficiently manage airport traffic and allocations.
-
-As an airport manager, I want to see a list of arrivals/departures that included a specific type of aircraft.
-
-    -For tracking usage and movements of particular aircraft models or types.
+<!-- <div align="center"><small><i>Excerpt from Crookshanks Table 2-2 showing example user requirements for a timekeeping system</i></small></div> -->
 
 
+### User Stories & Acceptance Criteria
+
+#### Corporate Manager User Stories for Python Airways:
+
+- As a corporate manager, I want to create a new airport.
+    - When corporate manager clicks on create button, the application will prompt user to input the following details: Airport Code, Latitude, Longtitude, and Number of Aircraft.
+    - Each input fileds above must have validation rules and any errors should be displayed clearly to the user.
+    - If all inputs are verified, the new airport will be created and showed on the map.
+- As a corporate manager, I want to see an aggregate of the airplane movements that has come in to and gone out from all airports over an arbitrary time span.
+    - Corporate manager must be able to select any arbitrary time span.
+    - Corporate mangers can filter the aggregated data by specific arrival or departure airports and airplane type if desired.
+- As a corporate manager, I want to see my airports represented on a map.
+    - The map should accuratly display all airports based on the longtitude and latitude.
+    - Corporate managers should be able to zoom in and out and navigate (pan) the map to view different areas in detail.
+- As a corporate manager, I want to mark that an airport has ceased operation as of some date. I don't want that facility included in aggregates after that date.
+    - After clicking on an airport on the map, corporate managers can marked it as a ceased airport with a date.
+    - The movement of ceased airports should but be aggregated when getting the aggregated airplane movements if the ceased date is after the slected time span.
+- As a corporate manager, I want to see a count of how many airports I have.
+    - The count of airports should be prominently displayed on the corporate manager's dashboard.
+    - The count must be updated in real-time to reflect any additions, removals, or changes in the status of airports.
+
+#### Facility (Airport) Manager User Stories for Python Airways:
+
+- As a facility manager, I want to view what airplanes and how many I have in my airports.
+    - After clicking on an airport on the map, the system should provide a detailed list showing the quantity of each airplane model.
+    - The information displayed should be updated in real-time to reflect recent arrivals or departures.
+- As a facility manager, I want to see a list of movement that had the same airplane ID.
+    - Facility managers can view the list of movement by choosing the specific airplane type and filter it with arrival or departure airports if desired.
+- As a facility manager, I want to record a future airplane movement (a shipment whose date and/or time is in the future).
+    - When recording future movement, the system should ask the facility manager to provide following details: Arrival and Departure Airport ID, Arrival and Departure Date and Aircraft ID.
+    - The system must validate the scheduled date and time to ensure they are in the future.
+    - The system must make sure that the departure airport has enough airplanes and display an error message if the airport does not.
+- As a facility manager, I want to record an airplane movement that has arrived at or left the airport and I want this to automatically update my airport.
+    - When recording past movement, the system should ask the facility manager to provide following details: Arrival and Departure Airport ID, Arrival and Departure Date and Aircraft ID.
+    - The system must validate the scheduled date and time to ensure they are in the past.
+    - After recording the movement, the number of aircraft at the airports should reflect the change.
+- As a facility manager, I want to view what I used to have in my airports at some time in the past, and what I will have in my airport at some point in the future.
+    - Facility manager can select a specific date after clicking on the airport and see the number of airport based on corresponding date.
 
 1. You
    1. Can
@@ -194,39 +186,48 @@ B <-->|Django ORM| C
 
 ```mermaid
 ---
-title: Sample Database ERD for an Order System
+title: Database for Aircraft Manager
 ---
 erDiagram
-    Customer ||--o{ Order : "placed by"
-    Order ||--o{ OrderItem : "contains"
-    Product ||--o{ OrderItem : "included in"
+    userprofile ||--o{ aircrafttable : "created by"
+    userprofile ||--o{ airporttable : "created by"
+    userprofile ||--o{ movementtable : "created by"
+    airporttable ||--o{ movementtable : "included in"
+    aircrafttable ||--o{ movementtable : "included in"
+    airporttable ||--o{ aircrafttable : "included in"
 
-    Customer {
-        int customer_id PK
-        string name
-        string email
-        string phone
+    userprofile {
+        int userId PK
+        string username
+        string password
+        enum role
     }
 
-    Order {
-        int order_id PK
-        int customer_id FK
-        string order_date
+    aircrafttable {
+        int aircraftId PK
+        int tailNumber
+        enum aircraftType
         string status
+        string location
     }
 
-    Product {
-        int product_id PK
-        string name
-        string description
-        decimal price
+    airporttable {
+        int airportId PK
+        string airportCode
+        string latitude
+        string longitude
+        int numAircraft
+        int userId FK
     }
 
-    OrderItem {
-        int order_item_id PK
-        int order_id FK
-        int product_id FK
-        int quantity
+    movementtable {
+        int movementId PK
+        int arrivalAirportId FK
+        int originAirportId FK
+        string arrivalDate
+        string departureDate
+        int aircraftId FK
+        int userId FK
     }
 ```
 
@@ -446,3 +447,33 @@ while (x == y) {
 ##### Dependency Management
 
 - Use a dependency management tool to manage libraries and frameworks the project depends on, ensuring that everyone uses the same version.
+
+#### 9. Unit Testing
+
+##### Test Structure and Naming Conventions
+
+- **Test Files:** Test files should reside in a dedicated `tests directory` that mirrors the structure of the project's source code. Each test file name should start with `test_` followed by the name of the module it's testing.
+
+- **Test Functions:** Test functions should be named using the pattern `test_<functionality_being_tested>`. This naming convention ensures clarity and ease of understanding regarding what each test does and what it aims to verify.
+
+##### Test Isolation
+- Each unit test should focus on a single aspect of functionality and should run independently of other tests.
+
+##### Assertive and Clear Test Cases
+- Tests should assert conditions directly and clearly, with assertions made about the expected outcome of the test.
+- Aim for simplicity and clarity in test logic to make tests easy to understand and maintain.
+
+##### Documentation and Comments
+
+- Include a brief comment at the beginning of each test function describing what the test aims to verify. Especially, when testing special cases or edge cases.
+
+##### Frontend
+
+- Use `React.js` as the unit testing framework for javascript.
+
+##### Backend
+
+- Use `Django's unit test (Django.test)` which utilizes python standard library `unittest` as the unit testing framework for python.
+- More information could be found [here](https://docs.djangoproject.com/en/5.0/topics/testing/overview/).
+
+#### 10. CI/CD
