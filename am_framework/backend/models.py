@@ -1,3 +1,4 @@
+from django.db import models
 
 # The following model are adapted from 
 # InitialDatabase.sql placed in repo root directory
