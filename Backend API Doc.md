@@ -74,33 +74,6 @@ Criteria specifying invalid or non-existing field names will be **ignored when p
 ##### Request Usage 
 
 - URL Scheme: `{apisetname}/`
-- Body: JSON object containing:
-  - Primary key of the entry you want to modify.
-  - Field names (keys) and corresponding values of the table. 
-
-
-##### Description
-
-Modify the entry with specified primary key value from the target table with corresponding field names and values.
-
-**NOTE:** Primary keys presented in requests will be **ignored**, since they are auto-increment in tables.
-
-##### Response
-
-- `success: "False"` if one or more fields (**except primary keys**) of the table are not presented in the request.
-  - Status code will be `HTTP 400`. 
-  - `data` item will be `null`.
-  - `"message": "missing necessary fields in request body"` will be given.
-- `success: "True"` if an entry has been created successfully.
-  - Status code will be `HTTP 200`.
-  - `data` item will be a JSON list, containing a single JSON object serialized from the entry just created in the table.
-  - `"message": "entry created"` will be given.
-
-#### `PUT` request
-
-##### Request Usage 
-
-- URL Scheme: `{apisetname}/`
 - Body: JSON object containing field name and corresponding values of the table. 
 
 ##### Description
@@ -119,6 +92,36 @@ Create entries from the target table with corresponding field names and values.
   - Status code will be `HTTP 200`.
   - `data` item will be `null`.
   - `"message": "entry updated"` will be given.
+
+
+
+#### `PUT` request
+
+##### Request Usage 
+
+- URL Scheme: `{apisetname}/`
+- Body: JSON object containing:
+  - Primary key of the entry you want to modify.
+  - Field names (keys) and corresponding values of the table. 
+
+##### Description
+
+Modify the entry with specified primary key value from the target table with corresponding field names and values.
+
+**NOTE:** Primary keys presented in requests will be **ignored**, since they are auto-increment in tables.
+
+##### Response
+
+- `success: "False"` if one or more fields (**except primary keys**) of the table are not presented in the request.
+  - Status code will be `HTTP 400`. 
+  - `data` item will be `null`.
+  - `"message": "missing necessary fields in request body"` will be given.
+- `success: "True"` if an entry has been created successfully.
+  - Status code will be `HTTP 200`.
+  - `data` item will be a JSON list, containing a single JSON object serialized from the entry just created in the table.
+  - `"message": "entry created"` will be given.
+
+
 
 #### `DELETE` request
 
