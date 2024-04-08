@@ -14,19 +14,19 @@ class aircrafttable(models.Model):
     tailNumber = models.CharField(max_length=45, null=True)
     #Define a Django Enum type for the aircraft
     class aType(models.TextChoices):
-        A320 = "A320"
-        A321 = "A321"
-        A330 = "A330"
-        A350 = "A350"
-        B737 = "B737"
-        B757 = "B757"
-        B767 = "B767"
-        B787 = "B787"
-        B777 = "B777"
+        A320 = "A320", "A320"
+        A321 = "A321", "A321"
+        A330 = "A330", "A330"
+        A350 = "A350", "A350"
+        B737 = "B737", "B737"
+        B757 = "B757", "B757"
+        B767 = "B767", "B767"
+        B787 = "B787", "B787"
+        B777 = "B777", "B777"
     aircraftType = models.CharField(choices= aType,max_length = 4, null=True)
     status = models.CharField(max_length=45, null=True)
     location = models.CharField(max_length=4, null=True)
-    userId = models.ForeignKey("UserID", on_delete=models.CASCADE)
+    userId = models.ForeignKey("userprofile", on_delete=models.CASCADE, default=1)
 
 #Table in database to store information about airports
 #Contains columns for the primary key (airportId)
@@ -37,10 +37,10 @@ class aircrafttable(models.Model):
 class airporttable(models.Model):
     airportId = models.AutoField(primary_key =True)
     airportCode = models.CharField(max_length = 4)
-    latitude = models.DecimalField(max_length = 5,decimal_places=3)
-    longitude = models.DecimalField(max_length = 5,decimal_places=3)
+    latitude = models.DecimalField(max_digits = 6,decimal_places=3)
+    longitude = models.DecimalField(max_digits = 7,decimal_places=3)
     numAircraft = models.IntegerField(null = True)
-    userId = models.ForeignKey("UserID", on_delete=models.CASCADE)
+    userId = models.ForeignKey("userprofile", on_delete=models.CASCADE, default=1)
 
 #Movement table to track all movements of aircraft between models
 #This table is where most information and modifications of data will be contained
@@ -57,8 +57,8 @@ class movementtable(models.Model):
     originAirportId = models.IntegerField(null = True)
     arrivalDate = models.DateTimeField(max_length = 8)
     departureDate = models.DateTimeField(max_length = 8)
-    aircraftId = models.ForeignKey("AircraftId", on_delete=models.CASCADE)
-    userId = models.ForeignKey("UserID", on_delete=models.CASCADE)
+    aircraftId = models.ForeignKey("aircrafttable", on_delete=models.CASCADE, default=1)
+    userId = models.ForeignKey("userprofile", on_delete=models.CASCADE, default=1)
 
 #The userId controls authorization for the program and stores user info
 #userId is the primary key for the usertable
@@ -71,9 +71,9 @@ class userprofile(models.Model):
     password = models.CharField(max_length = 45)
     #Limit roles to preset conditions
     class roleChoice(models.TextChoices):
-        admin = "admin"
-        corporate = "corporate"
-        facility = "facility"
+        ADMIN = "admin", "Admin"
+        CORPORATE = "corporate", "Corporate"
+        FACILITY = "facility", "Facility"
     role = models.CharField(choices=roleChoice,max_length = 9, null = True)
 
 
