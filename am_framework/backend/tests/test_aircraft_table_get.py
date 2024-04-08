@@ -18,11 +18,11 @@ class AircraftTableGetTest(TestCase):
         cls.rootUser = userprofile.objects.create(username='root',password='1234', role='admin')
         cls.aircrafts = []
         cls.aircrafts.append(aircrafttable.objects.create(
-            tailNumber='111',aircraftType='A320',status='Departured',location='LAX'))
+            tailNumber='111',aircraftType='A320',status='Departured',location='LAX', userId=cls.rootUser))
         cls.aircrafts.append(aircrafttable.objects.create(
-            tailNumber='222',aircraftType='A320',status='Arrived',location='ORD'))
+            tailNumber='222',aircraftType='A320',status='Arrived',location='ORD', userId=cls.rootUser))
         cls.aircrafts.append(aircrafttable.objects.create(
-            tailNumber='333',aircraftType='A330',status='Departured',location='ORD'))
+            tailNumber='333',aircraftType='A330',status='Departured',location='ORD', userId=cls.rootUser))
         cls.client = APIClient()
 
 
@@ -40,7 +40,7 @@ class AircraftTableGetTest(TestCase):
     '''
     Test with no filter, should return all entries of aircrafts
     '''
-    def test_get_all_entries(self):
+    def test_aircraft_get_all_entries(self):
         # Send response with no parameters
         response = self.client.get('/api/aircraft/')
         # Check if status code is 200 (success)
@@ -57,7 +57,7 @@ class AircraftTableGetTest(TestCase):
     '''
     Test getting only one entry with primaryId
     '''
-    def test_get_single_entry_with_primaryId(self):
+    def test_aircraft_get_single_entry_with_primaryId(self):
         '''
         Send get request with primary ID
         '''
@@ -74,7 +74,7 @@ class AircraftTableGetTest(TestCase):
     '''
     Test getting only one entry with Non-primary ID field
     '''
-    def test_get_single_entry_with_nonprimaryId(self):
+    def test_aircraft_get_single_entry_with_nonprimaryId(self):
         '''
         Send get request with tailNumber
         '''
@@ -128,7 +128,7 @@ class AircraftTableGetTest(TestCase):
     '''
     Test getting multiple entries with Non-primary ID field
     '''
-    def test_get_multiple_entries_with_nonprimaryId(self):
+    def test_aircraft_get_multiple_entries_with_nonprimaryId(self):
         '''
         Send get reqeust with aircraftType
         '''
@@ -171,7 +171,7 @@ class AircraftTableGetTest(TestCase):
     '''
     Test getting entries with mutiple fields filter
     '''
-    def test_get_entries_with_multiple_fields(self):
+    def test_aircraft_get_entries_with_multiple_fields(self):
         '''
         Use all fields to get the exact entry
         '''
@@ -228,7 +228,7 @@ class AircraftTableGetTest(TestCase):
     '''
     Test getting entries with non-existing fields filter
     '''
-    def test_get_entries_with_nonexisting_fields(self):
+    def test_aircraft_get_entries_with_nonexisting_fields(self):
         '''
         Use non-existing fields to get all entries, all fields should be filtered
         '''
