@@ -37,7 +37,8 @@ def readcsv():
         cursor.execute(sql,val)
         db.commit()
         #CREATE INITIAL MOVEMENT TABLE ENTRY
-        sql = "INSERT INTO movementtable(airportID,arrivalDate,"
+        sql = "INSERT INTO movementtable(airportId,aircraftId,userId) VALUES(%s,%s,%s)"
+        val = ()
         cursor.execute(sql, val)
         db.commit()
 
