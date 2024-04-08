@@ -74,33 +74,6 @@ Criteria specifying invalid or non-existing field names will be **ignored when p
 ##### Request Usage 
 
 - URL Scheme: `{apisetname}/`
-- Body: JSON object containing:
-  - Primary key of the entry you want to modify.
-  - Field names (keys) and corresponding values of the table. 
-
-
-##### Description
-
-Modify the entry with specified primary key value from the target table with corresponding field names and values.
-
-**NOTE:** Primary keys presented in requests will be **ignored**, since they are auto-increment in tables.
-
-##### Response
-
-- `success: "False"` if one or more fields (**except primary keys**) of the table are not presented in the request.
-  - Status code will be `HTTP 400`. 
-  - `data` item will be `null`.
-  - `"message": "missing necessary fields in request body"` will be given.
-- `success: "True"` if an entry has been created successfully.
-  - Status code will be `HTTP 200`.
-  - `data` item will be a JSON list, containing a single JSON object serialized from the entry just created in the table.
-  - `"message": "entry created"` will be given.
-
-#### `PUT` request
-
-##### Request Usage 
-
-- URL Scheme: `{apisetname}/`
 - Body: JSON object containing field name and corresponding values of the table. 
 
 ##### Description
@@ -111,14 +84,66 @@ Create entries from the target table with corresponding field names and values.
 
 ##### Response
 
+- `success: "False"` if one or more fields (**except primary keys**) of the table are not presented in the request.
+  - Status code will be `HTTP 400`. 
+  - `data` item will be `null`.
+  - `"message": "missing necessary fields in request body"` will be given.
+- `success: "False"` if at least one foreign key cannot be found in its corresponding database table.
+  - Status code will be `HTTP 404`. 
+  - `data` item will be a JSON list containing JSON objects. Each object has the following format:
+    ```json
+    {
+        "key": "Field Name of Foreign Key",
+        "value": "Value of Foreign Key in request",
+        "model": "Name of Model this Foreign Key related to"
+    }
+    ```
+  - `"message": "foreign key(s) not found in foreign model(s)"` will be given.
+- `success: "True"` if an entry has been created successfully.
+  - Status code will be `HTTP 200`.
+  - `data` item will be a JSON list, containing a single JSON object serialized from the entry just created in the table.
+  - `"message": "entry created"` will be given.
+
+
+
+#### `PUT` request
+
+##### Request Usage 
+
+- URL Scheme: `{apisetname}/`
+- Body: JSON object containing:
+  - Primary key of the entry you want to modify.
+  - Field names (keys) and corresponding values of the table. 
+
+##### Description
+
+Modify the entry with specified primary key value from the target table with corresponding field names and values.
+
+**NOTE:** Primary keys presented in requests will be **ignored**, since they are auto-increment in tables.
+
+##### Response
+
 - `success: "False"` if the entry specified in the request body cannot be found.
   - Status code will be `HTTP 404`. 
   - `data` item will be `null`.
   - `"message": "entry not found"`will be given.
+- `success: "False"` if at least one foreign key cannot be found in its corresponding database table.
+  - Status code will be `HTTP 404`. 
+  - `data` item will be a JSON list containing JSON objects. Each object has the following format:
+    ```json
+    {
+        "key": "Field Name of Foreign Key",
+        "value": "Value of Foreign Key in request",
+        "model": "Name of Model this Foreign Key related to"
+    }
+    ```
+  - `"message": "foreign key(s) not found in foreign model(s)"` will be given.
 - `success: "True"` if the entry specified is found and updated.
   - Status code will be `HTTP 200`.
   - `data` item will be `null`.
   - `"message": "entry updated"` will be given.
+
+
 
 #### `DELETE` request
 
@@ -152,7 +177,7 @@ Only parameter `{pk}`: Primary key name of the target table, with the value be t
 
 ### Description
 
-Only `GET` is available under this `View`. Any other type of REST API request will be rejected with the following response, with status code `HTTP 400`:
+Only `GET` is available under this `View`. Any other type of REST API request will be rejected with the following response, with status code `HTTP 405`:
 
 ```json
 {
