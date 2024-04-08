@@ -30,7 +30,7 @@ class AirportTablePostTest(TestCase):
             'latitude':33.94,
             'longitude':-118.41,
             'numAircraft':10,
-            'userId': 1
+            'userId': self.rootUser.userId
         }
         response = self.client.post('/api/airport/', json.dumps(data), content_type='application/json')
 
@@ -137,7 +137,7 @@ class AirportTablePostTest(TestCase):
             'latitude':33.94,
             'longitude':-118.41,
             'numAircraft':10,
-            'userId': 1,
+            'userId': self.rootUser.userId,
             'extraFiled1':'ABC',
             'extraFiled2':'XYZ',
         }

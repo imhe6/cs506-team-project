@@ -30,7 +30,7 @@ class AircraftTablePostTest(TestCase):
             'aircraftType':'A320',
             'status':'Departured',
             'location':'LAX',
-            'userId': 1
+            'userId': self.rootUser.userId
         }
         response = self.client.post('/api/aircraft/', json.dumps(data), content_type='application/json')
 
@@ -137,7 +137,7 @@ class AircraftTablePostTest(TestCase):
             'aircraftType':'A320',
             'status':'Departured',
             'location':'ORD',
-            'userId': 1,
+            'userId': self.rootUser.userId,
             'extraFiled1':'ABC',
             'extraFiled2':'XYZ'
         }
