@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.utils import timezone
 
 
 class AircraftManagerAPIView(APIView):
@@ -248,3 +249,39 @@ class UserProfileTableView(FrontendReadOnlyAPIView):
         model = userprofile
         serializer = UserSerializer
         super().__init__(model=model, serializer=serializer, **kwargs)
+
+class FutureMovementAPIView(APIView):
+    """
+    API view to handle recording of future airplane movements by facility managers.
+    
+    This view ensures that only movements with a date and/or time in the future are recorded,
+    aligning with the requirements for facility managers to schedule future airplane movements.
+    """
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests to create new future airplane movements.
+        
+        Validates that the specified date and/or time for the airplane movement is in the future.
+        If the validation passes, the movement is recorded; otherwise, an error is returned.
+        
+        :param request: The HTTP request object.
+        :return: A Response object with creation status and data or error message.
+        """
+        serializer = MovementSerializer(data=request.data)
+
+        if serializer.is_valid():
+            movement_date = serializer.validated_data.get('arrivalDate')
+
+            # Check if the movement date is indeed in the future.
+            if movement_date and movement_date <= timezone.now():
+                return Response({
+                    'error': 'The movement date must be in the future.'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            # Save the valid future movement to the database.
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        # Return validation errors if the data is not valid.
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
