@@ -105,7 +105,7 @@ class AircraftManagerAPIView(APIView):
                       "data": None},
                 status=400)
         filteredDataDict = self.filterExistFields(dataDict)
-        print("Filtered dict from JSON in Request Body: ", filteredDataDict)
+        # print("Filtered dict from JSON in Request Body: ", filteredDataDict)
         # if primary key is specified in the request body, ignore it
         if self.pkName in filteredDataDict:
             print("Found primary key in Dict:",
