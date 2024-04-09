@@ -66,6 +66,9 @@ function Header() {
               <Button as={RouterLink} to="/map" onClick={onClose}>
                 Map
               </Button>
+              <Button as={RouterLink} to="/editairports" onClick={onClose}>
+                Edit Airports
+              </Button>
             </VStack>
           </DrawerBody>
         </DrawerContent>
