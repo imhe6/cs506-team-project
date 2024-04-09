@@ -93,7 +93,7 @@ The following user requirements reflect the unique aspects of Python Airways' op
 |Backend Unit Test - Airport Table Post| Test Passed |
 |Frontend Unit Test - Send post request with json data | N/A |
 |Integration Test | N/A |
-|Manual Testing | Test Passed |
+|Manual Testing - Get all entries stored in database| Test Passed |
 
 - As a corporate manager, I want to see my airports represented on a map.
 
@@ -102,7 +102,7 @@ The following user requirements reflect the unique aspects of Python Airways' op
 |Backend Unit Test - Airport Table Get| Test Passed |
 |Frontend Unit Test - Send get request | N/A |
 |Integration Test | N/A |
-|Manual Testing | Test Passed |
+|Manual Testing - Send data to backend and create new entry in database | Test Passed |
 - As a corporate manager, I want to see an aggregate of the airplane movements that has come in to and gone out from all airports over an arbitrary time span.
 
 |Tests| Status |
@@ -110,7 +110,7 @@ The following user requirements reflect the unique aspects of Python Airways' op
 |Backend Unit Test - Movement Table Get| Test Passed |
 |Frontend Unit Test - Send get request | N/A |
 |Integration Test | N/A |
-|Manual Testing | N/A |
+|Manual Testing - Get all entries over the time span from database| N/A |
 - As a facility manager, I want to view what airplanes and how many I have in my airports.
 
 |Tests| Status |
@@ -118,7 +118,7 @@ The following user requirements reflect the unique aspects of Python Airways' op
 |Backend Unit Test - Aircraft Table Get| Test Passed |
 |Frontend Unit Test - Send get request | N/A |
 |Integration Test | N/A |
-|Manual Testing | N/A |
+|Manual Testing - Get all entries in any airport from database| N/A |
 
 ### User Interface Requirements
 
