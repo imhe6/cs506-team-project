@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import starIconUrl from '../images/starIcon.png';
-import { Box } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
+import axios from 'axios';
 
-// Define a custom icon using the Leaflet icon method
+const starIconUrl = require('../images/starIcon.png');
 const starIcon = new L.Icon({
   iconUrl: starIconUrl,
   iconSize: [25, 25],
@@ -13,25 +13,47 @@ const starIcon = new L.Icon({
   popupAnchor: [1, -34],
 });
 
-const airports = [
-  { name: 'LAX', position: [33.9416, -118.4085] },
-  { name: 'O\'Hare', position: [41.9742, -87.9073] },
-  { name: 'JFK', position: [40.6413, -73.7781] },
-];
-
 function MapPage() {
-    return (
-      <Box p={5}>
-        <MapContainer center={[39.8283, -98.5795]} zoom={4} style={{ height: '600px', width: '100%' }}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {airports.map(airport => (
-            <Marker key={airport.name} position={airport.position} icon={starIcon}>
-              <Popup>{airport.name}</Popup>
-            </Marker>
-          ))}
-        </MapContainer>
-      </Box>
-    );
+  const [airports, setAirports] = useState([]);
+
+  const baseUrl = 'http://localhost:8000/api'; 
+  const apiSetName = 'airport';
+
+  const fetchAirports = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/${apiSetName}/`);
+      console.log('API response:', response.data);
+      if (response.data.success) {
+        setAirports(response.data.data);
+      } else {
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching airports:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAirports(); // Fetch airports on initial page load
+  }, []); 
+
+  const handleEditAirports = () => {
+    window.location.href = '/editairports'; 
+  };
+
+  return (
+    <Box p={5}>
+       <Button colorScheme="blue" color="white" mb={4} onClick={handleEditAirports}>Edit Airports</Button>
+      <MapContainer center={[39.8283, -98.5795]} zoom={4} style={{ height: '600px', width: '100%' }}>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {airports.map((airport) => (
+          <Marker key={airport.airportId} position={[parseFloat(airport.latitude), parseFloat(airport.longitude)]} icon={starIcon}>
+            <Popup>{airport.airportCode}</Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </Box>
+  );
 }
 
 export default MapPage;

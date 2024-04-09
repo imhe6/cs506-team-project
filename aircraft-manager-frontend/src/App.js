@@ -9,6 +9,7 @@ import DashboardPage from "./pages/DashboardPage";
 import Footer from "./components/Footer";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Terms from "./components/Terms";
+import EditAirportsPage from "./pages/EditAirportsPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/map" element={<MapPage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/editairports" element={<EditAirportsPage />} />
         </Routes>
         <Footer />
       </Box>
