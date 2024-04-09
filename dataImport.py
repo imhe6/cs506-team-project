@@ -1,3 +1,5 @@
+#DO NOT USE YET. Not set up for Django integration.
+
 import csv
 import mysql.connector
 
@@ -19,13 +21,13 @@ def readcsv():
     db = mysql.connector.connect(
         host ="localhost",
         user = "root",
-        password = "xuqh0101",
-        database = "aircraft_manager"
+        password = "TempPassword",
+        database = "aircraftFleet"
     )
     cursor = db.cursor()
     #Add admin user to userprofile
     sql = "INSERT INTO userprofile(username,password,role) VALUES (%s,%s,%s)"
-    val =("admin","thePassword","admin")
+    val =("admin","thePassword","corporate")
     cursor.execute(sql, val)
     db.commit()
     adminId = cursor.lastrowid
@@ -36,11 +38,12 @@ def readcsv():
         val =(entry[0],entry[1],entry[2],entry[3])
         cursor.execute(sql,val)
         db.commit()
+        #query = "SELECT airportId WHERE airporttable.airportCode = "
         #CREATE INITIAL MOVEMENT TABLE ENTRY
-        sql = "INSERT INTO movementtable(airportId,aircraftId,userId) VALUES(%s,%s,%s)"
-        val = ()
-        cursor.execute(sql, val)
-        db.commit()
+        #sql = "INSERT INTO movementtable(airportId,aircraftId) VALUES(%s,%s)"
+        #val = ()
+        #cursor.execute(sql, val)
+        #db.commit()
 
 
 
