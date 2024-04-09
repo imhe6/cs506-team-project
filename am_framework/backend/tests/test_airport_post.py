@@ -16,7 +16,9 @@ class AirportTablePostTest(TestCase):
     '''
     @classmethod
     def setUpTestData(cls):
-        cls.rootUser = userprofile.objects.create(username='root',password='1234', role='admin')
+        cls.rootUser = userprofile.objects.create(username='root',
+                                                  password='1234',
+                                                  role='admin')
         cls.client = APIClient()
 
     '''
@@ -32,7 +34,8 @@ class AirportTablePostTest(TestCase):
             'numAircraft':10,
             'userId': self.rootUser.userId
         }
-        response = self.client.post('/api/airport/', json.dumps(data), content_type='application/json')
+        response = self.client.post('/api/airport/', json.dumps(data),
+                                    content_type='application/json')
 
         # Check if the response is success (status code 201)
         self.assertEqual(response.status_code, 201)
@@ -51,12 +54,14 @@ class AirportTablePostTest(TestCase):
     def test_airport_post_with_no_fields(self):
         # Crate an empty entry and send it in json format
         data = {}
-        response = self.client.post('/api/airport/', json.dumps(data), content_type='application/json')
+        response = self.client.post('/api/airport/', json.dumps(data),
+                                    content_type='application/json')
 
         # Check if the response is fail (status code 400)
         self.assertEqual(response.status_code, 400)
         # Check the resonse message
-        self.assertEqual(response.json()['message'], 'missing necessary fields in request body')
+        self.assertEqual(response.json()['message'],
+                         'missing necessary fields in request body')
         self.assertEqual(response.json()['success'], False)
 
     '''
@@ -68,12 +73,14 @@ class AirportTablePostTest(TestCase):
         data = {
             'airportCode':'LAX'
         }
-        response = self.client.post('/api/airport/', json.dumps(data), content_type='application/json')
+        response = self.client.post('/api/airport/', json.dumps(data),
+                                    content_type='application/json')
 
         # Check if the response is fail (status code 400)
         self.assertEqual(response.status_code, 400)
         # Check the resonse message
-        self.assertEqual(response.json()['message'], 'missing necessary fields in request body')
+        self.assertEqual(response.json()['message'],
+                         'missing necessary fields in request body')
         self.assertEqual(response.json()['success'], False)
 
         # Check if the entry was created in database
@@ -83,12 +90,14 @@ class AirportTablePostTest(TestCase):
         data = {
             'latitude':33.94
         }
-        response = self.client.post('/api/airport/', json.dumps(data), content_type='application/json')
+        response = self.client.post('/api/airport/', json.dumps(data),
+                                    content_type='application/json')
 
         # Check if the response is fail (status code 400)
         self.assertEqual(response.status_code, 400)
         # Check the resonse message
-        self.assertEqual(response.json()['message'], 'missing necessary fields in request body')
+        self.assertEqual(response.json()['message'],
+                         'missing necessary fields in request body')
         self.assertEqual(response.json()['success'], False)
 
         # Check if the entry was created in database
@@ -98,27 +107,32 @@ class AirportTablePostTest(TestCase):
         data = {
             'longitude':-118.41
         }
-        response = self.client.post('/api/airport/', json.dumps(data), content_type='application/json')
+        response = self.client.post('/api/airport/', json.dumps(data),
+                                    content_type='application/json')
 
         # Check if the response is fail (status code 400)
         self.assertEqual(response.status_code, 400)
         # Check the resonse message
-        self.assertEqual(response.json()['message'], 'missing necessary fields in request body')
+        self.assertEqual(response.json()['message'],
+                         'missing necessary fields in request body')
         self.assertEqual(response.json()['success'], False)
 
         # Check if the entry was created in database
-        self.assertFalse(airporttable.objects.filter(longitude=-118.41).exists())
+        self.assertFalse(airporttable.objects.filter(longitude=-118.41
+                                                     ).exists())
 
         # Crate an entry with only numAircraft and send it in json format
         data = {
             'numAircraft':10
         }
-        response = self.client.post('/api/airport/', json.dumps(data), content_type='application/json')
+        response = self.client.post('/api/airport/', json.dumps(data),
+                                    content_type='application/json')
 
         # Check if the response is fail (status code 400)
         self.assertEqual(response.status_code, 400)
         # Check the resonse message
-        self.assertEqual(response.json()['message'], 'missing necessary fields in request body')
+        self.assertEqual(response.json()['message'],
+                         'missing necessary fields in request body')
         self.assertEqual(response.json()['success'], False)
 
         # Check if the entry was created in database
@@ -141,7 +155,8 @@ class AirportTablePostTest(TestCase):
             'extraFiled1':'ABC',
             'extraFiled2':'XYZ',
         }
-        response = self.client.post('/api/airport/', json.dumps(data), content_type='application/json')
+        response = self.client.post('/api/airport/', json.dumps(data),
+                                    content_type='application/json')
 
         # Check if the response is success (status code 201)
         self.assertEqual(response.status_code, 201)
