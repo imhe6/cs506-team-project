@@ -35,7 +35,7 @@ Issue to add: React coding standards
 
 ## Sprint 3 Planning
 
-Apr 10 - May 12
+Apr 10 - May 8
 
 ~
 -
