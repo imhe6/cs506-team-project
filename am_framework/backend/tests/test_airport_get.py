@@ -15,26 +15,33 @@ class AirportTableGetTest(TestCase):
     '''
     @classmethod
     def setUpTestData(cls):
-        cls.rootUser = userprofile.objects.create(username='root',password='1234', role='admin')
+        cls.rootUser = userprofile.objects.create(username='root',
+                                                  password='1234', 
+                                                  role='admin')
         cls.airports = []
         cls.airports.append(airporttable.objects.create(
-            airportCode='LAX',latitude=33.94,longitude=-118.41,numAircraft=10, userId=cls.rootUser))
+            airportCode='LAX',latitude=33.94,longitude=-118.41,
+            numAircraft=10, userId=cls.rootUser))
         cls.airports.append(airporttable.objects.create(
-            airportCode='ORD',latitude=41.98,longitude=-87.90,numAircraft=10, userId=cls.rootUser))
+            airportCode='ORD',latitude=41.98,longitude=-87.90,
+            numAircraft=10, userId=cls.rootUser))
         cls.airports.append(airporttable.objects.create(
-            airportCode='LGA',latitude=40.77,longitude=-73.87,numAircraft=15, userId=cls.rootUser))
+            airportCode='LGA',latitude=40.77,longitude=-73.87,
+            numAircraft=15, userId=cls.rootUser))
         cls.client = APIClient()
 
 
     '''
-    This is a helper class that compares each fields between the airport get from database and 
-    the created airport.
+    This is a helper class that compares each fields between the airport
+    get from database and the created airport.
     '''
     def compareHelper(self, airportGot: dict, airportCreated: airporttable):
         self.assertEqual(airportGot['airportId'], airportCreated.airportId)
         self.assertEqual(airportGot['airportCode'], airportCreated.airportCode)
-        self.assertAlmostEqual(float(airportGot['latitude']), airportCreated.latitude, places=2)
-        self.assertAlmostEqual(float(airportGot['longitude']), airportCreated.longitude, places=2)
+        self.assertAlmostEqual(float(airportGot['latitude']), 
+                               airportCreated.latitude, places=2)
+        self.assertAlmostEqual(float(airportGot['longitude']), 
+                               airportCreated.longitude, places=2)
         self.assertEqual(airportGot['numAircraft'], airportCreated.numAircraft)
         
     '''
@@ -62,7 +69,8 @@ class AirportTableGetTest(TestCase):
         Send get request with primary ID
         '''
         for i in range(len(self.airports)):
-            # Send response with primary ID (airportID) should only get one entry
+            # Send response with primary ID (airportID) should only get one
+            # entry
             response = self.client.get(f'/api/airport/?airportId={i+1}')
             # Check if we get only one entry
             data = response.json()['data']
@@ -191,7 +199,8 @@ class AirportTableGetTest(TestCase):
     '''
     def test_airport_get_entries_with_nonexisting_fields(self):
         '''
-        Use non-existing fields to get all entries, all fields should be filtered
+        Use non-existing fields to get all entries, all fields should be
+        filtered
         '''
         url =  f'/api/airport/?field1=var1&field2=var2'
         response = self.client.get(url)

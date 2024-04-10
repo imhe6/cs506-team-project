@@ -84,12 +84,41 @@ The following user requirements reflect the unique aspects of Python Airways' op
 - As a facility manager, I want to view what I used to have in my airports at some time in the past, and what I will have in my airport at some point in the future.
     - Facility manager can select a specific date after clicking on the airport and see the number of airport based on corresponding date.
 
-1. You
-   1. Can
-      1. Also
-2. Use
-   1. Numbered
-      1. Lists
+### Testing Plan for User Stories
+
+#### As a corporate manager, I want to create a new airport.
+
+|Tests| Status |
+|---- | -------- |
+|Backend Unit Test - Airport Table Post| Test Passed |
+|Frontend Unit Test - Send post request with json data | N/A |
+|Integration Test | N/A |
+|Manual Testing - Get all entries stored in database| Test Passed |
+
+- As a corporate manager, I want to see my airports represented on a map.
+
+|Tests| Status |
+|---- | -------- |
+|Backend Unit Test - Airport Table Get| Test Passed |
+|Frontend Unit Test - Send get request | N/A |
+|Integration Test | N/A |
+|Manual Testing - Send data to backend and create new entry in database | Test Passed |
+- As a corporate manager, I want to see an aggregate of the airplane movements that has come in to and gone out from all airports over an arbitrary time span.
+
+|Tests| Status |
+|---- | -------- |
+|Backend Unit Test - Movement Table Get| Test Passed |
+|Frontend Unit Test - Send get request | N/A |
+|Integration Test | N/A |
+|Manual Testing - Get all entries over the time span from database| N/A |
+- As a facility manager, I want to view what airplanes and how many I have in my airports.
+
+|Tests| Status |
+|---- | -------- |
+|Backend Unit Test - Aircraft Table Get| Test Passed |
+|Frontend Unit Test - Send get request | N/A |
+|Integration Test | N/A |
+|Manual Testing - Get all entries in any airport from database| N/A |
 
 ### User Interface Requirements
 
