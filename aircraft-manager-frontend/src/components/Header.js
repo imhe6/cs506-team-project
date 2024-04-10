@@ -42,8 +42,8 @@ function Header() {
     <Image
       src={companyName}
       alt="Company Name"
-      height="10%" // or you might want to adjust this value
-      maxH="180px"   // Adjust the max height as required
+      height="10%" 
+      maxH="180px"   
       objectFit="contain"
       mx="auto"
       my="2"

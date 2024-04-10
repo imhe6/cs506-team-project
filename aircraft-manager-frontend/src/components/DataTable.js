@@ -5,11 +5,10 @@ import { Table, Thead, Tbody, Tr, Th, Td, Box, Input, Button } from '@chakra-ui/
 function DataTable() {
     const [data, setData] = useState([]);
 
-    // 예시를 위한 초기 데이터 로딩
+    // example data
     useEffect(() => {
         const fetchData = async () => {
-            // API 호출로 데이터를 가져오는 로직을 여기에 구현
-            // 예시 데이터
+            // Backend API call
             const fetchedData = [
                 { aircraftId: 1, tailNumber: "N12345", location: "LAX", status: "In Flight" },
                 { aircraftId: 2, tailNumber: "N67890", location: "JFK", status: "Landed" },
@@ -26,7 +25,7 @@ function DataTable() {
         {
             Header: 'Aircraft ID',
             accessor: 'aircraftId',
-            // 필터 컴포넌트 사용, 필요에 따라 커스텀 가능
+        
             Filter: DefaultColumnFilter
         },
         {
@@ -46,7 +45,7 @@ function DataTable() {
         }
     ], []);
 
-    // 기본 필터 UI
+
     function DefaultColumnFilter({
         column: { filterValue, preFilteredRows, setFilter },
     }) {
