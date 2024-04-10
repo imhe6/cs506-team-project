@@ -20,3 +20,22 @@ Mar 13 - Apr 11
 
 Issue to add: React coding standards
 
+## Sprint 2 Retrospective
+
+### what we have done well
+
+- Good Communication
+- Good progresss
+- doing lots of Issue
+
+### What we need to improve
+
+- Further communication
+- More push demo
+
+## Sprint 3 Planning
+
+Apr 10 - May 12
+
+~
+-
