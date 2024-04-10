@@ -1,35 +1,148 @@
-import React from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useTable, useSortBy, usePagination, useFilters } from 'react-table';
+import { Table, Thead, Tbody, Tr, Th, Td, Box, Input, Button } from '@chakra-ui/react';
 
 function DataTable() {
-    const data = [
-        { aircraftId: 1, tailNumber: "N12345", location: "LAX", status: "In Flight" },
-        { aircraftId: 2, tailNumber: "N67890", location: "JFK", status: "Landed" },
-        { aircraftId: 3, tailNumber: "N54321", location: "ORD", status: "Delayed" },
-        { aircraftId: 4, tailNumber: "N09876", location: "SFO", status: "On Time" }
-    ];
+    const [data, setData] = useState([]);
+
+    // 예시를 위한 초기 데이터 로딩
+    useEffect(() => {
+        const fetchData = async () => {
+            // API 호출로 데이터를 가져오는 로직을 여기에 구현
+            // 예시 데이터
+            const fetchedData = [
+                { aircraftId: 1, tailNumber: "N12345", location: "LAX", status: "In Flight" },
+                { aircraftId: 2, tailNumber: "N67890", location: "JFK", status: "Landed" },
+                { aircraftId: 3, tailNumber: "N54321", location: "ORD", status: "Delayed" },
+                { aircraftId: 4, tailNumber: "N09876", location: "SFO", status: "On Time" }
+            ];
+            setData(fetchedData);
+        };
+        
+        fetchData();
+    }, []);
+
+    const columns = useMemo(() => [
+        {
+            Header: 'Aircraft ID',
+            accessor: 'aircraftId',
+            // 필터 컴포넌트 사용, 필요에 따라 커스텀 가능
+            Filter: DefaultColumnFilter
+        },
+        {
+            Header: 'Tail Number',
+            accessor: 'tailNumber',
+            Filter: DefaultColumnFilter
+        },
+        {
+            Header: 'Location',
+            accessor: 'location',
+            Filter: DefaultColumnFilter
+        },
+        {
+            Header: 'Status',
+            accessor: 'status',
+            Filter: DefaultColumnFilter
+        }
+    ], []);
+
+    // 기본 필터 UI
+    function DefaultColumnFilter({
+        column: { filterValue, preFilteredRows, setFilter },
+    }) {
+        return (
+            <Input
+                value={filterValue || ''}
+                onChange={e => {
+                    setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+                }}
+                placeholder={`Search...`}
+            />
+        );
+    }
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        prepareRow,
+        page,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        nextPage,
+        previousPage,
+        setPageSize,
+        state: { pageIndex, pageSize },
+    } = useTable(
+        {
+            columns,
+            data,
+            initialState: { pageIndex: 0 }, // 첫 페이지 설정
+        },
+        useFilters,
+        useSortBy,
+        usePagination
+    );
 
     return (
-        <Table variant="simple">
-            <Thead>
-                <Tr>
-                    <Th>Aircraft ID</Th>
-                    <Th>Tail Number</Th>
-                    <Th>Location</Th>
-                    <Th>Status</Th>
-                </Tr>
-            </Thead>
-            <Tbody>
-                {data.map((item, index) => (
-                    <Tr key={index}>
-                        <Td>{item.aircraftId}</Td>
-                        <Td>{item.tailNumber}</Td>
-                        <Td>{item.location}</Td>
-                        <Td>{item.status}</Td>
-                    </Tr>
-                ))}
-            </Tbody>
-        </Table>
+        <>
+            <Table {...getTableProps()} variant="simple">
+                <Thead>
+                    {headerGroups.map(headerGroup => (
+                        <Tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <Th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render('Header')}
+                                    <span>
+                                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                                    </span>
+                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                </Th>
+                            ))}
+                        </Tr>
+                    ))}
+                </Thead>
+                <Tbody {...getTableBodyProps()}>
+                    {page.map((row, i) => {
+                        prepareRow(row);
+                        return (
+                            <Tr {...row.getRowProps()}>
+                                {row.cells.map(cell => {
+                                    return <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>;
+                                })}
+                            </Tr>
+                        );
+                    })}
+                </Tbody>
+            </Table>
+            <Box>
+                <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    Previous
+                </Button>
+                <Button onClick={() => nextPage()} disabled={!canNextPage}>
+                    Next
+                </Button>
+                <div>
+                    Page{' '}
+                    <strong>
+                        {pageIndex + 1} of {pageOptions.length}
+                    </strong>{' '}
+                </div>
+                <select
+                    value={pageSize}
+                    onChange={e => {
+                        setPageSize(Number(e.target.value));
+                    }}
+                >
+                    {[10, 20, 30, 40, 50].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </Box>
+        </>
     );
 }
 

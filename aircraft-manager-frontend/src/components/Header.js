@@ -37,19 +37,19 @@ function Header() {
         variant="outline"
       />
 
-      <Box flex="1" textAlign="center" pt="4">
-        <RouterLink to="/">
-          <Image
-            src={companyName}
-            alt="Company Name"
-            height="100%"
-            maxH="180px"
-            objectFit="contain"
-            mx="auto"
-            my="2"
-          />
-        </RouterLink>
-      </Box>
+<Box flex="1" textAlign="center">
+  <RouterLink to="/">
+    <Image
+      src={companyName}
+      alt="Company Name"
+      height="10%" // or you might want to adjust this value
+      maxH="180px"   // Adjust the max height as required
+      objectFit="contain"
+      mx="auto"
+      my="2"
+    />
+  </RouterLink>
+</Box>
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay />
@@ -57,38 +57,42 @@ function Header() {
           <DrawerHeader borderBottomWidth="1px">Menu</DrawerHeader>
           <DrawerBody>
             <VStack spacing={4} align="stretch">
-              <Button as={RouterLink} to="/" onClick={onClose}>
-                Home
-              </Button>
-              <Button as={RouterLink} to="/dashboard" onClick={onClose}>
-                Dashboard
-              </Button>
-              <Button as={RouterLink} to="/map" onClick={onClose}>
-                Map
-              </Button>
-              <Button as={RouterLink} to="/editairports" onClick={onClose}>
-                Edit Airports
-              </Button>
+              <Button as={RouterLink} to="/" onClick={onClose}>Home</Button>
+              <Button as={RouterLink} to="/dashboard" onClick={onClose}>Dashboard</Button>
+              <Button as={RouterLink} to="/map" onClick={onClose}>Map</Button>
+              <Button as={RouterLink} to="/editairports" onClick={onClose}>Edit Airports</Button>
             </VStack>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
 
-      <Box>
-        <Button
-          as={RouterLink}
-          to="/login"
-          variant="solid"
-          colorScheme="blue"
-          color="white"
-          leftIcon={<LockIcon />}
-          _hover={{ bg: "blue.600" }}
-          _active={{ bg: "blue.700" }}
-          size="md"
-        >
-          Login
-        </Button>
-      </Box>
+      {/* Login Button */}
+      <Button
+        as={RouterLink}
+        to="/login"
+        variant="solid"
+        colorScheme="blue"
+        leftIcon={<LockIcon />}
+        _hover={{ bg: "blue.600" }}
+        _active={{ bg: "blue.700" }}
+        size="md"
+        mr="4"  // Add margin to separate buttons
+      >
+        Login
+      </Button>
+
+      {/* Get Started (Sign Up) Button */}
+      <Button
+        as={RouterLink}
+        to="/signup"
+        variant="solid"
+        colorScheme="teal"  // Use a different color to distinguish this button
+        _hover={{ bg: "teal.600" }}
+        _active={{ bg: "teal.700" }}
+        size="md"
+      >
+        Get Started
+      </Button>
     </Flex>
   );
 }
