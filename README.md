@@ -65,6 +65,9 @@ The following user requirements reflect the unique aspects of Python Airways' op
 - As a corporate manager, I want to see a count of how many airports I have.
     - The count of airports should be prominently displayed on the corporate manager's dashboard.
     - The count must be updated in real-time to reflect any additions, removals, or changes in the status of airports.
+-As a corporate manager, I want to create an account if I do not have one, or log in if I do.
+    -Allow different privilages for corporate manager
+    -Use cookies to maintain login status
 
 #### Facility (Airport) Manager User Stories for Python Airways:
 
@@ -83,6 +86,9 @@ The following user requirements reflect the unique aspects of Python Airways' op
     - After recording the movement, the number of aircraft at the airports should reflect the change.
 - As a facility manager, I want to view what I used to have in my airports at some time in the past, and what I will have in my airport at some point in the future.
     - Facility manager can select a specific date after clicking on the airport and see the number of airport based on corresponding date.
+-As a facility manager, I want to create an account if I do not have one, or log in if I do.
+    -Allow different privilages for facility manager
+    -Use cookies to maintain login status
 
 ### Testing Plan for User Stories
 
