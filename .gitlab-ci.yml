@@ -38,10 +38,7 @@ test_backend:
     #pip install -r ./requirements.txt
   script:
     #this should run the integrated django tests
-    - cd backend
-    - python3 manage.py makemigrations
-    - python3 manage.py migrate
-    - python3 manage.py test
+    coverage run --omit=manage.py,*/tests.py,*/migrations/*,*/settings.py manage.py test
 
   after_script:
     #record results
