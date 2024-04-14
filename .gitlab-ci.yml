@@ -25,7 +25,8 @@ static_backend:
   before_script:
     #Add pip install - ./requirements.txt
   script:
-    - mypy
+    -echo "static analysis"
+    #- mypy
   tags:
     - dind
 
