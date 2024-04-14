@@ -14,7 +14,7 @@ lint_backend:
   stage: lint
   image: python
   before_script:
-  #Add requirements.txt for lint to run against
+  #Add requirements.txt for lint to run
   script:
       - echo "Linting project"
 
