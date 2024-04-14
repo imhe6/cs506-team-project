@@ -35,7 +35,7 @@ test_backend:
   stage: test
   image: python
   before_script:
-    pip install -r ./backend_requirements.txt
+    pip install -r ./backend_requirement.txt
   script:
     #this should run the integrated django tests
     coverage run --omit=manage.py,*/tests.py,*/migrations/*,*/settings.py manage.py test
