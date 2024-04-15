@@ -22,7 +22,7 @@ static_backend:
   stage: static
   image: python
   before_script:
-    #Add pip install - ./requirements.txt
+    - pip install - ./backend_requirement.txt
   script:
     - mypy
   tags:
