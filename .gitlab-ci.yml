@@ -52,9 +52,9 @@ test_backend:
     #record results
 
 #Unit test for frontend
-test_frontend:
-  stage: test
-  script:
-      -echo "Testing Front End"
+#test_frontend:
+ # stage: test
+  #script:
+   #   -echo "Testing Front End"
 
 
