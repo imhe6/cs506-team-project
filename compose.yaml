@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: djangoContainer
-    command: sh -c "cd am_framework && python3 manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "cd am_framework && python3 manage.py makemigrations && python3 manage.py migrate && python manage.py test"
     restart: always
     volumes:
       - .:/app
