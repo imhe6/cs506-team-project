@@ -36,9 +36,9 @@ test_backend:
   stage: test
   image: docker:dind
   before_script:
-    docker compose build
-    docker compose up
-    pip install -r ./backend_requirement.txt
+    - docker compose build
+    - docker compose up
+
   script:
     #this should run the integrated django tests
     - cd am_framework
