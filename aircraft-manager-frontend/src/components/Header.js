@@ -19,12 +19,12 @@ import companyName from "../images/aircraftlogo.png";
 
 function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 여기에 로그인 상태를 추가합니다.
-  const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수입니다.
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
-    setIsLoggedIn(false); // 로그인 상태를 false로 설정합니다.
-    navigate('/login'); // 사용자를 로그인 페이지로 이동시킵니다.
+    setIsLoggedIn(false); 
+    navigate('/login'); 
   };
 
   return (
