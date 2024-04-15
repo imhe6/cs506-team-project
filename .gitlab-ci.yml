@@ -34,7 +34,7 @@ static_backend:
 #Unit test for backend
 test_backend:
   stage: test
-  image: python
+  image: docker:dind
   before_script:
 
     pip install -r ./backend_requirement.txt
