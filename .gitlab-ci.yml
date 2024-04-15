@@ -9,6 +9,9 @@ build_job:
   stage: build
   script:
     - echo "Building project"
+    - docker-compose build
+    - docker-compose up
+
 
 lint_backend:
   stage: lint
