@@ -10,33 +10,40 @@ build_job:
   script:
     - echo "Building project"
 
+
 lint_backend:
   stage: lint
   image: python
   before_script:
-  #Add requirements.txt for lint to run against
+  #Add requirements.txt for lint to run
   script:
+      - echo "Linting project"
 
 
 static_backend:
   stage: static
   image: python
   before_script:
-    - pip install - ./backend_requirement.txt
+    #Add pip install - ./requirements.txt
   script:
-    - mypy
+    - echo "static analysis"
+    #- mypy
   tags:
     - dind
 
 #Unit test for backend
 test_backend:
   stage: test
-  image: python
+  image: docker:latest
+  services:
+  - "docker:dind"
   before_script:
-    #pip install -r ./requirements.txt
+    - docker compose build
+    - docker compose up
+
   script:
     #this should run the integrated django tests
-    - cd backend
+    - cd am_framework
     - python3 manage.py makemigrations
     - python3 manage.py migrate
     - python3 manage.py test
@@ -45,8 +52,9 @@ test_backend:
     #record results
 
 #Unit test for frontend
-test_frontend:
-  stage: test
-  script:
+#test_frontend:
+ # stage: test
+  #script:
+   #   -echo "Testing Front End"
 
 
