@@ -1,12 +1,13 @@
-FROM python:3.9
+FROM python:latest
 
 #Environmental Variables
 ENV PYHTONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 #Copy to and set working directory
-COPY . /app
 WORKDIR /app
+COPY . /app
+
 
 #Install Backend Requirements
 COPY backend_requirement.txt /app/
