@@ -21,6 +21,7 @@ services:
   #Backend Service
   backend:
     build:
+      restart: no
       context: .
       dockerfile: Dockerfile
     container_name: djangoContainer
