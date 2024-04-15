@@ -9,8 +9,6 @@ build_job:
   stage: build
   script:
     - echo "Building project"
-    - docker-compose build
-    - docker-compose up
 
 
 lint_backend:
@@ -38,6 +36,8 @@ test_backend:
   stage: test
   image: python
   before_script:
+    docker-compose build
+    docker-compose up
     pip install -r ./backend_requirement.txt
   script:
     #this should run the integrated django tests
