@@ -11,7 +11,6 @@ function MovementTable() {
             const fetchedData = [
                 { movementId: 1, arrivalAirportId: 1, originAirportId: 2, arrivalDate: "2024-04-20 12:30", departureDate: "2024-04-20 09:30", aircraftId: 1 },
                 { movementId: 2, arrivalAirportId: 2, originAirportId: 1, arrivalDate: "2024-04-21 16:00", departureDate: "2024-04-21 13:00", aircraftId: 2 },
-                // 추가 데이터 삽입
             ];
             setData(fetchedData);
         };
