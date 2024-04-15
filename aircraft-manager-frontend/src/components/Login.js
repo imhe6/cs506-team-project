@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Flex,
   Box,
@@ -6,42 +6,83 @@ import {
   FormLabel,
   Input,
   Checkbox,
+  Stack,
   Button,
   Heading,
-  Link,
-  useColorModeValue
+  Text,
+  useColorModeValue,
+  Link as ChakraLink
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 const Login = () => {
-  // Use color mode value to switch between light and dark mode colors if needed
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const formBackground = useColorModeValue("white", "gray.700");
 
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    // Here you would handle the login logic including validation, 
+    // API calls etc. On success, you would redirect the user to their dashboard or home page
+    // On failure, you would set an error message with setErrorMessage
+
+    // Mock login condition: Fail if either field is empty (for demonstration purposes)
+    if (email.trim() === "" || password.trim() === "") {
+      setErrorMessage("Please enter both email and password.");
+    } else {
+      // Proceed with actual login...
+      setErrorMessage(""); // Clear any existing error messages
+      // Redirect to the user's dashboard or home page after successful login
+    }
+  };
+
   return (
-    <Flex minHeight="100vh" width="full" align="center" justifyContent="center" bg={formBackground}>
-      <Box p={8} maxWidth="400px" borderWidth="1px" borderRadius="lg" boxShadow="lg" borderColor="black">
-        <Box textAlign="center">
+    <Flex minHeight="100vh" align="center" justify="center" bg={formBackground}>
+      <Box p={8} maxWidth="400px" borderWidth="1px" borderRadius="lg" boxShadow="lg">
+        <Stack spacing={4} align="center" marginBottom={6}>
           <Heading>Sign In</Heading>
-        </Box>
-        <Box my={4} textAlign="left" bg="white">
-          <form>
-            <FormControl isRequired>
+          {errorMessage && <Text color="red.500">{errorMessage}</Text>}
+        </Stack>
+        <Box>
+          <form onSubmit={handleLogin}>
+            <FormControl isRequired mb={3}>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" placeholder="Enter email" />
+              <Input 
+                type="email" 
+                placeholder="Enter email" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+              />
             </FormControl>
-            <FormControl isRequired mt={6}>
+            <FormControl isRequired mb={3}>
               <FormLabel>Password</FormLabel>
-              <Input type="password" placeholder="Enter password" />
+              <Input 
+                type="password" 
+                placeholder="Enter password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+              />
             </FormControl>
-            <Checkbox mt={6} colorScheme="blue">Remember me</Checkbox>
-            <Button width="full" mt={4} bg="blue.500" color="white" _hover={{ bg: "blue.600" }} type="submit">
-              Submit
-            </Button>
+            <Stack spacing={6}>
+              <Checkbox colorScheme="blue">Remember me</Checkbox>
+              <Button 
+                type="submit" 
+                colorScheme="blue" 
+                size="lg" 
+                fontSize="md"
+              >
+                Sign In
+              </Button>
+            </Stack>
           </form>
+          <Text mt={2} textAlign="center">
+            Don't have an account?{" "}
+            <ChakraLink as={RouterLink} to="/signup" color="blue.600">
+              Sign up
+            </ChakraLink>
+          </Text>
         </Box>
-        <Box textAlign="center" mt={6}>
-          <Link color="blue.600" href="#">Forgot password?</Link>
-        </Box>
-        {/* Add any additional buttons for social login */}
       </Box>
     </Flex>
   );

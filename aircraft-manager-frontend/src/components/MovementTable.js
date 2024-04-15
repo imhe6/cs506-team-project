@@ -2,45 +2,30 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useTable, useSortBy, usePagination, useGlobalFilter } from 'react-table';
 import { Table, Thead, Tbody, Tr, Th, Td, Box, Button, Input } from '@chakra-ui/react';
 
-function DataTable1() {
+function MovementTable() {
     const [data, setData] = useState([]);
     const [filterInput, setFilterInput] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
             const fetchedData = [
-                { airportId: 1, airportCode: "LAX", latitude: 33.941, longitude: -118.408, numAircraft: 10 },
-                { airportId: 2, airportCode: "JFK", latitude: 40.641, longitude: -73.778, numAircraft: 15 },
-                { airportId: 3, airportCode: "ORD", latitude: 41.974, longitude: -87.907, numAircraft: 20 },
-                { airportId: 4, airportCode: "SFO", latitude: 37.621, longitude: -122.379, numAircraft: 12 }
+                { movementId: 1, arrivalAirportId: 1, originAirportId: 2, arrivalDate: "2024-04-20 12:30", departureDate: "2024-04-20 09:30", aircraftId: 1 },
+                { movementId: 2, arrivalAirportId: 2, originAirportId: 1, arrivalDate: "2024-04-21 16:00", departureDate: "2024-04-21 13:00", aircraftId: 2 },
+                // 추가 데이터 삽입
             ];
             setData(fetchedData);
         };
-        
+
         fetchData();
     }, []);
 
     const columns = useMemo(() => [
-        {
-            Header: 'Airport ID',
-            accessor: 'airportId',
-        },
-        {
-            Header: 'Airport Code',
-            accessor: 'airportCode',
-        },
-        {
-            Header: 'Latitude',
-            accessor: 'latitude',
-        },
-        {
-            Header: 'Longitude',
-            accessor: 'longitude',
-        },
-        {
-            Header: 'Number of Aircraft',
-            accessor: 'numAircraft',
-        }
+        { Header: 'Movement ID', accessor: 'movementId' },
+        { Header: 'Arrival Airport ID', accessor: 'arrivalAirportId' },
+        { Header: 'Origin Airport ID', accessor: 'originAirportId' },
+        { Header: 'Arrival Date', accessor: 'arrivalDate' },
+        { Header: 'Departure Date', accessor: 'departureDate' },
+        { Header: 'Aircraft ID', accessor: 'aircraftId' },
     ], []);
 
     const {
@@ -141,4 +126,4 @@ function DataTable1() {
     );
 }
 
-export default DataTable1;
+export default MovementTable;

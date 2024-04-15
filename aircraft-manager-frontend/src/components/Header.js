@@ -1,5 +1,5 @@
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   Flex,
   Box,
@@ -14,11 +14,18 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
-import { HamburgerIcon, LockIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import companyName from "../images/aircraftlogo.png";
 
 function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 여기에 로그인 상태를 추가합니다.
+  const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수입니다.
+
+  const handleLogout = () => {
+    setIsLoggedIn(false); // 로그인 상태를 false로 설정합니다.
+    navigate('/login'); // 사용자를 로그인 페이지로 이동시킵니다.
+  };
 
   return (
     <Flex
@@ -37,19 +44,19 @@ function Header() {
         variant="outline"
       />
 
-<Box flex="1" textAlign="center">
-  <RouterLink to="/">
-    <Image
-      src={companyName}
-      alt="Company Name"
-      height="10%" 
-      maxH="180px"   
-      objectFit="contain"
-      mx="auto"
-      my="2"
-    />
-  </RouterLink>
-</Box>
+      <Box flex="1" textAlign="center">
+        <RouterLink to="/">
+          <Image
+            src={companyName}
+            alt="Company Name"
+            height="10%"
+            maxH="180px"
+            objectFit="contain"
+            mx="auto"
+            my="2"
+          />
+        </RouterLink>
+      </Box>
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay />
@@ -66,33 +73,37 @@ function Header() {
         </DrawerContent>
       </Drawer>
 
-      {/* Login Button */}
-      <Button
-        as={RouterLink}
-        to="/login"
-        variant="solid"
-        colorScheme="blue"
-        leftIcon={<LockIcon />}
-        _hover={{ bg: "blue.600" }}
-        _active={{ bg: "blue.700" }}
-        size="md"
-        mr="4"  // Add margin to separate buttons
-      >
-        Login
-      </Button>
+      {/* 조건부 렌더링을 사용하여 로그인 상태에 따라 버튼을 표시합니다 */}
+      {isLoggedIn ? (
+        <Button
+          onClick={handleLogout}
+          variant="solid"
+          colorScheme="blue"
+          _hover={{ bg: "blue.600" }}
+          _active={{ bg: "blue.700" }}
+          size="md"
+          mr="4"
+        >
+          Logout
+        </Button>
+      ) : (
+        <>
+          <Button
+            as={RouterLink}
+            to="/login"
+            variant="solid"
+            colorScheme="blue"
+            _hover={{ bg: "blue.600" }}
+            _active={{ bg: "blue.700" }}
+            size="md"
+            mr="4"
+          >
+            Login
+          </Button>
 
-      {/* Get Started (Sign Up) Button */}
-      <Button
-        as={RouterLink}
-        to="/signup"
-        variant="solid"
-        colorScheme="teal"  // Use a different color to distinguish this button
-        _hover={{ bg: "teal.600" }}
-        _active={{ bg: "teal.700" }}
-        size="md"
-      >
-        Get Started
-      </Button>
+          {/* 'Get Started' 버튼은 이제 필요 없으므로 제거하였습니다. */}
+        </>
+      )}
     </Flex>
   );
 }

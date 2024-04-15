@@ -1,11 +1,11 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { useTable, useSortBy, usePagination, useFilters } from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter } from 'react-table';
 import { Table, Thead, Tbody, Tr, Th, Td, Box, Input, Button } from '@chakra-ui/react';
 
 function DataTable() {
     const [data, setData] = useState([]);
+    const [filter, setFilter] = useState("");
 
-    // example data
     useEffect(() => {
         const fetchData = async () => {
             // Backend API call
@@ -17,48 +17,16 @@ function DataTable() {
             ];
             setData(fetchedData);
         };
-        
+
         fetchData();
     }, []);
 
     const columns = useMemo(() => [
-        {
-            Header: 'Aircraft ID',
-            accessor: 'aircraftId',
-        
-            Filter: DefaultColumnFilter
-        },
-        {
-            Header: 'Tail Number',
-            accessor: 'tailNumber',
-            Filter: DefaultColumnFilter
-        },
-        {
-            Header: 'Location',
-            accessor: 'location',
-            Filter: DefaultColumnFilter
-        },
-        {
-            Header: 'Status',
-            accessor: 'status',
-            Filter: DefaultColumnFilter
-        }
+        { Header: 'Aircraft ID', accessor: 'aircraftId' },
+        { Header: 'Tail Number', accessor: 'tailNumber' },
+        { Header: 'Location', accessor: 'location' },
+        { Header: 'Status', accessor: 'status' }
     ], []);
-
-
-    function DefaultColumnFilter({
-        column: { filterValue, preFilteredRows, setFilter },
-    }) {
-        return (
-            <Input
-                value={filterValue || ''}
-                onChange={e => {
-                    setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
-                }}
-                placeholder={`Search...`}
-            />
-        );
-    }
 
     const {
         getTableProps,
@@ -72,20 +40,34 @@ function DataTable() {
         nextPage,
         previousPage,
         setPageSize,
+        setGlobalFilter,
         state: { pageIndex, pageSize },
     } = useTable(
         {
             columns,
             data,
-            initialState: { pageIndex: 0 }, // 첫 페이지 설정
+            initialState: { pageIndex: 0 },
         },
-        useFilters,
+        useGlobalFilter,
         useSortBy,
         usePagination
     );
 
+    const handleFilterChange = e => {
+        const value = e.target.value || undefined;
+        setGlobalFilter(value);
+        setFilter(value);
+    };
+
     return (
         <>
+            <Box mb="4">
+                <Input
+                    value={filter}
+                    onChange={handleFilterChange}
+                    placeholder="Search all columns..."
+                />
+            </Box>
             <Table {...getTableProps()} variant="simple">
                 <Thead>
                     {headerGroups.map(headerGroup => (
@@ -96,7 +78,6 @@ function DataTable() {
                                     <span>
                                         {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
                                     </span>
-                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
                                 </Th>
                             ))}
                         </Tr>
