@@ -35,6 +35,8 @@ static_backend:
 test_backend:
   stage: test
   image: docker:latest
+  services:
+  - "docker:dind"
   before_script:
     - docker compose build
     - docker compose up
