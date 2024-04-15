@@ -1,19 +1,16 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTable, useSortBy, usePagination, useGlobalFilter } from 'react-table';
-import { Table, Thead, Tbody, Tr, Th, Td, Box, Input, Button } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, Box, Button, Input } from '@chakra-ui/react';
 
-function DataTable() {
+function MovementTable() {
     const [data, setData] = useState([]);
-    const [filter, setFilter] = useState("");
+    const [filterInput, setFilterInput] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
-            // Backend API call
             const fetchedData = [
-                { aircraftId: 1, tailNumber: "N12345", location: "LAX", status: "In Flight" },
-                { aircraftId: 2, tailNumber: "N67890", location: "JFK", status: "Landed" },
-                { aircraftId: 3, tailNumber: "N54321", location: "ORD", status: "Delayed" },
-                { aircraftId: 4, tailNumber: "N09876", location: "SFO", status: "On Time" }
+                { movementId: 1, arrivalAirportId: 1, originAirportId: 2, arrivalDate: "2024-04-20 12:30", departureDate: "2024-04-20 09:30", aircraftId: 1 },
+                { movementId: 2, arrivalAirportId: 2, originAirportId: 1, arrivalDate: "2024-04-21 16:00", departureDate: "2024-04-21 13:00", aircraftId: 2 },
             ];
             setData(fetchedData);
         };
@@ -22,10 +19,12 @@ function DataTable() {
     }, []);
 
     const columns = useMemo(() => [
+        { Header: 'Movement ID', accessor: 'movementId' },
+        { Header: 'Arrival Airport ID', accessor: 'arrivalAirportId' },
+        { Header: 'Origin Airport ID', accessor: 'originAirportId' },
+        { Header: 'Arrival Date', accessor: 'arrivalDate' },
+        { Header: 'Departure Date', accessor: 'departureDate' },
         { Header: 'Aircraft ID', accessor: 'aircraftId' },
-        { Header: 'Tail Number', accessor: 'tailNumber' },
-        { Header: 'Location', accessor: 'location' },
-        { Header: 'Status', accessor: 'status' }
     ], []);
 
     const {
@@ -40,15 +39,15 @@ function DataTable() {
         nextPage,
         previousPage,
         setPageSize,
+        state,
         setGlobalFilter,
-        state: { pageIndex, pageSize },
     } = useTable(
         {
             columns,
             data,
             initialState: { pageIndex: 0 },
         },
-        useGlobalFilter,
+        useGlobalFilter, // Use the useGlobalFilter hook to control a column-wide search filter
         useSortBy,
         usePagination
     );
@@ -56,14 +55,14 @@ function DataTable() {
     const handleFilterChange = e => {
         const value = e.target.value || undefined;
         setGlobalFilter(value);
-        setFilter(value);
+        setFilterInput(value);
     };
 
     return (
         <>
             <Box mb="4">
                 <Input
-                    value={filter}
+                    value={filterInput}
                     onChange={handleFilterChange}
                     placeholder="Search all columns..."
                 />
@@ -106,11 +105,11 @@ function DataTable() {
                 <div>
                     Page{' '}
                     <strong>
-                        {pageIndex + 1} of {pageOptions.length}
+                        {state.pageIndex + 1} of {pageOptions.length}
                     </strong>{' '}
                 </div>
                 <select
-                    value={pageSize}
+                    value={state.pageSize}
                     onChange={e => {
                         setPageSize(Number(e.target.value));
                     }}
@@ -126,4 +125,4 @@ function DataTable() {
     );
 }
 
-export default DataTable;
+export default MovementTable;

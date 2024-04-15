@@ -19,7 +19,6 @@ import { Link as RouterLink } from "react-router-dom";
 const HomePage = () => {
   return (
     <Box>
-      {/* Hero Section */}
       <Hero
         title="Welcome to Python Airways"
         subtitle="Explore the world of aviation with us. Get real-time tracking, efficient fleet management, and more."
@@ -153,7 +152,12 @@ const HomePage = () => {
             Sign up today and discover the future of aircraft management.
           </Text>
           <Flex justify="center">
-            <Button colorScheme="orange" size="lg">
+            <Button
+              as={RouterLink} // Use the RouterLink as the 'as' prop
+              to="/signup"    // Set the routing path to the signup page
+              colorScheme="orange"
+              size="lg"
+            >
               Get Started
             </Button>
           </Flex>
