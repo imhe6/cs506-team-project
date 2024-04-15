@@ -1,31 +1,46 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTable, useSortBy, usePagination, useGlobalFilter } from 'react-table';
-import { Table, Thead, Tbody, Tr, Th, Td, Box, Input, Button } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, Box, Button, Input } from '@chakra-ui/react';
 
-function DataTable() {
+function DataTable1() {
     const [data, setData] = useState([]);
-    const [filter, setFilter] = useState("");
+    const [filterInput, setFilterInput] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
-            // Backend API call
             const fetchedData = [
-                { aircraftId: 1, tailNumber: "N12345", location: "LAX", status: "In Flight" },
-                { aircraftId: 2, tailNumber: "N67890", location: "JFK", status: "Landed" },
-                { aircraftId: 3, tailNumber: "N54321", location: "ORD", status: "Delayed" },
-                { aircraftId: 4, tailNumber: "N09876", location: "SFO", status: "On Time" }
+                { airportId: 1, airportCode: "LAX", latitude: 33.941, longitude: -118.408, numAircraft: 10 },
+                { airportId: 2, airportCode: "JFK", latitude: 40.641, longitude: -73.778, numAircraft: 15 },
+                { airportId: 3, airportCode: "ORD", latitude: 41.974, longitude: -87.907, numAircraft: 20 },
+                { airportId: 4, airportCode: "SFO", latitude: 37.621, longitude: -122.379, numAircraft: 12 }
             ];
             setData(fetchedData);
         };
-
+        
         fetchData();
     }, []);
 
     const columns = useMemo(() => [
-        { Header: 'Aircraft ID', accessor: 'aircraftId' },
-        { Header: 'Tail Number', accessor: 'tailNumber' },
-        { Header: 'Location', accessor: 'location' },
-        { Header: 'Status', accessor: 'status' }
+        {
+            Header: 'Airport ID',
+            accessor: 'airportId',
+        },
+        {
+            Header: 'Airport Code',
+            accessor: 'airportCode',
+        },
+        {
+            Header: 'Latitude',
+            accessor: 'latitude',
+        },
+        {
+            Header: 'Longitude',
+            accessor: 'longitude',
+        },
+        {
+            Header: 'Number of Aircraft',
+            accessor: 'numAircraft',
+        }
     ], []);
 
     const {
@@ -40,15 +55,15 @@ function DataTable() {
         nextPage,
         previousPage,
         setPageSize,
+        state,
         setGlobalFilter,
-        state: { pageIndex, pageSize },
     } = useTable(
         {
             columns,
             data,
             initialState: { pageIndex: 0 },
         },
-        useGlobalFilter,
+        useGlobalFilter, // Use the useGlobalFilter hook to control a column-wide search filter
         useSortBy,
         usePagination
     );
@@ -56,14 +71,14 @@ function DataTable() {
     const handleFilterChange = e => {
         const value = e.target.value || undefined;
         setGlobalFilter(value);
-        setFilter(value);
+        setFilterInput(value);
     };
 
     return (
         <>
             <Box mb="4">
                 <Input
-                    value={filter}
+                    value={filterInput}
                     onChange={handleFilterChange}
                     placeholder="Search all columns..."
                 />
@@ -106,11 +121,11 @@ function DataTable() {
                 <div>
                     Page{' '}
                     <strong>
-                        {pageIndex + 1} of {pageOptions.length}
+                        {state.pageIndex + 1} of {pageOptions.length}
                     </strong>{' '}
                 </div>
                 <select
-                    value={pageSize}
+                    value={state.pageSize}
                     onChange={e => {
                         setPageSize(Number(e.target.value));
                     }}
@@ -126,4 +141,4 @@ function DataTable() {
     );
 }
 
-export default DataTable;
+export default DataTable1;
