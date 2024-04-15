@@ -101,7 +101,7 @@ function Header() {
             Login
           </Button>
 
-          {/* 'Get Started' 버튼은 이제 필요 없으므로 제거하였습니다. */}
+          
         </>
       )}
     </Flex>
