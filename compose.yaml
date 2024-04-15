@@ -20,13 +20,12 @@ services:
       retries: 3
   #Backend Service
   backend:
+    restart: no
     build:
-      restart: no
       context: .
       dockerfile: Dockerfile
     container_name: djangoContainer
     command: sh -c "cd am_framework && python3 manage.py makemigrations && python3 manage.py migrate && python manage.py test"
-    restart: always
     volumes:
       - .:/app
     ports:
