@@ -8,11 +8,11 @@ import { Box, Heading } from '@chakra-ui/react';
 function DashboardPage() {
     return (
         <Box>
-            <Heading as="h1" size="xl" textAlign="center" mb="4">AircraftTalbe</Heading>
+            <Heading as="h1" size="xl" textAlign="center" mb="4">Aircraft Talbe</Heading>
             <DataTable />
-            <Heading as="h1" size="xl" textAlign="center" mb="4">Airporttable</Heading>
+            <Heading as="h1" size="xl" textAlign="center" mb="4">Airport Table</Heading>
             <DataTable1 />
-            <Heading as="h1" size="xl" textAlign="center" mb="4">MovementTable</Heading>
+            <Heading as="h1" size="xl" textAlign="center" mb="4">Movement Table</Heading>
             <MovementTable />
         </Box>
     );
