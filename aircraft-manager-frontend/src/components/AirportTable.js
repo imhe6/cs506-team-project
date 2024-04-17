@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useTable, useSortBy, usePagination, useGlobalFilter } from 'react-table';
 import { Table, Thead, Tbody, Tr, Th, Td, Box, Button, Input } from '@chakra-ui/react';
 
-function DataTable1() {
+function AirportTable() {
     const [data, setData] = useState([]);
     const [filterInput, setFilterInput] = useState("");
 
@@ -141,4 +141,4 @@ function DataTable1() {
     );
 }
 
-export default DataTable1;
+export default AirportTable;
