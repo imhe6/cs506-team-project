@@ -19,7 +19,7 @@ const Signup = () => {
   // Variables for creating user
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [role, setRole] = useState('Coorporate');
+  const [role, setRole] = useState('Corporate');
 
   const sendPostRequest = (e) => {
     e.preventDefault();
@@ -55,8 +55,8 @@ const Signup = () => {
 
             <RadioGroup onChange={setRole} value={role} isRequired  mb={6}>
               <Stack>
-                <Radio value='Coorporate'>
-                  Coorporate Manager
+                <Radio value='Corporate'>
+                  Corporate Manager
                 </Radio>
                 <Radio value='Facility'>
                   Facility Manager
