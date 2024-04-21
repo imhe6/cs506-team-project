@@ -1,33 +1,34 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import AircraftTable from '../components/AircraftTable';
 import AirportTable from '../components/AirportTable';
 import MovementTable from '../components/MovementTable';
-import { Box, Heading } from '@chakra-ui/react';
+import { Box, Button, Heading } from '@chakra-ui/react';
 
 function DashboardPage() {
+    const [activeTab, setActiveTab] = useState('aircraft'); 
+
     return (
-        <Router>
-            <Box>
-                <Heading as="h1" size="xl" textAlign="center" mb="4">Dashboard</Heading>
-                <nav>
-                    <Link to="/aircraft">Aircraft Table</Link> | 
-                    <Link to="/airports">Airport Table</Link> | 
-                    <Link to="/movements">Movement Table</Link>
-                </nav>
-                <Switch>
-                    <Route path="/aircraft">
-                        <AircraftTable />
-                    </Route>
-                    <Route path="/airports">
-                        <AirportTable />
-                    </Route>
-                    <Route path="/movements">
-                        <MovementTable />
-                    </Route>
-                </Switch>
+        <Box p={5}>
+            <Heading as="h1" size="xl" textAlign="center" mb="4">Dashboard</Heading>
+            <Box display="flex" justifyContent="center" mb="4">
+
+                <Button colorScheme="blue" onClick={() => setActiveTab('aircraft')} mr="2">
+                    Aircraft
+                </Button>
+                <Button colorScheme="blue" onClick={() => setActiveTab('airports')} mr="2">
+                    Airports
+                </Button>
+                <Button colorScheme="blue" onClick={() => setActiveTab('movements')}>
+                    Movements
+                </Button>
             </Box>
-        </Router>
+            <Box>
+
+                {activeTab === 'aircraft' && <AircraftTable />}
+                {activeTab === 'airports' && <AirportTable />}
+                {activeTab === 'movements' && <MovementTable />}
+            </Box>
+        </Box>
     );
 }
 
