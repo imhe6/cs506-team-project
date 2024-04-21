@@ -7,11 +7,13 @@ services:
     restart: always
     volumes:
       - data:/var/lib/mysql
+    #Initialize the MySQL database environment
     environment:
       MYSQL_DATABASE: "aircraft_manager"
       MYSQL_ROOT_PASSWORD: "thePassword506"
       MYSQL_USER: "backend"
       MYSQL_PASSWORD: "1qaz2wsx"
+    #Open the ports for the MySQL database so that Django can use it
     ports:
       - "3306:3306"
     healthcheck:
@@ -21,6 +23,7 @@ services:
   #Backend Service
   backend:
     restart: no
+    #Build the docker container from the Dockerfile
     build:
       context: .
       dockerfile: Dockerfile
@@ -28,8 +31,10 @@ services:
     command: sh -c "cd am_framework && python3 manage.py makemigrations && python3 manage.py migrate && python manage.py test"
     volumes:
       - .:/app
+    #Open ports for the local host
     ports:
       - "8000:8000"
+    #Verify the condition of the MySQL database
     depends_on:
       db:
         condition: service_healthy

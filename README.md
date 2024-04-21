@@ -249,8 +249,8 @@ erDiagram
     airporttable {
         int airportId PK
         string airportCode
-        string latitude
-        string longitude
+        decimal latitude
+        decimal longitude
         int numAircraft
         int userId FK
     }
@@ -259,8 +259,8 @@ erDiagram
         int movementId PK
         int arrivalAirportId FK
         int originAirportId FK
-        string arrivalDate
-        string departureDate
+        DateTimeField arrivalDate
+        DateTimeField departureDate
         int aircraftId FK
         int userId FK
     }
@@ -446,3 +446,5 @@ while (x == y) {
 - More information could be found [here](https://docs.djangoproject.com/en/5.0/topics/testing/overview/).
 
 #### 10. CI/CD
+
+- Use GitLab's CI/CD pipeline for testing new commits to Gitlab
