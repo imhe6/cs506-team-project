@@ -39,14 +39,10 @@ test_backend:
   - "docker:dind"
   before_script:
     - docker compose build
-    - docker compose up
 
   script:
-    #this should run the integrated django tests
-    - cd am_framework
-    - python3 manage.py makemigrations
-    - python3 manage.py migrate
-    - python3 manage.py test
+    #Run the Backend Test environment to see if tests pass
+    - docker compose up
 
   after_script:
     #record results
