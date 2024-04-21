@@ -16,7 +16,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const formBackground = useColorModeValue("white", "gray.700");
@@ -28,8 +28,8 @@ const Login = () => {
     // On failure, you would set an error message with setErrorMessage
 
     // Mock login condition: Fail if either field is empty (for demonstration purposes)
-    if (email.trim() === "" || password.trim() === "") {
-      setErrorMessage("Please enter both email and password.");
+    if (username.trim() === "" || password.trim() === "") {
+      setErrorMessage("Please enter both username and password.");
     } else {
       // Proceed with actual login...
       setErrorMessage(""); // Clear any existing error messages
@@ -47,12 +47,12 @@ const Login = () => {
         <Box>
           <form onSubmit={handleLogin}>
             <FormControl isRequired mb={3}>
-              <FormLabel>Email address</FormLabel>
+              <FormLabel>Username</FormLabel>
               <Input 
-                type="email" 
-                placeholder="Enter email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
+                type="text" 
+                placeholder="Enter username" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
               />
             </FormControl>
             <FormControl isRequired mb={3}>
@@ -65,7 +65,6 @@ const Login = () => {
               />
             </FormControl>
             <Stack spacing={6}>
-              <Checkbox colorScheme="blue">Remember me</Checkbox>
               <Button 
                 type="submit" 
                 colorScheme="blue" 
