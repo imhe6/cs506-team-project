@@ -14,6 +14,8 @@ import {
   Link as ChakraLink,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
+
 
 const Signup = () => {
   // Variables for creating user
@@ -24,11 +26,27 @@ const Signup = () => {
   // Sending post request to backend
   const baseUrl = "http://localhost:8000/api";
   const table = "userprofile";
-  
-  const sendPostRequest = (e) => {
-    e.preventDefault();
 
-  }
+  const sendPostRequest = async (e) => {
+    try {
+      e.preventDefault();
+      let data = {
+        username: username,
+        password: password,
+        role: role
+      }
+      const response = await axios.post(`${baseUrl}/${table}/`, data);
+      console.log('Response:', response.data);
+      if (response.data.success) {
+        window.location.href = '/';
+        alert("Sign up successful")
+      } else {
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error adding airport:', error);
+    }
+  };
 
   return (
     <Flex minHeight="100vh" align="center" justify="center" bg="white">
@@ -38,7 +56,7 @@ const Signup = () => {
         </Box>
         <Box my={4} textAlign="left">
           <form onSubmit={sendPostRequest}>
-            <FormControl isRequired mb={3}>
+            <FormControl isrequired='true' mb={3}>
               <FormLabel>Username</FormLabel>
               <Input
                 type="text"
@@ -47,7 +65,7 @@ const Signup = () => {
                 onChange={(e) => setUsername(e.target.value)} 
               />
             </FormControl>
-            <FormControl isRequired mb={3}>
+            <FormControl isrequired='true' mb={3}>
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
@@ -57,7 +75,7 @@ const Signup = () => {
               />
             </FormControl>
 
-            <RadioGroup onChange={setRole} value={role} isRequired  mb={6}>
+            <RadioGroup onChange={setRole} value={role} isrequired='true'  mb={6}>
               <Stack>
                 <Radio value='Corporate'>
                   Corporate Manager
