@@ -302,7 +302,34 @@ class UserProfileTableView(AircraftManagerAPIView):
             status=404)
 
     def post(self, request):
-        pass
+        # convert request.body to a dictionary
+        body = request.body.decode('utf-8')
+        dataDict: dict = json.loads(body)
+        # check if all fields are present
+        missingFields = self.checkMissingFields(dataDict)
+        if missingFields:
+            return JsonResponse(
+                data={"success": False,
+                      "message": "missing necessary fields in request body",
+                      "data": None},
+                status=400)
+        filteredDataDict = self.filterExistFields(dataDict)
+
+        # If primary key is specified in the request body, ignore it
+        if self.pkName in filteredDataDict:
+            print("Found primary key in Dict:",
+                  filteredDataDict[self.pkName], ", ignoring.")
+            del filteredDataDict[self.pkName]
+        
+        # create a new table entry
+        newEntry = self.model(**filteredDataDict)
+        newEntry.save()
+        newEntrySerializer = self.serializer(newEntry)
+        return JsonResponse(
+            data={"success": True,
+                  "message": "entry created",
+                  "data": newEntrySerializer.data},
+            status=201)
 
     def delete(self, request):
         pass
