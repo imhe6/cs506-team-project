@@ -35,7 +35,7 @@ Issue to add: React coding standards
 
 ## Sprint 3 Planning
 
-Apr 10 - May 8
-
+- Apr 10 - May 8
+- 68 story points
 ~
 -
