@@ -131,7 +131,7 @@ class MovementTableGetTest(TestCase):
         for i in range(len(self.movements)):
             # Send request with tailNumber, should only get one entry
             response = self.client.get(
-                f'/api/movement/?arrivalAirportId={i+1}')
+                f'/api/movement/?arrivalAirportId={i+self.airports[0].airportId}')
             # Check if we get only one entry
             data = response.json()['data']
             self.assertEqual(len(data), 1)
@@ -156,7 +156,8 @@ class MovementTableGetTest(TestCase):
         Send get request with aircraftId
         '''
         # Send request with tailNumber, should only get one entry
-        response = self.client.get(f'/api/movement/?aircraftId=1')
+        response = self.client.get(
+            f'/api/movement/?aircraftId={self.airports[0].airportId}')
         # Check if we get only one entry
         data = response.json()['data']
         self.assertEqual(len(data), 1)

@@ -41,8 +41,9 @@ test_backend:
     - docker compose build
 
   script:
-    #Run the Backend Test environment to see if tests pass
-    - docker compose up
+    #this should run the integrated django tests
+    - echo "Docker Containers Created - Starting Tests"
+    - docker compose up --abort-on-container-exit
 
   after_script:
     #record results
