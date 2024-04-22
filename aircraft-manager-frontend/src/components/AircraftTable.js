@@ -1,13 +1,12 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTable, useSortBy, usePagination, useGlobalFilter } from 'react-table';
-import { Box, Input, Button, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Button, Input } from '@chakra-ui/react';
 
 function AircraftTable() {
   const [data, setData] = useState([]);
   const [filterInput, setFilterInput] = useState('');
 
   useEffect(() => {
-    // TODO: Replace with your actual fetch API logic if you have an API endpoint
     const fetchData = async () => {
       const fetchedData = [
         { aircraftId: 1, tailNumber: 'N12345', location: 'LAX', status: 'In Flight' },
@@ -60,77 +59,58 @@ function AircraftTable() {
   };
 
   return (
-    <Box width="100%">
-      <Box mb="4">
-        <Input
-          value={filterInput}
-          onChange={handleFilterChange}
-          placeholder="Search all columns..."
-        />
-      </Box>
-      <Table {...getTableProps()} variant="striped" colorScheme="teal">
+    <Box>
+      <Input
+        value={filterInput}
+        onChange={handleFilterChange}
+        placeholder="Search all columns..."
+      />
+      <Table {...getTableProps()} variant="simple" tableLayout="fixed">
         <Thead>
           {headerGroups.map(headerGroup => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
                 <Th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
-                  </span>
+                  <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
                 </Th>
               ))}
             </Tr>
           ))}
         </Thead>
         <Tbody {...getTableBodyProps()}>
-          {page.map(row => {
+          {page.map((row) => {
             prepareRow(row);
             return (
               <Tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <Td {...cell.getCellProps()}>
-                      {cell.render('Cell')}
-                    </Td>
-                  );
-                })}
+                {row.cells.map(cell => (
+                  <Td {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </Td>
+                ))}
               </Tr>
             );
           })}
         </Tbody>
       </Table>
       <Box display="flex" justifyContent="space-between" alignItems="center" mt="4">
-        <Button onClick={() => previousPage()} isDisabled={!canPreviousPage}>
+        <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
           Previous
         </Button>
         <Box>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
+          Page {pageIndex + 1} of {pageOptions.length}
         </Box>
-        <Button onClick={() => nextPage()} isDisabled={!canNextPage}>
+        <Button onClick={() => nextPage()} disabled={!canNextPage}>
           Next
         </Button>
-        <Box>
-          <select
-            value={pageSize}
-            onChange={e => {
-              setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map(pageSize => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-        </Box>
+        <select
+          value={pageSize}
+          onChange={e => setPageSize(Number(e.target.value))}
+        >
+          {[10, 20, 30, 40, 50].map(size => (
+            <option key={size} value={size}>Show {size}</option>
+          ))}
+        </select>
       </Box>
     </Box>
   );
