@@ -39,7 +39,7 @@ const Signup = () => {
       console.log('Response:', response.data);
       if (response.data.success) {
         window.location.href = '/';
-        alert("Sign up successful")
+        alert("Sign up successfully")
       } else {
         console.error(response.data.message);
       }
