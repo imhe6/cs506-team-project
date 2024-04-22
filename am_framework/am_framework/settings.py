@@ -84,9 +84,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'aircraft_manager',
-        'USER': 'backend',
+        'USER': 'root',
         'PASSWORD': '1qaz2wsx',
-        'HOST': 'localhost',   # change to database host
+        'HOST': 'db',
         'PORT': '3306',        # Default MySQL port
     }
 }

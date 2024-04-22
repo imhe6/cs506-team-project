@@ -10,7 +10,7 @@ services:
     #Initialize the MySQL database environment
     environment:
       MYSQL_DATABASE: "aircraft_manager"
-      MYSQL_ROOT_PASSWORD: "thePassword506"
+      MYSQL_ROOT_PASSWORD: "1qaz2wsx"
       MYSQL_USER: "backend"
       MYSQL_PASSWORD: "1qaz2wsx"
     #Open the ports for the MySQL database so that Django can use it
@@ -33,7 +33,7 @@ services:
       - .:/app
     #Open ports for the local host
     ports:
-      - "8000:8000"
+      - "8080:8080"
     #Verify the condition of the MySQL database
     depends_on:
       db:
