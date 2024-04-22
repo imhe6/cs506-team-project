@@ -14,26 +14,36 @@ import {
   Link as ChakraLink
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import axios from 'axios';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const formBackground = useColorModeValue("white", "gray.700");
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    // Here you would handle the login logic including validation, 
-    // API calls etc. On success, you would redirect the user to their dashboard or home page
-    // On failure, you would set an error message with setErrorMessage
+  const baseUrl = 'http://localhost:8000/api'; 
+  const table = 'userprofile';
 
-    // Mock login condition: Fail if either field is empty (for demonstration purposes)
-    if (username.trim() === "" || password.trim() === "") {
-      setErrorMessage("Please enter both username and password.");
-    } else {
-      // Proceed with actual login...
-      setErrorMessage(""); // Clear any existing error messages
-      // Redirect to the user's dashboard or home page after successful login
+  const handleLogin = async (e) => {
+    try{
+      e.preventDefault();
+      const response = await axios.get(`${baseUrl}/${table}/?username=${username}&password=${password}`);
+      if(response.data.success){
+        let role = response.data.data[0].role
+        if(role === 'admin'){
+          alert(`You have successfully login as Administrator.`);
+        }
+        else{
+          alert(`You have successfully login as ${role} Manager.`);
+        }
+        window.location.href = '/';
+      }
+      else{
+        alert(response.data.message)
+      }
+    }
+    catch(error){
+      alert('Invalid username or passward.\nTry again or sign up for an account.');
     }
   };
 
@@ -42,7 +52,6 @@ const Login = () => {
       <Box p={8} maxWidth="400px" borderWidth="1px" borderRadius="lg" boxShadow="lg">
         <Stack spacing={4} align="center" marginBottom={6}>
           <Heading>Sign In</Heading>
-          {errorMessage && <Text color="red.500">{errorMessage}</Text>}
         </Stack>
         <Box>
           <form onSubmit={handleLogin}>
