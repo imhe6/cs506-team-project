@@ -21,6 +21,10 @@ const Signup = () => {
   const [password, setPassword] = useState('')
   const [role, setRole] = useState('Corporate');
 
+  // Sending post request to backend
+  const baseUrl = "http://localhost:8000/api";
+  const table = "userprofile";
+  
   const sendPostRequest = (e) => {
     e.preventDefault();
 
@@ -43,7 +47,7 @@ const Signup = () => {
                 onChange={(e) => setUsername(e.target.value)} 
               />
             </FormControl>
-            <FormControl isRequired mb={3}> {/* Added margin-bottom here */}
+            <FormControl isRequired mb={3}>
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
@@ -65,7 +69,7 @@ const Signup = () => {
                 
             </RadioGroup>
 
-            <Button type="submit" colorScheme="blue" size="lg" fontSize="md" width="full" mb={4}> {/* Added margin-bottom here */}
+            <Button type="submit" colorScheme="blue" size="lg" fontSize="md" width="full" mb={4}>
               Sign Up
             </Button>
           </form>

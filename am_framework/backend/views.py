@@ -220,33 +220,6 @@ class AircraftManagerAPIView(APIView):
             status=200)
 
 
-class FrontendReadOnlyAPIView(AircraftManagerAPIView):
-    """
-    Class for tables that are read-only from the frontend.
-    """
-
-    def post(self, request):
-        return JsonResponse(
-            data={"success": False,
-                  "message": "interface read-only",
-                  "data": None},
-            status=405)
-
-    def put(self, request):
-        return JsonResponse(
-            data={"success": False,
-                  "message": "interface read-only",
-                  "data": None},
-            status=405)
-
-    def delete(self, request):
-        return JsonResponse(
-            data={"success": False,
-                  "message": "interface read-only",
-                  "data": None},
-            status=405)
-
-
 class AircraftTableView(AircraftManagerAPIView):
     '''
     RESTful API for AircraftTable operations.
@@ -287,10 +260,10 @@ class MovementTableView(AircraftManagerAPIView):
                          foreignKeyNames=foreignKeyNames, **kwargs)
 
 
-class UserProfileTableView(FrontendReadOnlyAPIView):
+class UserProfileTableView(AircraftManagerAPIView):
     '''
     RESTful API for UserProfileTable operations.
-    This table is read-only from the frontend.
+    This table can only create or read from the frontend.
     '''
 
     def __init__(self, **kwargs) -> None:
@@ -299,6 +272,43 @@ class UserProfileTableView(FrontendReadOnlyAPIView):
         foreignKeyNames = []
         super().__init__(model=model, serializer=serializer,
                          foreignKeyNames=foreignKeyNames, **kwargs)
+    
+    def get(self, request):
+        filters = self.filterExistFields(request.query_params)
+
+        # Return 404 status code if no username and password specified
+        if filters.get("username") is None or filters.get("password") is None:
+            return JsonResponse(
+                data={"success": False,
+                    "message": "no username or password specified",
+                    "data": None},
+                status=404)
+        
+        # Query the database with the filters
+        targetObjectQueryset = self.model.objects.filter(**filters)
+        if targetObjectQueryset.exists():
+            serializer = self.serializer(targetObjectQueryset, many=True)
+            return JsonResponse(
+                data={"success": True,
+                      "message": "found entries with specified conditions",
+                      "data": serializer.data},
+                status=200)
+
+        # Specified entry not found, return a 404 status code
+        return JsonResponse(
+            data={"success": False,
+                  "message": "could not find entry with specified conditions",
+                  "data": None},
+            status=404)
+
+    def post(self, request):
+        pass
+
+    def delete(self, request):
+        pass
+
+    def put(self, request):
+        pass
 
 class FutureMovementAPIView(APIView):
     """
