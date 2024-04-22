@@ -315,6 +315,14 @@ class UserProfileTableView(AircraftManagerAPIView):
                 status=400)
         filteredDataDict = self.filterExistFields(dataDict)
 
+        # Check if username is used already
+        if self.model.objects.filter(username=filteredDataDict['username']).exists():
+            return JsonResponse(
+                data={"success": False,
+                        "message": "username used",
+                        "data": None},
+                status=400)
+
         # If primary key is specified in the request body, ignore it
         if self.pkName in filteredDataDict:
             print("Found primary key in Dict:",

@@ -38,13 +38,13 @@ const Signup = () => {
       const response = await axios.post(`${baseUrl}/${table}/`, data);
       console.log('Response:', response.data);
       if (response.data.success) {
-        window.location.href = '/';
+        window.location.href = '/login';
         alert("Sign up successfully")
       } else {
-        console.error(response.data.message);
+        alert(response.data.message);
       }
     } catch (error) {
-      console.error('Error adding airport:', error);
+      alert("Username is used. Try a new one.");
     }
   };
 
@@ -68,7 +68,7 @@ const Signup = () => {
             <FormControl isrequired='true' mb={3}>
               <FormLabel>Password</FormLabel>
               <Input
-                type="password"
+                type="text"
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} 
