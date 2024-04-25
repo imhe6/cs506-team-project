@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework',
-    'backend',
-    'corsheaders',
+    "rest_framework",
+    "backend",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -81,16 +81,15 @@ WSGI_APPLICATION = "am_framework.wsgi.application"
 
 # @qxu229: TODO: change the following to project database settings
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'aircraft_manager',
-        'USER': 'root',
-        'PASSWORD': '1qaz2wsx',
-        'HOST': 'db',
-        'PORT': '3306',        # Default MySQL port
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "aircraft_manager",
+        "USER": "root",
+        "PASSWORD": "1qaz2wsx",
+        "HOST": "db",
+        "PORT": "3306",  # Default MySQL port
     }
 }
-
 
 
 # Password validation

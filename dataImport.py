@@ -1,56 +1,54 @@
-#DO NOT USE YET. Not set up for Django integration.
+# DO NOT USE YET. Not set up for Django integration.
 
 import csv
 import mysql.connector
 
-#read in starting data for aircraft_manager database
-#Use the aircraft data to populate aircraft table
-#Set up initial airports
-#Use aircraft data to create initial entries in the movement table
+
+# read in starting data for aircraft_manager database
+# Use the aircraft data to populate aircraft table
+# Set up initial airports
+# Use aircraft data to create initial entries in the movement table
 def readcsv():
     aircraft = []
-    with open("AircraftInfo.csv","r") as file:
+    with open("AircraftInfo.csv", "r") as file:
         csvreader = csv.reader(file)
         header = next(csvreader)
         for x in csvreader:
             aircraft.append(x)
     print(aircraft)
-    #Add data to MySQL Database
+    # Add data to MySQL Database
 
-    #Create Connection
+    # Create Connection
     db = mysql.connector.connect(
-        host ="localhost",
-        user = "root",
-        password = "TempPassword",
-        database = "aircraftFleet"
+        host="localhost", user="root", password="TempPassword", database="aircraftFleet"
     )
     cursor = db.cursor()
-    #Add admin user to userprofile
+    # Add admin user to userprofile
     sql = "INSERT INTO userprofile(username,password,role) VALUES (%s,%s,%s)"
-    val =("admin","thePassword","corporate")
+    val = ("admin", "thePassword", "corporate")
     cursor.execute(sql, val)
     db.commit()
     adminId = cursor.lastrowid
-    #Add to aircrafttable
+    # Add to aircrafttable
 
-    sql = "INSERT INTO aircrafttable(tailNumber,type,status,location) VALUES(%s,%s,%s,%s)"
+    sql = (
+        "INSERT INTO aircrafttable(tailNumber,type,status,location) VALUES(%s,%s,%s,%s)"
+    )
     for entry in aircraft:
-        val =(entry[0],entry[1],entry[2],entry[3])
-        cursor.execute(sql,val)
+        val = (entry[0], entry[1], entry[2], entry[3])
+        cursor.execute(sql, val)
         db.commit()
-        #query = "SELECT airportId WHERE airporttable.airportCode = "
-        #CREATE INITIAL MOVEMENT TABLE ENTRY
-        #sql = "INSERT INTO movementtable(airportId,aircraftId) VALUES(%s,%s)"
-        #val = ()
-        #cursor.execute(sql, val)
-        #db.commit()
+        # query = "SELECT airportId WHERE airporttable.airportCode = "
+        # CREATE INITIAL MOVEMENT TABLE ENTRY
+        # sql = "INSERT INTO movementtable(airportId,aircraftId) VALUES(%s,%s)"
+        # val = ()
+        # cursor.execute(sql, val)
+        # db.commit()
 
-
-
-    #Add Airports to airporttable
+    # Add Airports to airporttable
     sql = "INSERT INTO airporttable(airportCode,user) VALUES(%s,%i)"
-    val =("KORD",adminId)
-    cursor.execute(sql,val)
+    val = ("KORD", adminId)
+    cursor.execute(sql, val)
     db.commit()
     val = ("KLAX", adminId)
     cursor.execute(sql, val)
@@ -60,5 +58,5 @@ def readcsv():
     db.commit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     readcsv()

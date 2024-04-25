@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backend', '0002_rename_lattitude_airporttable_latitude_and_more'),
+        ("backend", "0002_rename_lattitude_airporttable_latitude_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userprofile',
-            name='userId',
+            model_name="userprofile",
+            name="userId",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
     ]
