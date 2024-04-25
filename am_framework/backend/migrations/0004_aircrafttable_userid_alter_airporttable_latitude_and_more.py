@@ -7,48 +7,64 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backend', '0003_alter_userprofile_userid'),
+        ("backend", "0003_alter_userprofile_userid"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='aircrafttable',
-            name='userId',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='backend.userprofile'),
+            model_name="aircrafttable",
+            name="userId",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="backend.userprofile",
+            ),
         ),
         migrations.AlterField(
-            model_name='airporttable',
-            name='latitude',
+            model_name="airporttable",
+            name="latitude",
             field=models.DecimalField(decimal_places=3, max_digits=6),
         ),
         migrations.AlterField(
-            model_name='airporttable',
-            name='longitude',
+            model_name="airporttable",
+            name="longitude",
             field=models.DecimalField(decimal_places=3, max_digits=7),
         ),
         migrations.AlterField(
-            model_name='airporttable',
-            name='userId',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='backend.userprofile'),
+            model_name="airporttable",
+            name="userId",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="backend.userprofile",
+            ),
         ),
         migrations.AlterField(
-            model_name='movementtable',
-            name='aircraftId',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='backend.aircrafttable'),
+            model_name="movementtable",
+            name="aircraftId",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="backend.aircrafttable",
+            ),
         ),
         migrations.AlterField(
-            model_name='movementtable',
-            name='arrivalDate',
+            model_name="movementtable",
+            name="arrivalDate",
             field=models.DateTimeField(max_length=8),
         ),
         migrations.AlterField(
-            model_name='movementtable',
-            name='departureDate',
+            model_name="movementtable",
+            name="departureDate",
             field=models.DateTimeField(max_length=8),
         ),
         migrations.AlterField(
-            model_name='movementtable',
-            name='userId',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='backend.userprofile'),
+            model_name="movementtable",
+            name="userId",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="backend.userprofile",
+            ),
         ),
     ]

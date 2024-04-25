@@ -24,8 +24,9 @@ class AircraftManagerAPIView(APIView):
     :type foreignKeyNames: list
     """
 
-    def __init__(self, model: models.Model, serializer,
-                 foreignKeyNames: list = [], **kwargs) -> None:
+    def __init__(
+        self, model: models.Model, serializer, foreignKeyNames: list = [], **kwargs
+    ) -> None:
         super().__init__(**kwargs)
         self.model: models.Model = model
         self.serializer: serializers.ModelSerializer = serializer
@@ -50,8 +51,7 @@ class AircraftManagerAPIView(APIView):
         return missingFields
 
     def filterExistFields(self, query_dict: dict) -> dict:
-        """Filter out fields in the table.
-        """
+        """Filter out fields in the table."""
         # Initialize a dictionary to store filters
         filters = {}
         queryItems = query_dict.items()
@@ -70,46 +70,60 @@ class AircraftManagerAPIView(APIView):
             all_entries = self.model.objects.all()
             serializer = self.serializer(all_entries, many=True)
             return JsonResponse(
-                data={"success": True,
-                      "message":
-                          "all entries returned since no filter specified",
-                      "data": serializer.data},
-                status=200)
+                data={
+                    "success": True,
+                    "message": "all entries returned since no filter specified",
+                    "data": serializer.data,
+                },
+                status=200,
+            )
         # Query the database with the filters
         targetObjectQueryset = self.model.objects.filter(**filters)
         if targetObjectQueryset.exists():
             serializer = self.serializer(targetObjectQueryset, many=True)
             return JsonResponse(
-                data={"success": True,
-                      "message": "found entries with specified conditions",
-                      "data": serializer.data},
-                status=200)
+                data={
+                    "success": True,
+                    "message": "found entries with specified conditions",
+                    "data": serializer.data,
+                },
+                status=200,
+            )
 
         # Specified entry not found, return a 404 status code
         return JsonResponse(
-            data={"success": False,
-                  "message": "could not find entry with specified conditions",
-                  "data": None},
-            status=404)
+            data={
+                "success": False,
+                "message": "could not find entry with specified conditions",
+                "data": None,
+            },
+            status=404,
+        )
 
     def post(self, request):
         # convert request.body to a dictionary
-        body = request.body.decode('utf-8')
+        body = request.body.decode("utf-8")
         dataDict: dict = json.loads(body)
         # check if all fields are present
         missingFields = self.checkMissingFields(dataDict)
         if missingFields:
             return JsonResponse(
-                data={"success": False,
-                      "message": "missing necessary fields in request body",
-                      "data": None},
-                status=400)
+                data={
+                    "success": False,
+                    "message": "missing necessary fields in request body",
+                    "data": None,
+                },
+                status=400,
+            )
         filteredDataDict = self.filterExistFields(dataDict)
         # print("Filtered dict from JSON in Request Body: ", filteredDataDict)
         # if primary key is specified in the request body, ignore it
         if self.pkName in filteredDataDict:
-            print("Found primary key in Dict:",
-                  filteredDataDict[self.pkName], ", ignoring.")
+            print(
+                "Found primary key in Dict:",
+                filteredDataDict[self.pkName],
+                ", ignoring.",
+            )
             del filteredDataDict[self.pkName]
         # handle foreign key fields
         notFoundForeignKeys: list = []
@@ -119,33 +133,42 @@ class AircraftManagerAPIView(APIView):
                 try:
                     # get the foreign key in the database
                     filteredDataDict[fkName] = relatedModel.objects.get(
-                        pk=filteredDataDict[fkName])
+                        pk=filteredDataDict[fkName]
+                    )
                 except ObjectDoesNotExist:
-                    notFoundForeignKeys.append({
-                        "key": fkName,
-                        "value": filteredDataDict[fkName],
-                        "model": relatedModel.__name__
-                    })
+                    notFoundForeignKeys.append(
+                        {
+                            "key": fkName,
+                            "value": filteredDataDict[fkName],
+                            "model": relatedModel.__name__,
+                        }
+                    )
         # if there are foreign keys not found, return a 404 status code
         if notFoundForeignKeys:
             return JsonResponse(
-                data={"success": False,
-                      "message": "foreign key(s) not found in foreign model(s)",
-                      "data": notFoundForeignKeys},
-                status=404)
+                data={
+                    "success": False,
+                    "message": "foreign key(s) not found in foreign model(s)",
+                    "data": notFoundForeignKeys,
+                },
+                status=404,
+            )
         # create a new table entry
         newEntry = self.model(**filteredDataDict)
         newEntry.save()
         newEntrySerializer = self.serializer(newEntry)
         return JsonResponse(
-            data={"success": True,
-                  "message": "entry created",
-                  "data": newEntrySerializer.data},
-            status=201)
+            data={
+                "success": True,
+                "message": "entry created",
+                "data": newEntrySerializer.data,
+            },
+            status=201,
+        )
 
     def put(self, request):
         # convert request.body to a dictionary
-        body = request.body.decode('utf-8')
+        body = request.body.decode("utf-8")
         dataDict = json.loads(body)
         filteredDataDict = self.filterExistFields(dataDict)
         print("Dict from JSON in Request Body: ", filteredDataDict)
@@ -158,38 +181,45 @@ class AircraftManagerAPIView(APIView):
                 try:
                     # get the foreign key in the database
                     filteredDataDict[fkName] = relatedModel.objects.get(
-                        pk=filteredDataDict[fkName])
+                        pk=filteredDataDict[fkName]
+                    )
                 except ObjectDoesNotExist:
-                    notFoundForeignKeys.append({
-                        "key": filteredDataDict[fkName],
-                        "model": relatedModel.__name__
-                    })
+                    notFoundForeignKeys.append(
+                        {
+                            "key": filteredDataDict[fkName],
+                            "model": relatedModel.__name__,
+                        }
+                    )
         # if there are foreign keys not found, return a 404 status code
         if notFoundForeignKeys:
             return JsonResponse(
-                data={"success": False,
-                      "message": "foreign key(s) not found in foreign model(s)",
-                      "data": notFoundForeignKeys},
-                status=404)
+                data={
+                    "success": False,
+                    "message": "foreign key(s) not found in foreign model(s)",
+                    "data": notFoundForeignKeys,
+                },
+                status=404,
+            )
         print("Primary key in Dict: ", pkVal)
         # check if primary key is already in the database
         if self.model.objects.filter(pk=pkVal).exists():
             # update the existing entry
-            self.model.objects.filter(
-                pk=pkVal).update(**filteredDataDict)
+            self.model.objects.filter(pk=pkVal).update(**filteredDataDict)
             entry = self.model.objects.get(pk=pkVal)
             serializer = self.serializer(entry)
             return JsonResponse(
-                data={"success": True,
-                      "message": "entry updated",
-                      "data": serializer.data},
-                status=200)
+                data={
+                    "success": True,
+                    "message": "entry updated",
+                    "data": serializer.data,
+                },
+                status=200,
+            )
         # primary key not found
         return JsonResponse(
-            data={"success": False,
-                  "message": "entry not found",
-                  "data": None},
-            status=404)
+            data={"success": False, "message": "entry not found", "data": None},
+            status=404,
+        )
 
     def delete(self, request):
         # get the ID (primary key) from the request
@@ -197,10 +227,13 @@ class AircraftManagerAPIView(APIView):
         if not id:
             # ID not provided in request
             return JsonResponse(
-                data={"success": False,
-                      "message": "ID invalid or not provided in request",
-                      "data": None},
-                status=400)
+                data={
+                    "success": False,
+                    "message": "ID invalid or not provided in request",
+                    "data": None,
+                },
+                status=400,
+            )
         try:
             # delete the entry with the specified primary key
             targetObject = self.model.objects.get(pk=id)
@@ -208,136 +241,166 @@ class AircraftManagerAPIView(APIView):
         except ObjectDoesNotExist:
             # primary key not found, return a 404 status code
             return JsonResponse(
-                data={"success": False,
-                      "message": "entry not found",
-                      "data": None},
-                status=404)
+                data={"success": False, "message": "entry not found", "data": None},
+                status=404,
+            )
         # entry deleted successfully
         return JsonResponse(
-            data={"success": True,
-                  "message": "entry deleted",
-                  "data": None},
-            status=200)
+            data={"success": True, "message": "entry deleted", "data": None}, status=200
+        )
 
 
 class AircraftTableView(AircraftManagerAPIView):
-    '''
+    """
     RESTful API for AircraftTable operations.
-    '''
+    """
 
     def __init__(self, **kwargs) -> None:
         model = aircrafttable
         serializer = AircraftSerializer
         foreignKeyNames = ["userId"]
-        super().__init__(model=model, serializer=serializer,
-                         foreignKeyNames=foreignKeyNames, **kwargs)
+        super().__init__(
+            model=model,
+            serializer=serializer,
+            foreignKeyNames=foreignKeyNames,
+            **kwargs
+        )
 
 
 class AirportTableView(AircraftManagerAPIView):
-    '''
+    """
     RESTful API for AirportTable operations.
-    '''
+    """
 
     def __init__(self, **kwargs) -> None:
         model = airporttable
         serializer = AirportSerializer
         foreignKeyNames = ["userId"]
-        super().__init__(model=model, serializer=serializer,
-                         foreignKeyNames=foreignKeyNames, **kwargs)
+        super().__init__(
+            model=model,
+            serializer=serializer,
+            foreignKeyNames=foreignKeyNames,
+            **kwargs
+        )
 
 
 class MovementTableView(AircraftManagerAPIView):
-    '''
+    """
     RESTful API for MovementTable operations.
     Frontend can only read or insert entries from this table.
-    '''
+    """
 
     def __init__(self, **kwargs) -> None:
         model = movementtable
         serializer = MovementSerializer
         foreignKeyNames = ["userId", "aircraftId"]
-        super().__init__(model=model, serializer=serializer,
-                         foreignKeyNames=foreignKeyNames, **kwargs)
+        super().__init__(
+            model=model,
+            serializer=serializer,
+            foreignKeyNames=foreignKeyNames,
+            **kwargs
+        )
 
 
 class UserProfileTableView(AircraftManagerAPIView):
-    '''
+    """
     RESTful API for UserProfileTable operations.
     This table can only create or read from the frontend.
-    '''
+    """
 
     def __init__(self, **kwargs) -> None:
         model = userprofile
         serializer = UserSerializer
         foreignKeyNames = []
-        super().__init__(model=model, serializer=serializer,
-                         foreignKeyNames=foreignKeyNames, **kwargs)
-    
+        super().__init__(
+            model=model,
+            serializer=serializer,
+            foreignKeyNames=foreignKeyNames,
+            **kwargs
+        )
+
     def get(self, request):
         filters = self.filterExistFields(request.query_params)
 
         # Return 404 status code if no username and password specified
         if filters.get("username") is None or filters.get("password") is None:
             return JsonResponse(
-                data={"success": False,
+                data={
+                    "success": False,
                     "message": "no username or password specified",
-                    "data": None},
-                status=404)
-        
+                    "data": None,
+                },
+                status=404,
+            )
+
         # Query the database with the filters
         targetObjectQueryset = self.model.objects.filter(**filters)
         if targetObjectQueryset.exists():
             serializer = self.serializer(targetObjectQueryset, many=True)
             return JsonResponse(
-                data={"success": True,
-                      "message": "found entries with specified conditions",
-                      "data": serializer.data},
-                status=200)
+                data={
+                    "success": True,
+                    "message": "found entries with specified conditions",
+                    "data": serializer.data,
+                },
+                status=200,
+            )
 
         # Specified entry not found, return a 404 status code
         return JsonResponse(
-            data={"success": False,
-                  "message": "could not find entry with specified conditions",
-                  "data": None},
-            status=404)
+            data={
+                "success": False,
+                "message": "could not find entry with specified conditions",
+                "data": None,
+            },
+            status=404,
+        )
 
     def post(self, request):
         # convert request.body to a dictionary
-        body = request.body.decode('utf-8')
+        body = request.body.decode("utf-8")
         dataDict: dict = json.loads(body)
         # check if all fields are present
         missingFields = self.checkMissingFields(dataDict)
         if missingFields:
             return JsonResponse(
-                data={"success": False,
-                      "message": "missing necessary fields in request body",
-                      "data": None},
-                status=400)
+                data={
+                    "success": False,
+                    "message": "missing necessary fields in request body",
+                    "data": None,
+                },
+                status=400,
+            )
         filteredDataDict = self.filterExistFields(dataDict)
 
         # Check if username is used already
-        if self.model.objects.filter(username=filteredDataDict['username']).exists():
+        if self.model.objects.filter(username=filteredDataDict["username"]).exists():
             return JsonResponse(
-                data={"success": False,
-                        "message": "username used",
-                        "data": None},
-                status=400)
+                data={"success": False, "message": "username used", "data": None},
+                status=400,
+            )
 
         # If primary key is specified in the request body, ignore it
         if self.pkName in filteredDataDict:
-            print("Found primary key in Dict:",
-                  filteredDataDict[self.pkName], ", ignoring.")
+            print(
+                "Found primary key in Dict:",
+                filteredDataDict[self.pkName],
+                ", ignoring.",
+            )
             del filteredDataDict[self.pkName]
-        
+
         # create a new table entry
         newEntry = self.model(**filteredDataDict)
         newEntry.save()
         newEntrySerializer = self.serializer(newEntry)
         return JsonResponse(
-            data={"success": True,
-                  "message": "entry created",
-                  "data": newEntrySerializer.data},
-            status=201)
+            data={
+                "success": True,
+                "message": "entry created",
+                "data": newEntrySerializer.data,
+            },
+            status=201,
+        )
 
     def delete(self, request):
         pass
@@ -345,10 +408,11 @@ class UserProfileTableView(AircraftManagerAPIView):
     def put(self, request):
         pass
 
+
 class FutureMovementAPIView(APIView):
     """
     API view to handle recording of future airplane movements by facility managers.
-    
+
     This view ensures that only movements with a date and/or time in the future are recorded,
     aligning with the requirements for facility managers to schedule future airplane movements.
     """
@@ -356,23 +420,24 @@ class FutureMovementAPIView(APIView):
     def post(self, request, *args, **kwargs):
         """
         Handles POST requests to create new future airplane movements.
-        
+
         Validates that the specified date and/or time for the airplane movement is in the future.
         If the validation passes, the movement is recorded; otherwise, an error is returned.
-        
+
         :param request: The HTTP request object.
         :return: A Response object with creation status and data or error message.
         """
         serializer = MovementSerializer(data=request.data)
 
         if serializer.is_valid():
-            movement_date = serializer.validated_data.get('arrivalDate')
+            movement_date = serializer.validated_data.get("arrivalDate")
 
             # Check if the movement date is indeed in the future.
             if movement_date and movement_date <= timezone.now():
-                return Response({
-                    'error': 'The movement date must be in the future.'
-                }, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"error": "The movement date must be in the future."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
             # Save the valid future movement to the database.
             serializer.save()
