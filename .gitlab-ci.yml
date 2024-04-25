@@ -17,7 +17,8 @@ lint_backend:
   before_script:
   #Add requirements.txt for lint to run
   script:
-      - echo "Linting project"
+    - echo "Linting project"
+    - black . --check --verbose --diff --color
 
 
 static_backend:
