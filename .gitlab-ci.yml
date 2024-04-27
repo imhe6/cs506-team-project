@@ -50,9 +50,13 @@ test_backend:
     #record results
 
 #Unit test for frontend
-#test_frontend:
- # stage: test
-  #script:
-   #   -echo "Testing Front End"
+test_frontend:
+  stage: test
+  image: node:latest
+  script:
+    - echo "Testing Front End"
+    - cd aircraft-manager-frontend
+    - npm install
+    - npm test
 
 
