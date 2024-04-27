@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardPage from "./pages/DashboardPage";
 import HomePage from "./pages/HomePage";
 import MapPage from "./pages/MapPage";
+import EditAircraftsPage from "./pages/EditAircraftsPage";
 import EditAirportsPage from "./pages/EditAirportsPage";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import Terms from "./components/Terms";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/editaircrafts" element={<EditAircraftsPage/>}/>
         </Routes>
         <Footer />
       </Box>
