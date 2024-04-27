@@ -8,24 +8,28 @@ from ..models import userprofile
 This class tests the get method of userprofile table with different filters.
 Author: Alvin Cheng
 """
+
+
 class UserProfileTableGetTests(TestCase):
     """
     Create some user instances before each testing
     """
+
     @classmethod
     def setUpTestData(cls):
         cls.users = []
         cls.users.append(
-            userprofile.objects.create(
-            username="root", password="123456", role="admin")
+            userprofile.objects.create(username="root", password="123456", role="admin")
         )
         cls.users.append(
             userprofile.objects.create(
-            username="corporate123", password="1qaz2wsx", role="corporate")
+                username="corporate123", password="1qaz2wsx", role="corporate"
+            )
         )
         cls.users.append(
             userprofile.objects.create(
-            username="facility123", password="qwertyuio", role="facility")
+                username="facility123", password="qwertyuio", role="facility"
+            )
         )
         cls.client = APIClient()
 
@@ -33,6 +37,7 @@ class UserProfileTableGetTests(TestCase):
     This is a helper class that compares each fields between the user 
     get from database and the created user.
     """
+
     def compareHelper(self, userGot: dict, userCreated: userprofile):
         self.assertEqual(userGot["username"], userCreated.username)
         self.assertEqual(userGot["password"], userCreated.password)
@@ -41,6 +46,7 @@ class UserProfileTableGetTests(TestCase):
     """
     Test getting the role with username and password
     """
+
     def test_userprofile_get_with_username_and_password(self):
         for user in self.users:
             # Send response with username and password should only get one entry
@@ -56,10 +62,10 @@ class UserProfileTableGetTests(TestCase):
             # Compare user got from databases with created user
             self.compareHelper(data[0], user)
 
-
     """
     Test getting the role with only username or password
     """
+
     def test_userprofile_get_with_one_username_or_password(self):
         for user in self.users:
             # Send response with username should get no entry
@@ -82,10 +88,10 @@ class UserProfileTableGetTests(TestCase):
             data = response.json()["data"]
             self.assertIsNone(data)
 
-    
     """
     Test getting the role with no filter
     """
+
     def test_userprofile_get_with_no_filter(self):
         # Send response with no filter
         url = f"/api/userprofile/"
@@ -97,10 +103,10 @@ class UserProfileTableGetTests(TestCase):
         data = response.json()["data"]
         self.assertIsNone(data)
 
-
     """
     Test getting the role with extra filters
     """
+
     def test_userprofile_with_extra_filters(self):
         # Extra filters with username and password
         for user in self.users:
