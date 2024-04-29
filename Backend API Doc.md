@@ -232,12 +232,12 @@ RESTful API for operations on `movementtable`.
 
 ### Mutant parameters in Scheme
 
-#### Ranging filter for field name `arrivalDate` and `departureDate`
+#### `GET` method : Ranging filter for field name `arrivalDate` and `departureDate`
 
-When  `*Date` and `*Date2` parameters appears as a pair in a request (here `arrivalDate` and `arrivalDate2`, or `departureDate` and `departureDate2`):
+When  `*Date` and `*Date2` parameters appears as a pair in a `GET` request (here `arrivalDate` and `arrivalDate2`, or `departureDate` and `departureDate2`):
 
 - The two parameters will be regarded as one filtering criterion, which filters out entries that have  `*Date` field values ranging **between** the values specified by these two parameters.
-- If `*Date` and `*Date2` parameters do not appear as a pair in a request, this mutant will not be triggered.
+- If `*Date` and `*Date2` parameters do not appear as a pair in a request, or the request is not `GET`, the mutant will not be triggered.
   - If the request only has `*Date` parameter, it will be regarded as a normal filter.
   - If the request only has `*Date2` parameter, it will be ignored.
 - **Note:** Value of `*Date2` **must be bigger** than `*Date`, otherwise there will be no entry matching the criteria.

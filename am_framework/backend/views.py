@@ -301,27 +301,68 @@ class MovementTableView(AircraftManagerAPIView):
             **kwargs
         )
 
-    def filterExistFields(self, queryDict: dict) -> dict:
+    def filterExistFields(self, queryDict: dict, isGet=False) -> dict:
         superDict = super().filterExistFields(queryDict)
-        # make ranging criteria if `arrivalDate` and `arrivalDateEnd` appear
-        if "arrivalDate" in queryDict:
-            if "arrivalDate2" in queryDict:
-                # print("Found arrivalDate and arrivalDate2 in query parameters")
-                superDict["arrivalDate__range"] = [
-                    queryDict["arrivalDate"],
-                    queryDict["arrivalDate2"],
-                ]
-                del superDict["arrivalDate"]
-        # make ranging criteria if `departureDate` and `departureDateEnd` appear
-        if "departureDate" in queryDict:
-            if "departureDate2" in queryDict:
-                print("Found departureDate and departureDate2 in query parameters")
-                superDict["departureDate__range"] = [
-                    queryDict["departureDate"],
-                    queryDict["departureDate2"],
-                ]
-                del superDict["departureDate"]
+
+        # For GET method: mutant parameter for ranging filter for "*Date" fields
+        if isGet:
+            # make ranging criteria if `arrivalDate` and `arrivalDateEnd` appear
+            if "arrivalDate" in queryDict:
+                if "arrivalDate2" in queryDict:
+                    # print("Found arrivalDate and arrivalDate2 in query parameters")
+                    superDict["arrivalDate__range"] = [
+                        queryDict["arrivalDate"],
+                        queryDict["arrivalDate2"],
+                    ]
+                    del superDict["arrivalDate"]
+            # make ranging criteria if `departureDate` and `departureDateEnd` appear
+            if "departureDate" in queryDict:
+                if "departureDate2" in queryDict:
+                    print("Found departureDate and departureDate2 in query parameters")
+                    superDict["departureDate__range"] = [
+                        queryDict["departureDate"],
+                        queryDict["departureDate2"],
+                    ]
+                    del superDict["departureDate"]
+        
         return superDict
+
+    def get(self, request):
+        filters = self.filterExistFields(request.query_params, isGet=True)
+        # Return all entries in the table if filter not specified
+        if len(filters) == 0:
+            all_entries = self.model.objects.all()
+            serializer = self.serializer(all_entries, many=True)
+            return JsonResponse(
+                data={
+                    "success": True,
+                    "message": "all entries returned since no filter specified",
+                    "data": serializer.data,
+                },
+                status=200,
+            )
+        # Query the database with the filters
+        targetObjectQueryset = self.model.objects.filter(**filters)
+        if targetObjectQueryset.exists():
+            serializer = self.serializer(targetObjectQueryset, many=True)
+            return JsonResponse(
+                data={
+                    "success": True,
+                    "message": "found entries with specified conditions",
+                    "data": serializer.data,
+                },
+                status=200,
+            )
+
+        # Specified entry not found, return a 404 status code
+        return JsonResponse(
+            data={
+                "success": False,
+                "message": "could not find entry with specified conditions",
+                "data": None,
+            },
+            status=404,
+        )
 
 
 class UserProfileTableView(AircraftManagerAPIView):
