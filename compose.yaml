@@ -1,16 +1,16 @@
-
+version: '3.8'
 services:
   #Database Service
   db:
-    image: mysql:latest
+    image: mysql:8.3
     container_name: projectMySQLDb
     restart: always
     volumes:
       - data:/var/lib/mysql
     #Initialize the MySQL database environment
     environment:
-      MYSQL_DATABASE: "aircraft_manager"
       MYSQL_ROOT_PASSWORD: "1qaz2wsx"
+      MYSQL_DATABASE: "aircraft_manager"
       MYSQL_USER: "backend"
       MYSQL_PASSWORD: "1qaz2wsx"
     #Open the ports for the MySQL database so that Django can use it
@@ -20,17 +20,21 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:3306"]
       timeout: "5s"
       retries: 3
+    command: --default-authentication-plugin=caching_sha2_password
   #Backend Service
   backend:
-    restart: no
     #Build the docker container from the Dockerfile
     build:
-      context: .
+      restart: no
+      context: ./am_framework 
       dockerfile: Dockerfile
     container_name: djangoContainer
-    command: sh -c "cd am_framework && python3 manage.py makemigrations && python3 manage.py migrate && python manage.py test"
+    command: >
+      sh -c "python manage.py wait_for_db &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8080"
     volumes:
-      - .:/app
+      - ./am_framework:/app
     #Open ports for the local host
     ports:
       - "8080:8080"
@@ -38,5 +42,31 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: backend
+      MYSQL_PASSWORD: 1qaz2wsx
+      MYSQL_DB: aircraft_manager
+  #Frontend service
+  frontend:
+    #Builds the docker container using the Dockerfile within the frontend directory
+    build:
+      context: ./aircraft-manager-frontend
+      dockerfile: Dockerfile
+    container_name: reactFrontendContainer
+    #Starting the development server for the react application
+    command: npm start
+    volumes:
+      - ./aircraft-manager-frontend:/app
+      - /app/node_modules
+    #Exposing port 3000 on host & mapping it to port 3000 in the container
+    ports:
+      - "3000:3000"
+    #Enable polling for file changes to ensure hot-reloading works in Docker environments
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+
 volumes:
   data:
