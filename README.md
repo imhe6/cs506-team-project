@@ -40,7 +40,7 @@ The following user requirements reflect the unique aspects of Python Airways' op
 | R13  | After clicking airports on the map, the front SHALL request data from backend and display the corresponding information. The backend SHALL access the database and return the results back to frontend. | High     | Currently working   |
 | R14 | The system provides a functionality that allows users to select a specific date and time range. Upon selection, the frontend SHALL display a list of all scheduled aircraft arrivals and departures within the chosen timeframe. This list includes details such as flight number, aircraft type, estimated time of arrival or departure and deprature or arrival airports | High |Currently working |
 | R15 | The system provides an interactive map interface allowing authorized user roles to create a new airport after selecting a location on the map with a mouse click. Upon mouse click, the system SHALL prompt the user to enter required information for adding a new airport, including airport name, airport code, and geographical coordinates. The backend SHALL validate the entered information for completeness and uniqueness against the existing airport database. If validation succeeds, the system SHALL add the new airport to the database and visually indicate the addition on the interactive map. If validation fails, the system SHALL display an error message detailing the reason for failure.| High | Currently working|
-| R16  | The system provides an interface to schedule future aircraft arrivals and departures. This interface SHALL allow airport managers to specify the date, time, airline, flight number, and aircraft type for each arrival or departure. Upon submission of a new schedule, the backend SHALL validate the entry for conflicts with existing schedules. If the new schedule passes validation, the system SHALL record it in the movements database. If the validation fails, the system SHALL display an informative error message. | High     | In Progress   |
+| R16  | The system provides an interface to schedule future aircraft arrivals and departures. This interface SHALL allow airport managers to specify the date, time, airline, flight number, and aircraft type for each arrival or departure. Upon submission of a new schedule, the backend SHALL validate the entry for conflicts with existing schedules. If the new schedule passes validation, the system SHALL record it in the movements database. If the validation fails, the system SHALL display an informative error message. | High     |  Currently Working   |
 
 <!-- <div align="center"><small><i>Excerpt from Crookshanks Table 2-2 showing example user requirements for a timekeeping system</i></small></div> -->
 
@@ -65,7 +65,7 @@ The following user requirements reflect the unique aspects of Python Airways' op
 - As a corporate manager, I want to see a count of how many airports I have.
     - The count of airports should be prominently displayed on the corporate manager's dashboard.
     - The count must be updated in real-time to reflect any additions, removals, or changes in the status of airports.
--[SCRAPPED]As a corporate manager, I want to create an account if I do not have one, or log in if I do.
+- [SCRAPPED]As a corporate manager, I want to create an account if I do not have one, or log in if I do.
     -Allow different privilages for corporate manager
     -Use cookies to maintain login status
 
@@ -86,7 +86,7 @@ The following user requirements reflect the unique aspects of Python Airways' op
     - After recording the movement, the number of aircraft at the airports should reflect the change.
 - As a facility manager, I want to view what I used to have in my airports at some time in the past, and what I will have in my airport at some point in the future.
     - Facility manager can select a specific date after clicking on the airport and see the number of airport based on corresponding date.
--[SCRAPPED]As a facility manager, I want to create an account if I do not have one, or log in if I do.
+- [SCRAPPED]As a facility manager, I want to create an account if I do not have one, or log in if I do.
     -Allow different privilages for facility manager
     -Use cookies to maintain login status
 
@@ -98,8 +98,8 @@ The following user requirements reflect the unique aspects of Python Airways' op
 |---- | -------- |
 |Database Unit Test| N/A |
 |Backend Unit Test - Airport Table Post| Test Passed |
-|Frontend Unit Test - Send post request with json data | N/A |
-|Integration Test | N/A |
+|Frontend Unit Test - Send post request with json data | Test Passed |
+|Integration Test | Test Passed |
 |Manual Testing - Get all entries stored in database| Test Passed |
 
 - As a corporate manager, I want to see my airports represented on a map.
@@ -108,8 +108,8 @@ The following user requirements reflect the unique aspects of Python Airways' op
 |---- | -------- |
 |Database Unit Test| N/A |
 |Backend Unit Test - Airport Table Get| Test Passed |
-|Frontend Unit Test - Send get request | N/A |
-|Integration Test | N/A |
+|Frontend Unit Test - Send get request | Test Passed |
+|Integration Test | Test Passed |
 |Manual Testing - Send data to backend and create new entry in database | Test Passed |
 - As a corporate manager, I want to see an aggregate of the airplane movements that has come in to and gone out from all airports over an arbitrary time span.
 
@@ -117,8 +117,8 @@ The following user requirements reflect the unique aspects of Python Airways' op
 |---- | -------- |
 |Database Unit Test| N/A |
 |Backend Unit Test - Movement Table Get| Test Passed |
-|Frontend Unit Test - Send get request | N/A |
-|Integration Test | N/A |
+|Frontend Unit Test - Send get request | Test Passed |
+|Integration Test | Test Passed |
 |Manual Testing - Get all entries over the time span from database| N/A |
 - As a facility manager, I want to view what airplanes and how many I have in my airports.
 
@@ -126,8 +126,8 @@ The following user requirements reflect the unique aspects of Python Airways' op
 |---- | -------- |
 |Database Unit Test| N/A |
 |Backend Unit Test - Aircraft Table Get| Test Passed |
-|Frontend Unit Test - Send get request | N/A |
-|Integration Test | N/A |
+|Frontend Unit Test - Send get request | Test Passed |
+|Integration Test | Test Passed |
 |Manual Testing - Get all entries in any airport from database| N/A |
 
 ### User Interface Requirements
