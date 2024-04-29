@@ -100,11 +100,6 @@ class MovementTableGetTest(TestCase):
         self.assertEqual(entryGot["movementId"], entryCreated.movementId)
         self.assertEqual(entryGot["arrivalAirportId"], entryCreated.arrivalAirportId)
         self.assertEqual(entryGot["originAirportId"], entryCreated.originAirportId)
-        # newDatetimeFormat = '%Y-%m-%d %H:%M:%S'
-        # newArrivalDate = entryCreated.arrivalDate.replace(
-        #     tzinfo=None).strftime(newDatetimeFormat)
-        # newDepartureDate = entryCreated.departureDate.replace(
-        #     tzinfo=None).strftime(newDatetimeFormat)
         self.assertEqual(entryGot["arrivalDate"], entryCreated.arrivalDate)
         self.assertEqual(entryGot["departureDate"], entryCreated.departureDate)
         self.assertEqual(entryGot["aircraftId"], entryCreated.aircraftId.aircraftId)
@@ -171,6 +166,56 @@ class MovementTableGetTest(TestCase):
         """
         # should only get one entry
         response = self.client.get(f"/api/movement/?arrivalDate=2022-10-01T12:00:00Z")
+        # Check if we get only one entry
+        data = response.json()["data"]
+        self.assertEqual(len(data), 1)
+
+        # Compare aircraft got from database with created aircraft
+        self.compareHelper(data[0], self.movements[1])
+
+        """
+        Send get request with arrivalDate range
+        """
+        # should only get one entry
+        response = self.client.get(
+            f"/api/movement/?arrivalDate=2022-10-01T12:00:00Z&arrivalDate2=2022-10-01T12:00:00Z"
+        )
+        # Check if we get only one entry
+        data = response.json()["data"]
+        self.assertEqual(len(data), 1)
+
+        # Compare aircraft got from database with created aircraft
+        self.compareHelper(data[0], self.movements[1])
+
+        # should only get one entry
+        response = self.client.get(
+            f"/api/movement/?arrivalDate=2021-12-01T12:00:00Z&arrivalDate2=2022-12-01T12:00:00Z"
+        )
+        # Check if we get only one entry
+        data = response.json()["data"]
+        self.assertEqual(len(data), 1)
+
+        # Compare aircraft got from database with created aircraft
+        self.compareHelper(data[0], self.movements[1])
+
+        """
+        Send get request with departureDate range
+        """
+        # should only get one entry
+        response = self.client.get(
+            f"/api/movement/?departureDate=2022-10-01T10:00:00Z&departureDate2=2022-10-01T12:00:00Z"
+        )
+        # Check if we get only one entry
+        data = response.json()["data"]
+        self.assertEqual(len(data), 1)
+
+        # Compare aircraft got from database with created aircraft
+        self.compareHelper(data[0], self.movements[1])
+
+        # should only get one entry
+        response = self.client.get(
+            f"/api/movement/?departureDate=2021-12-01T12:00:00Z&departureDate2=2022-12-01T12:00:00Z"
+        )
         # Check if we get only one entry
         data = response.json()["data"]
         self.assertEqual(len(data), 1)
@@ -255,6 +300,35 @@ class MovementTableGetTest(TestCase):
         data = response.json()["data"]
         # Compare aircraft got from database with created aircraft
         self.compareHelper(data[0], self.movements[1])
+
+        """
+        Use arrivalDate and departureDate range as filter
+        """
+        url = "/api/movement/?arrivalDate=2021-10-01T12:00:00Z&arrivalDate2=2022-10-01T12:00:00Z&departureDate=2022-10-01T10:00:00Z"
+
+        response = self.client.get(url)
+        data = response.json()["data"]
+        self.assertEqual(len(data), 1)
+
+        # Compare aircraft got from database with created aircraft
+        self.compareHelper(data[0], self.movements[1])
+
+        url = "/api/movement/?arrivalDate=2021-10-01T12:00:00Z&arrivalDate2=2022-10-01T12:00:00Z&departureDate=2022-10-01T10:00:00Z&departureDate2=2023-10-01T10:00:00Z"
+        response = self.client.get(url)
+        data = response.json()["data"]
+        self.assertEqual(len(data), 1)
+
+        # Compare aircraft got from database with created aircraft
+        self.compareHelper(data[0], self.movements[1])
+
+        url = "/api/movement/?arrivalDate=2021-10-01T12:00:00Z&arrivalDate2=2022-10-01T12:00:00Z&departureDate=2021-10-01T10:00:00Z&departureDate2=2022-10-01T10:00:00Z"
+        response = self.client.get(url)
+        data = response.json()["data"]
+        self.assertEqual(len(data), 2)
+
+        # Compare aircraft got from database with created aircraft
+        self.compareHelper(data[0], self.movements[0])
+        self.compareHelper(data[1], self.movements[1])
 
     """
     Test getting entries with non-existing fields filter
