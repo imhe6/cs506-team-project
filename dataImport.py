@@ -51,7 +51,6 @@ def readcsv():
         cursor.execute(sql, val)
         db.commit()
         aircraftId = cursor.lastrowid
-        print(aircraftId)
         # query = "SELECT airportId WHERE airporttable.airportCode = "
         # CREATE INITIAL MOVEMENT TABLE ENTRY
         sql = "INSERT INTO backend_movementtable(aircraftId_id,arrivalDate,departureDate,arrivalAirportId,userId_id) VALUES(%s,%s,%s,%s,%s)"
