@@ -324,7 +324,7 @@ class MovementTableView(AircraftManagerAPIView):
                         queryDict["departureDate2"],
                     ]
                     del superDict["departureDate"]
-        
+
         return superDict
 
     def get(self, request):

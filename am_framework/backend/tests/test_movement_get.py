@@ -309,27 +309,26 @@ class MovementTableGetTest(TestCase):
         response = self.client.get(url)
         data = response.json()["data"]
         self.assertEqual(len(data), 1)
-        
+
         # Compare aircraft got from database with created aircraft
         self.compareHelper(data[0], self.movements[1])
-        
+
         url = "/api/movement/?arrivalDate=2021-10-01T12:00:00Z&arrivalDate2=2022-10-01T12:00:00Z&departureDate=2022-10-01T10:00:00Z&departureDate2=2023-10-01T10:00:00Z"
         response = self.client.get(url)
         data = response.json()["data"]
         self.assertEqual(len(data), 1)
-        
+
         # Compare aircraft got from database with created aircraft
         self.compareHelper(data[0], self.movements[1])
-        
+
         url = "/api/movement/?arrivalDate=2021-10-01T12:00:00Z&arrivalDate2=2022-10-01T12:00:00Z&departureDate=2021-10-01T10:00:00Z&departureDate2=2022-10-01T10:00:00Z"
         response = self.client.get(url)
         data = response.json()["data"]
         self.assertEqual(len(data), 2)
-        
+
         # Compare aircraft got from database with created aircraft
         self.compareHelper(data[0], self.movements[0])
         self.compareHelper(data[1], self.movements[1])
-
 
     """
     Test getting entries with non-existing fields filter
