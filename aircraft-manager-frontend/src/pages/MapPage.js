@@ -16,7 +16,7 @@ const starIcon = new L.Icon({
 function MapPage() {
   const [airports, setAirports] = useState([]);
 
-  const baseUrl = 'http://localhost:8000/api'; 
+  const baseUrl = 'http://localhost:5500/api'; 
   const apiSetName = 'airport';
 
   const fetchAirports = async () => {
