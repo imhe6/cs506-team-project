@@ -48,7 +48,7 @@ class AircraftManagerAPIView(APIView):
         for fname in self.modelFieldNames:
             if fname not in jsonDict:
                 missingFields.append(fname)
-        return missingFields
+        return missingFields  # type: ignore
 
     def filterExistFields(self, queryDict: dict) -> dict:
         """Filter out fields in the table."""
@@ -374,7 +374,7 @@ class UserProfileTableView(AircraftManagerAPIView):
     def __init__(self, **kwargs) -> None:
         model = userprofile
         serializer = UserSerializer
-        foreignKeyNames = []
+        foreignKeyNames = []  # type: ignore
         super().__init__(
             model=model,
             serializer=serializer,
