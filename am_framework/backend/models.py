@@ -91,3 +91,4 @@ class userprofile(models.Model):
 # to create the table in the database
 # NOTE: DO NOT DIRECTLY RUN SQL COMMANDS TO CREATE TABLES,
 # or Django will not be able to manage them
+#
