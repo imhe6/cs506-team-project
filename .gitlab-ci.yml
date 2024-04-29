@@ -1,15 +1,8 @@
 stages:
-  - build
   - lint
   - static
   - test
   - release
-
-build_job:
-  stage: build
-  script:
-    - echo "Building project"
-
 
 lint_backend:
   stage: lint
@@ -25,10 +18,11 @@ static_backend:
   stage: static
   image: python
   before_script:
-    #Add pip install - ./requirements.txt
+    - pip install -r ./am_framework/requirements.txt
   script:
     - echo "static analysis"
-    #- mypy
+    - mypy . --ignore-missing-imports
+
   tags:
     - dind
 
@@ -56,8 +50,8 @@ test_frontend:
   image: node:latest
   script:
     - echo "Testing Front End"
-    #- cd aircraft-manager-frontend
-    #- npm install
-    #- npm test
+    - cd aircraft-manager-frontend
+    - npm install
+    - npm test
 
 
