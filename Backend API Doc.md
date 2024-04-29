@@ -273,10 +273,10 @@ RESTful API for operations on `airporttable`.
 
 | Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
 | ------------ | ----------- | ---- | ---- | ------- |
-| `aircraftId` | `int`       | NO   | **Primary** | NULL    |
-| `tailNumber` | `varchar(45)` | YES  |     | NULL    |
-| `status`     | `varchar(45)` | YES  |     | NULL    |
-| `location`   | `varchar(4)` | YES  |     | NULL    |
-| `aircraftType` | `varchar(4)` | YES  |     | NULL    |
-| `userId_id`  | `int`       | NO   | **Foreign** (`userId` in table `userprofile`) | NULL    |
+| `airportId` | `int`        | **NO** | **Primary**                                   | NULL    |
+| `airportCode` | `varchar(4)` | NO   |     | NULL    |
+| `latitude` | `decimal(6,3)` | NO   |     | NULL    |
+| `longitude` | `decimal(7,3)` | NO   |     | NULL    |
+| `numAircraft` | `int`        | YES  |     | NULL    |
+| `userId` (`userId_id` in actual tables) | `int`        | NO   | **Foreign** (`userId` in table `userprofile`) | NULL    |
 
