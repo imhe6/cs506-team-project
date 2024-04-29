@@ -16,12 +16,17 @@ services:
     #Open the ports for the MySQL database so that Django can use it
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3306"]
+      timeout: "5s"
+      retries: 3
     command: --default-authentication-plugin=caching_sha2_password
   #Backend Service
   backend:
     #Build the docker container from the Dockerfile
     build:
-      context: ./am_framework  
+      restart: no
+      context: ./am_framework 
       dockerfile: Dockerfile
     container_name: djangoContainer
     command: >
@@ -33,8 +38,10 @@ services:
     #Open ports for the local host
     ports:
       - "8080:8080"
+    #Verify the condition of the MySQL database
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       MYSQL_HOST: db
       MYSQL_USER: backend
