@@ -318,7 +318,7 @@ class MovementTableView(AircraftManagerAPIView):
             # make ranging criteria if `departureDate` and `departureDateEnd` appear
             if "departureDate" in queryDict:
                 if "departureDate2" in queryDict:
-                    print("Found departureDate and departureDate2 in query parameters")
+                    # print("Found departureDate and departureDate2 in query parameters")
                     superDict["departureDate__range"] = [
                         queryDict["departureDate"],
                         queryDict["departureDate2"],
