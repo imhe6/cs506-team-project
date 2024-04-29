@@ -15,12 +15,13 @@ APIs has common parent URL scheme `{baserurl}/api/{apisetname}`, where:
 
 ### Table field types
 
-| Type          | Description                                                  |
-| ------------- | ------------------------------------------------------------ |
-| `int`         | Integer.                                                     |
-| `varchar(n)`  | String, with maximum length being `n`.                       |
-| `datetime(n)` | Date & time, with maximum precision of seconds being `n` decimal digits.<br />If passed in a string (e.g. a parameter in an HTTP request), then the string should have this format: `"%Y-%m-%dT%H:%M:%SZ"`. <br />Example: String `"2022-02-01T14:01:01Z"` represents for `02/01/2022 2:01:01 PM`. |
-| `choice`      | Field values should be **one of the given choices.** Choices will be indicated below in this documentation. |
+| Type            | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| `int`           | Integer.                                                     |
+| `varchar(n)`    | String, with maximum length being `n`.                       |
+| `decimal(m, n)` | Decimal number, with `m` total digits and `n` decimal digits. |
+| `datetime(n)`   | Date & time, with maximum precision of seconds being `n` decimal digits.<br />If passed in a string (e.g. a parameter in an HTTP request), then the string should have this format: `"%Y-%m-%dT%H:%M:%SZ"`. <br />Example: String `"2022-02-01T14:01:01Z"` represents for `02/01/2022 2:01:01 PM`. |
+| `choice`        | Field values should be **one of the given choices.** Choices will be indicated below in this documentation. |
 
 
 
@@ -209,7 +210,7 @@ RESTful API for operations on `aircrafttable`.
 
 | Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
 |-------------|-------------|------|-----|---------|
-| `aircraftId` | `int`       | NO | **Primary**                                   | NULL    |
+| `aircraftId` | `int`       | YES (auto increment; will be ignored in `POST` requests) | **Primary**                                   | NULL    |
 | `tailNumber` | `varchar(45)` | YES  |     | NULL    |
 | `status`     | `varchar(45)` | YES  |     | NULL    |
 | `location`   | `varchar(4)` | YES  |     | NULL    |
@@ -249,7 +250,7 @@ When  `*Date` and `*Date2` parameters appears as a pair in a `GET` request (here
 
 | Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
 | ------------ | ----------- | ---- | ---- | ------- |
-| `movementId`     | `int`       | NO   | **Primary** | NULL    |
+| `movementId`     | `int`       | YES (auto increment; will be ignored in `POST` requests) | **Primary** | NULL    |
 | `arrivalAirportId` | `int`       | YES  |     | NULL    |
 | `arrivalDate`    | `datetime(6)` | NO   |     | NULL    |
 | `departureDate`  | `datetime(6)` | NO   |     | NULL    |
@@ -273,10 +274,10 @@ RESTful API for operations on `airporttable`.
 
 | Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
 | ------------ | ----------- | ---- | ---- | ------- |
-| `aircraftId` | `int`       | NO   | **Primary** | NULL    |
-| `tailNumber` | `varchar(45)` | YES  |     | NULL    |
-| `status`     | `varchar(45)` | YES  |     | NULL    |
-| `location`   | `varchar(4)` | YES  |     | NULL    |
-| `aircraftType` | `varchar(4)` | YES  |     | NULL    |
-| `userId_id`  | `int`       | NO   | **Foreign** (`userId` in table `userprofile`) | NULL    |
+| `airportId` | `int`        | YES (auto increment; will be ignored in `POST` requests) | **Primary**                                   | NULL    |
+| `airportCode` | `varchar(4)` | NO   |     | NULL    |
+| `latitude` | `decimal(6,3)` | NO   |     | NULL    |
+| `longitude` | `decimal(7,3)` | NO   |     | NULL    |
+| `numAircraft` | `int`        | YES  |     | NULL    |
+| `userId` (`userId_id` in actual tables) | `int`        | NO   | **Foreign** (`userId` in table `userprofile`) | NULL    |
 
