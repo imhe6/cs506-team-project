@@ -210,7 +210,7 @@ RESTful API for operations on `aircrafttable`.
 
 | Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
 |-------------|-------------|------|-----|---------|
-| `aircraftId` | `int`       | NO | **Primary**                                   | NULL    |
+| `aircraftId` | `int`       | YES (auto increment; will be ignored in `POST` requests) | **Primary**                                   | NULL    |
 | `tailNumber` | `varchar(45)` | YES  |     | NULL    |
 | `status`     | `varchar(45)` | YES  |     | NULL    |
 | `location`   | `varchar(4)` | YES  |     | NULL    |
@@ -250,7 +250,7 @@ When  `*Date` and `*Date2` parameters appears as a pair in a `GET` request (here
 
 | Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
 | ------------ | ----------- | ---- | ---- | ------- |
-| `movementId`     | `int`       | NO   | **Primary** | NULL    |
+| `movementId`     | `int`       | YES (auto increment; will be ignored in `POST` requests) | **Primary** | NULL    |
 | `arrivalAirportId` | `int`       | YES  |     | NULL    |
 | `arrivalDate`    | `datetime(6)` | NO   |     | NULL    |
 | `departureDate`  | `datetime(6)` | NO   |     | NULL    |
@@ -274,7 +274,7 @@ RESTful API for operations on `airporttable`.
 
 | Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
 | ------------ | ----------- | ---- | ---- | ------- |
-| `airportId` | `int`        | **NO** | **Primary**                                   | NULL    |
+| `airportId` | `int`        | YES (auto increment; will be ignored in `POST` requests) | **Primary**                                   | NULL    |
 | `airportCode` | `varchar(4)` | NO   |     | NULL    |
 | `latitude` | `decimal(6,3)` | NO   |     | NULL    |
 | `longitude` | `decimal(7,3)` | NO   |     | NULL    |
