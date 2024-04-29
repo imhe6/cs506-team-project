@@ -25,9 +25,9 @@ services:
   backend:
     #Build the docker container from the Dockerfile
     build:
-      restart: no
       context: ./am_framework 
       dockerfile: Dockerfile
+    restart: no
     container_name: djangoContainer
     command: >
       sh -c "python manage.py wait_for_db &&
