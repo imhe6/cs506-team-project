@@ -13,6 +13,17 @@ APIs has common parent URL scheme `{baserurl}/api/{apisetname}`, where:
 - `{baserurl}` is the **domain name / base URL** of backend server.
 - `{apisetname}` is the **path** of an API set to access any specific database table. This is defined by each API set itself.
 
+### Table field types
+
+| Type          | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| `int`         | Integer.                                                     |
+| `varchar(n)`  | String, with maximum length being `n`.                       |
+| `datetime(n)` | Date & time, with maximum precision of seconds being `n` decimal digits.<br />If passed in a string (e.g. a parameter in an HTTP request), then the string should have this format: `"%Y-%m-%dT%H:%M:%SZ"`. <br />Example: String `"2022-02-01T14:01:01Z"` represents for `02/01/2022 2:01:01 PM`. |
+| `choice`      | Field values should be **one of the given choices.** Choices will be indicated below in this documentation. |
+
+
+
 ### Response
 
 The response is a `django.http.JsonResponse`  with standard HTTP status code. Its `JSON object` has the following format:
@@ -24,8 +35,6 @@ The response is a `django.http.JsonResponse`  with standard HTTP status code. It
     "data": null # arbitrary type, can either be null or a list of JSON object
 }
 ```
-
-
 
 ## Base class `AircraftManagerAPIView`
 
@@ -49,7 +58,7 @@ It provides a basic layer of abstraction, and all API sets accessing specific ta
 
 ##### Description
 
-Get entries from the target table, with no or an arbitrary number of filtering criteria being `field1 = val1`, `field2 = val2`, and so on. 
+Get entries from the target table, with no or an arbitrary number of filtering criteria being `field1 = val1`, `field2 = val2`, and so on.
 
 Criteria specifying invalid or non-existing field names will be **ignored when parsing**, and **no error will be given** in the response.
 
@@ -58,23 +67,23 @@ Criteria specifying invalid or non-existing field names will be **ignored when p
 ##### Response
 
 - `success: "False"` if no entry matches given criteria.
-  - Status code will be `HTTP 400`. 
+
+  - Status code will be `HTTP 400`.
   - `data` item will be `null`.
   - `"message": "could not find entry with specified conditions"` will be given.
-
 - `success: "True"` if there exists valid entries matching given criteria, OR no valid filtering criteria is given.
+
   - Status code will be `HTTP 200`.
   - `data` item will be a JSON list, containing valid entries as serialized JSON objects.
   - `"message": "all entries returned since no filter specified"` will be given, if no valid filtering criteria is given.
   - `"message": "found entries with specified conditions"` will be given, if valid filtering criteria are given AND there exists valid entries matching given criteria.
 
-
 #### `POST` request
 
-##### Request Usage 
+##### Request Usage
 
 - URL Scheme: `{apisetname}/`
-- Body: JSON object containing field name and corresponding values of the table. 
+- Body: JSON object containing field name and corresponding values of the table.
 
 ##### Description
 
@@ -85,11 +94,12 @@ Create entries from the target table with corresponding field names and values.
 ##### Response
 
 - `success: "False"` if one or more fields (**except primary keys**) of the table are not presented in the request.
-  - Status code will be `HTTP 400`. 
+  
+  - Status code will be `HTTP 400`.
   - `data` item will be `null`.
   - `"message": "missing necessary fields in request body"` will be given.
 - `success: "False"` if at least one foreign key cannot be found in its corresponding database table.
-  - Status code will be `HTTP 404`. 
+  - Status code will be `HTTP 404`.
   - `data` item will be a JSON list containing JSON objects. Each object has the following format:
     ```json
     {
@@ -104,16 +114,14 @@ Create entries from the target table with corresponding field names and values.
   - `data` item will be a JSON list, containing a single JSON object serialized from the entry just created in the table.
   - `"message": "entry created"` will be given.
 
-
-
 #### `PUT` request
 
-##### Request Usage 
+##### Request Usage
 
 - URL Scheme: `{apisetname}/`
 - Body: JSON object containing:
   - Primary key of the entry you want to modify.
-  - Field names (keys) and corresponding values of the table. 
+  - Field names (keys) and corresponding values of the table.
 
 ##### Description
 
@@ -124,11 +132,11 @@ Modify the entry with specified primary key value from the target table with cor
 ##### Response
 
 - `success: "False"` if the entry specified in the request body cannot be found.
-  - Status code will be `HTTP 404`. 
+  - Status code will be `HTTP 404`.
   - `data` item will be `null`.
   - `"message": "entry not found"`will be given.
 - `success: "False"` if at least one foreign key cannot be found in its corresponding database table.
-  - Status code will be `HTTP 404`. 
+  - Status code will be `HTTP 404`.
   - `data` item will be a JSON list containing JSON objects. Each object has the following format:
     ```json
     {
@@ -143,11 +151,9 @@ Modify the entry with specified primary key value from the target table with cor
   - `data` item will be `null`.
   - `"message": "entry updated"` will be given.
 
-
-
 #### `DELETE` request
 
-##### Request Usage 
+##### Request Usage
 
 - URL Scheme: `{apisetname}/?{pk}=val`
 - Body: None
@@ -161,15 +167,13 @@ Only parameter `{pk}`: Primary key name of the target table, with the value be t
 ##### Response
 
 - `success: "False"` if the entry specified by `pk` cannot be found.
-  - Status code will be `HTTP 404`. 
+  - Status code will be `HTTP 404`.
   - `data` item will be `null`.
   - `"message": "entry not found"`will be given.
 - `success: "True"` if the entry specified is found and updated.
   - Status code will be `HTTP 200`.
   - `data` item will be `null`.
   - `"message": "entry deleted"` will be given.
-
-
 
 ## Class `FrontendReadOnlyAPIView`
 
@@ -187,8 +191,6 @@ Only `GET` is available under this `View`. Any other type of REST API request wi
 }
 ```
 
-
-
 ## Class `AircraftTableView`
 
 **Extend from `AircraftManagerAPIView`**
@@ -197,11 +199,24 @@ Only `GET` is available under this `View`. Any other type of REST API request wi
 
 RESTful API for operations on `aircrafttable`.
 
-### Specified parameters in  Scheme
+### Specified parameters in Scheme
 
 - `{apisetname} = aircraft`
 
+### Special parameters
 
+### Field names and types
+
+| Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
+|-------------|-------------|------|-----|---------|
+| `aircraftId` | `int`       | NO | **Primary**                                   | NULL    |
+| `tailNumber` | `varchar(45)` | YES  |     | NULL    |
+| `status`     | `varchar(45)` | YES  |     | NULL    |
+| `location`   | `varchar(4)` | YES  |     | NULL    |
+| `aircraftType` | `varchar(4)` `choice` | YES  |     | NULL    |
+| `userId` (`userId_id` in actual tables) | `int`       | NO | **Foreign** (`userId` in table `userprofile`) | NULL    |
+
+- `choice` of `aircraftType`: `A320`, `A321`, `A330`, `A350`, `B737`, `B757`, `B767`, `B787`, `B777`.
 
 ## Class `MovementTableView`
 
@@ -211,11 +226,36 @@ RESTful API for operations on `aircrafttable`.
 
 RESTful API for operations on `movementtable`.
 
-### Specified parameters in  Scheme
+### Specified parameters in Scheme
 
 - `{apisetname} = movement`
 
+### Mutant parameters in Scheme
 
+#### `GET` method : Ranging filter for field name `arrivalDate` and `departureDate`
+
+When  `*Date` and `*Date2` parameters appears as a pair in a `GET` request (here `arrivalDate` and `arrivalDate2`, or `departureDate` and `departureDate2`):
+
+- The two parameters will be regarded as one filtering criterion, which filters out entries that have  `*Date` field values ranging **between** the values specified by these two parameters.
+- If `*Date` and `*Date2` parameters do not appear as a pair in a request, or the request is not `GET`, the mutant will not be triggered.
+  - If the request only has `*Date` parameter, it will be regarded as a normal filter.
+  - If the request only has `*Date2` parameter, it will be ignored.
+- **Note:** Value of `*Date2` **must be bigger** than `*Date`, otherwise there will be no entry matching the criteria.
+- Example:
+  - Request parameters: `departureDate=2022-10-22T10:34:06Z`, `departureDate2=2022-10-22T10:42:06Z`, `userId=1`
+  - Response: Response will contain entries with `userId=1` and `departureDate` between `10/22/2022 10:34:06 AM` and `10/22/2022 10:42:06 AM`.
+
+### Field names and types
+
+| Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
+| ------------ | ----------- | ---- | ---- | ------- |
+| `movementId`     | `int`       | NO   | **Primary** | NULL    |
+| `arrivalAirportId` | `int`       | YES  |     | NULL    |
+| `arrivalDate`    | `datetime(6)` | NO   |     | NULL    |
+| `departureDate`  | `datetime(6)` | NO   |     | NULL    |
+| `aircraftId` (`aircraftId_id` in actual tables) | `int`       | NO   | **Foreign** (`aircraftId` in table `aircraftId`) | NULL    |
+| `userId` (`userId_id` in actual tables) | `int`       | NO   | **Foreign** (`userId` in table `userprofile`)    | NULL    |
+| `originAirportId` | `int`       | YES  |     | NULL    |
 
 ## Class `AirportTableView`
 
@@ -225,20 +265,18 @@ RESTful API for operations on `movementtable`.
 
 RESTful API for operations on `airporttable`.
 
-### Specified parameters in  Scheme
+### Specified parameters in Scheme
 
 - `{apisetname} = airport`
 
+### Field names and types
 
+| Field Name   | Type        | Can be NULL? <br />(Is an Optional Field for `POST` Requests?) | Key Type | Default Value |
+| ------------ | ----------- | ---- | ---- | ------- |
+| `aircraftId` | `int`       | NO   | **Primary** | NULL    |
+| `tailNumber` | `varchar(45)` | YES  |     | NULL    |
+| `status`     | `varchar(45)` | YES  |     | NULL    |
+| `location`   | `varchar(4)` | YES  |     | NULL    |
+| `aircraftType` | `varchar(4)` | YES  |     | NULL    |
+| `userId_id`  | `int`       | NO   | **Foreign** (`userId` in table `userprofile`) | NULL    |
 
-## Class `UserProfileTableView`
-
-**Extend from `FrontendReadOnlyAPIView`**
-
-### Description
-
-RESTful API for operations on `userprofile`. This set of APIs is "read-only" for frontend.
-
-### Specified parameters in  Scheme
-
-- `{apisetname} = userprofile`
