@@ -20,7 +20,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const formBackground = useColorModeValue("white", "gray.700");
 
-  const baseUrl = 'http://localhost:8000/api'; 
+  const baseUrl = 'http://localhost:5500/api'; 
   const table = 'userprofile';
 
   const handleLogin = async (e) => {
