@@ -15,7 +15,7 @@ lint_backend:
   stage: lint
   image: python
   before_script:
-    - pip install -r ./requirements.txt
+    - pip install -r ./am_framework/requirements.txt
   script:
     - echo "Linting project"
     - black . --check --verbose --diff --color
@@ -50,9 +50,14 @@ test_backend:
     #record results
 
 #Unit test for frontend
-#test_frontend:
- # stage: test
-  #script:
-   #   -echo "Testing Front End"
+#Not functional, front end tests are not complete
+test_frontend:
+  stage: test
+  image: node:latest
+  script:
+    - echo "Testing Front End"
+    #- cd aircraft-manager-frontend
+    #- npm install
+    #- npm test
 
 

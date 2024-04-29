@@ -1,12 +1,10 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
-from rest_framework import status
 from ..models import airporttable, userprofile
-import requests
 import json
 
 """
-This class tests the put method of airport table with different filters.
+This class tests the post method of airport table with different data format.
 Author: Alvin Cheng
 """
 
