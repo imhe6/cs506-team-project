@@ -13,7 +13,7 @@ function EditAircraftsPage() {
 
   const [airports, setAirports] = useState([])
 
-  const baseUrl = 'http://localhost:8000/api'; 
+  const baseUrl = 'http://localhost:5500/api'; 
   const table = 'aircraft'; 
 
 
