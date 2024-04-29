@@ -28,7 +28,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: djangoContainer
-    command: sh -c "cd am_framework && python3 manage.py makemigrations && python3 manage.py migrate && python manage.py test"
+    command: sh -c "cd am_framework && python3 manage.py makemigrations && python3 manage.py migrate && 
+      cd .. && python3 -m pip install mysql-connector-python && python dataImport.py && cd am_framework && python manage.py test"
     volumes:
       - .:/app
     #Open ports for the local host
