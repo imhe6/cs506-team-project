@@ -11,7 +11,7 @@ function EditAirportsPage() {
     userId: '1', // Default user ID
   });
 
-  const baseUrl = 'http://localhost:8000/api'; 
+  const baseUrl = 'http://localhost:5500/api'; 
   const apiSetName = 'airport'; 
 
   const handleAddAirport = async () => {
