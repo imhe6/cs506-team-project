@@ -20,42 +20,50 @@ def readcsv():
 
     # Create Connection
     db = mysql.connector.connect(
-        host="localhost", user="root", password="TempPassword", database="aircraftFleet"
+        host="db", user="root", password="1qaz2wsx", database="aircraft_manager"
     )
+
     cursor = db.cursor()
+
     # Add admin user to userprofile
-    sql = "INSERT INTO userprofile(username,password,role) VALUES (%s,%s,%s)"
+    sql = "INSERT INTO backend_userprofile(username,password,role) VALUES (%s,%s,%s)"
     val = ("admin", "thePassword", "corporate")
     cursor.execute(sql, val)
     db.commit()
     adminId = cursor.lastrowid
+    # Add Airports to airporttable
+    sql = "INSERT INTO backend_airporttable(airportCode,latitude,longitude,userId_id) VALUES(%s,%s,%s,%s)"
+    val = ("KORD", 41.98, 87.90, adminId)
+    cursor.execute(sql, val)
+    db.commit()
+    val = ("KLAX", 33.94, 118.40, adminId)
+    cursor.execute(sql, val)
+    db.commit()
+    val = ("KJFK", 40.64, 73.77, adminId)
+    cursor.execute(sql, val)
+    db.commit()
+
     # Add to aircrafttable
 
-    sql = (
-        "INSERT INTO aircrafttable(tailNumber,type,status,location) VALUES(%s,%s,%s,%s)"
-    )
     for entry in aircraft:
-        val = (entry[0], entry[1], entry[2], entry[3])
+        sql = "INSERT INTO backend_aircrafttable(tailNumber,aircraftType,status,location,userId_id) VALUES(%s,%s,%s,%s,%s)"
+        val = (entry[0], entry[1], entry[2], entry[3], adminId)
         cursor.execute(sql, val)
         db.commit()
+        aircraftId = cursor.lastrowid
+        print(aircraftId)
         # query = "SELECT airportId WHERE airporttable.airportCode = "
         # CREATE INITIAL MOVEMENT TABLE ENTRY
-        # sql = "INSERT INTO movementtable(airportId,aircraftId) VALUES(%s,%s)"
-        # val = ()
-        # cursor.execute(sql, val)
-        # db.commit()
+        sql = "INSERT INTO backend_movementtable(aircraftId_id,arrivalDate,departureDate,arrivalAirportId,userId_id) VALUES(%s,%s,%s,%s,%s)"
+        if entry[3] == "KORD":
+            val = (aircraftId, None, None, 1, adminId)
+        elif entry[3] == "KLAX":
+            val = (aircraftId, None, None, 2, adminId)
+        else:
+            val = (aircraftId, None, None, 3, adminId)
 
-    # Add Airports to airporttable
-    sql = "INSERT INTO airporttable(airportCode,user) VALUES(%s,%i)"
-    val = ("KORD", adminId)
-    cursor.execute(sql, val)
-    db.commit()
-    val = ("KLAX", adminId)
-    cursor.execute(sql, val)
-    db.commit()
-    val = ("KJFK", adminId)
-    cursor.execute(sql, val)
-    db.commit()
+        cursor.execute(sql, val)
+        db.commit()
 
 
 if __name__ == "__main__":

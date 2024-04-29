@@ -60,8 +60,8 @@ class movementtable(models.Model):
     movementId = models.AutoField(primary_key=True)
     arrivalAirportId = models.IntegerField(null=True)
     originAirportId = models.IntegerField(null=True)
-    arrivalDate = models.DateTimeField(max_length=8)
-    departureDate = models.DateTimeField(max_length=8)
+    arrivalDate = models.DateTimeField(max_length=8, null=True)
+    departureDate = models.DateTimeField(max_length=8, null=True)
     aircraftId = models.ForeignKey("aircrafttable", on_delete=models.CASCADE, default=1)
     userId = models.ForeignKey("userprofile", on_delete=models.CASCADE, default=1)
 
