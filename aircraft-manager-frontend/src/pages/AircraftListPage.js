@@ -11,6 +11,7 @@ import {
   Button,
   Flex,
   Select,
+  Text,
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -42,15 +43,27 @@ function AircraftListPage() {
   }, [location]);
 
   useEffect(() => {
+    // Ensure currentPage is within range after aircrafts data changes
+    const maxPages = Math.ceil(aircrafts.length / itemsPerPage);
+    if (currentPage > maxPages) {
+      setCurrentPage(maxPages); // Adjust currentPage if out of bounds
+    }
+    const minPages = 1;
+    if(currentPage<minPages){
+        setCurrentPage(minPages);
+    }
+  }, [aircrafts.length, itemsPerPage, currentPage]);
+
+  useEffect(() => {
     setCurrentPage(1); // Reset to first page when itemsPerPage changes
   }, [itemsPerPage]);
 
-  // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = aircrafts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(aircrafts.length / itemsPerPage);
+  console.log(currentPage)
 
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
@@ -83,18 +96,20 @@ function AircraftListPage() {
         </Tbody>
       </Table>
       <Flex justifyContent="space-between" alignItems="center" mt={4}>
-        <Box flex="1"></Box>
-        <Flex flex="1" justifyContent="center">
-          <Button onClick={() => paginate(1)} disabled={currentPage === 1} size="sm">
+        <Text ml="2" alignSelf="center" flex="1">
+          Page {currentPage} of {totalPages}
+        </Text>
+        <Flex justifyContent="center" flex="2">
+          <Button onClick={() => paginate(1)} disabled={currentPage <= 1} size="sm">
             {'<<'}
           </Button>
-          <Button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} size="sm" mx="2">
+          <Button onClick={() => paginate(currentPage - 1)} disabled={currentPage<=1} size="sm" mx="2">
             Previous
           </Button>
-          <Button onClick={() => paginate(currentPage + 1)} disabled={currentPage === Math.ceil(aircrafts.length / itemsPerPage)} size="sm" mx="2">
+          <Button onClick={() => paginate(currentPage + 1)} disabled={currentPage >= totalPages || aircrafts.length === 0} size="sm" mx="2">
             Next
           </Button>
-          <Button onClick={() => paginate(Math.ceil(aircrafts.length / itemsPerPage))} disabled={currentPage === Math.ceil(aircrafts.length / itemsPerPage)} size="sm">
+          <Button onClick={() => paginate(totalPages)} disabled={currentPage >= totalPages || aircrafts.length === 0} size="sm">
             {'>>'}
           </Button>
         </Flex>
