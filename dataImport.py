@@ -33,13 +33,13 @@ def readcsv():
     adminId = cursor.lastrowid
     # Add Airports to airporttable
     sql = "INSERT INTO backend_airporttable(airportCode,latitude,longitude,userId_id) VALUES(%s,%s,%s,%s)"
-    val = ("KORD", 41.98, 87.90, adminId)
+    val = ("KORD", 41.98, -87.90, adminId)
     cursor.execute(sql, val)
     db.commit()
-    val = ("KLAX", 33.94, 118.40, adminId)
+    val = ("KLAX", 33.94, -118.40, adminId)
     cursor.execute(sql, val)
     db.commit()
-    val = ("KJFK", 40.64, 73.77, adminId)
+    val = ("KJFK", 40.64, -73.77, adminId)
     cursor.execute(sql, val)
     db.commit()
 
