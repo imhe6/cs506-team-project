@@ -24,7 +24,7 @@ const Signup = () => {
   const [role, setRole] = useState('Corporate');
 
   // Sending post request to backend
-  const baseUrl = "http://localhost:8000/api";
+  const baseUrl = "http://localhost:5500/api";
   const table = "userprofile";
 
   const sendPostRequest = async (e) => {
