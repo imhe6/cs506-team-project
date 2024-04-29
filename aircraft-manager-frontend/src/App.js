@@ -29,7 +29,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/editaircrafts" element={<EditAircraftsPage/>}/>
-          <Route path="/aircrafts/:airportId" element={<AircraftListPage />} />
+          <Route path="/aircrafts/:location" element={<AircraftListPage />} />
         </Routes>
         <Footer />
       </Box>
