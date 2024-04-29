@@ -1,4 +1,4 @@
-TailNumber,Type,Status,Location
+TailNumber,aircraftType,Status,Location
 N102UW,A320,Active,KORD
 N104UW,A320,Active,KORD
 N107US,A320,Active,KLAX
