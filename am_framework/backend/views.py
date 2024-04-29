@@ -50,11 +50,11 @@ class AircraftManagerAPIView(APIView):
                 missingFields.append(fname)
         return missingFields
 
-    def filterExistFields(self, query_dict: dict) -> dict:
+    def filterExistFields(self, queryDict: dict) -> dict:
         """Filter out fields in the table."""
         # Initialize a dictionary to store filters
         filters = {}
-        queryItems = query_dict.items()
+        queryItems = queryDict.items()
         # Iterate through query parameters and construct filters
         modelFieldNames = [f.name for f in self.model._meta.get_fields()]
         for fieldName, fieldValue in queryItems:
@@ -119,11 +119,11 @@ class AircraftManagerAPIView(APIView):
         # print("Filtered dict from JSON in Request Body: ", filteredDataDict)
         # if primary key is specified in the request body, ignore it
         if self.pkName in filteredDataDict:
-            print(
-                "Found primary key in Dict:",
-                filteredDataDict[self.pkName],
-                ", ignoring.",
-            )
+            # print(
+            #     "Found primary key in Dict:",
+            #     filteredDataDict[self.pkName],
+            #     ", ignoring.",
+            # )
             del filteredDataDict[self.pkName]
         # handle foreign key fields
         notFoundForeignKeys: list = []
@@ -171,7 +171,7 @@ class AircraftManagerAPIView(APIView):
         body = request.body.decode("utf-8")
         dataDict = json.loads(body)
         filteredDataDict = self.filterExistFields(dataDict)
-        print("Dict from JSON in Request Body: ", filteredDataDict)
+        # print("Dict from JSON in Request Body: ", filteredDataDict)
         pkVal = filteredDataDict[self.pkName]
         # handle foreign key fields
         notFoundForeignKeys: list = []
@@ -200,7 +200,7 @@ class AircraftManagerAPIView(APIView):
                 },
                 status=404,
             )
-        print("Primary key in Dict: ", pkVal)
+        # print("Primary key in Dict: ", pkVal)
         # check if primary key is already in the database
         if self.model.objects.filter(pk=pkVal).exists():
             # update the existing entry
@@ -287,7 +287,7 @@ class AirportTableView(AircraftManagerAPIView):
 class MovementTableView(AircraftManagerAPIView):
     """
     RESTful API for MovementTable operations.
-    Frontend can only read or insert entries from this table.
+    Accept filtering in a range of `arrivalDate` and `departureDate`fields.
     """
 
     def __init__(self, **kwargs) -> None:
@@ -299,6 +299,69 @@ class MovementTableView(AircraftManagerAPIView):
             serializer=serializer,
             foreignKeyNames=foreignKeyNames,
             **kwargs
+        )
+
+    def filterExistFields(self, queryDict: dict, isGet=False) -> dict:
+        superDict = super().filterExistFields(queryDict)
+
+        # For GET method: mutant parameter for ranging filter for "*Date" fields
+        if isGet:
+            # make ranging criteria if `arrivalDate` and `arrivalDateEnd` appear
+            if "arrivalDate" in queryDict:
+                if "arrivalDate2" in queryDict:
+                    # print("Found arrivalDate and arrivalDate2 in query parameters")
+                    superDict["arrivalDate__range"] = [
+                        queryDict["arrivalDate"],
+                        queryDict["arrivalDate2"],
+                    ]
+                    del superDict["arrivalDate"]
+            # make ranging criteria if `departureDate` and `departureDateEnd` appear
+            if "departureDate" in queryDict:
+                if "departureDate2" in queryDict:
+                    # print("Found departureDate and departureDate2 in query parameters")
+                    superDict["departureDate__range"] = [
+                        queryDict["departureDate"],
+                        queryDict["departureDate2"],
+                    ]
+                    del superDict["departureDate"]
+
+        return superDict
+
+    def get(self, request):
+        filters = self.filterExistFields(request.query_params, isGet=True)
+        # Return all entries in the table if filter not specified
+        if len(filters) == 0:
+            all_entries = self.model.objects.all()
+            serializer = self.serializer(all_entries, many=True)
+            return JsonResponse(
+                data={
+                    "success": True,
+                    "message": "all entries returned since no filter specified",
+                    "data": serializer.data,
+                },
+                status=200,
+            )
+        # Query the database with the filters
+        targetObjectQueryset = self.model.objects.filter(**filters)
+        if targetObjectQueryset.exists():
+            serializer = self.serializer(targetObjectQueryset, many=True)
+            return JsonResponse(
+                data={
+                    "success": True,
+                    "message": "found entries with specified conditions",
+                    "data": serializer.data,
+                },
+                status=200,
+            )
+
+        # Specified entry not found, return a 404 status code
+        return JsonResponse(
+            data={
+                "success": False,
+                "message": "could not find entry with specified conditions",
+                "data": None,
+            },
+            status=404,
         )
 
 
@@ -382,11 +445,11 @@ class UserProfileTableView(AircraftManagerAPIView):
 
         # If primary key is specified in the request body, ignore it
         if self.pkName in filteredDataDict:
-            print(
-                "Found primary key in Dict:",
-                filteredDataDict[self.pkName],
-                ", ignoring.",
-            )
+            # print(
+            #     "Found primary key in Dict:",
+            #     filteredDataDict[self.pkName],
+            #     ", ignoring.",
+            # )
             del filteredDataDict[self.pkName]
 
         # create a new table entry
