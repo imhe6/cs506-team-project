@@ -15,7 +15,7 @@ lint_backend:
   stage: lint
   image: python
   before_script:
-    - pip install -r ./requirements.txt
+    - pip install -r ./am_framework/requirements.txt
   script:
     - echo "Linting project"
     - black . --check --verbose --diff --color
